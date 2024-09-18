@@ -617,15 +617,6 @@ extension type AudioListener._(JSObject _) implements JSObject {
     num z,
   );
 
-
-
-
-// ------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
   external void setOrientation(
     num x,
     num y,
@@ -636,6 +627,7 @@ extension type AudioListener._(JSObject _) implements JSObject {
   );
   external AudioParam get positionX;
   external AudioParam get positionY;
+  external AudioParam get positionZ;
   external AudioParam get forwardX;
   external AudioParam get forwardY;
   external AudioParam get forwardZ;

@@ -70,11 +70,11 @@ extension type BaseAudioContext._(JSObject _) implements  JSObject {
   );
 
   external AudioBufferSourceNode createBufferSource();
-  external ChannelMergerNode createChannelMerger([int numberOfInputs]);
-  external ChannelSplitterNode createChannelSplitter([int numberOfOutputs]);
+  external ChannelMergerNode createChannelMerger([int? numberOfInputs]);
+  external ChannelSplitterNode createChannelSplitter([int? numberOfOutputs]);
   external ConstantSourceNode createConstantSource();
   external ConvolverNode createConvolver();
-  external DelayNode createDelay([num maxDelayTime]);
+  external DelayNode createDelay([num? maxDelayTime]);
   external DynamicsCompressorNode createDynamicsCompressor();
   external GainNode createGain();
   external IIRFilterNode createIIRFilter(
@@ -86,12 +86,12 @@ extension type BaseAudioContext._(JSObject _) implements  JSObject {
   external PeriodicWave createPeriodicWave(
     JSArray<JSNumber> real,
     JSArray<JSNumber> imag, [
-    PeriodicWaveConstraints constraints,
+    PeriodicWaveConstraints? constraints,
   ]);
   external ScriptProcessorNode createScriptProcessor([
-    int bufferSize,
-    int numberOfInputChannels,
-    int numberOfOutputChannels,
+    int? bufferSize,
+    int? numberOfInputChannels,
+    int? numberOfOutputChannels,
   ]);
   external StereoPannerNode createStereoPanner();
   external WaveShaperNode createWaveShaper();

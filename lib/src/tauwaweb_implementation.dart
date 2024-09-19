@@ -29,16 +29,16 @@ class TauwaImplementation implements TauwaInterface
 
 
 
-  AudioContext newAudioContext([AudioContextOptions contextOptions]) => c.AudioContext(contextOptions);
+  AudioContext newAudioContext([AudioContextOptions? contextOptions]) => c.AudioContext(contextOptions);
 
 
 
 
   AudioContextOptions newAudioContextOptions({
-    TauAny latencyHint,
-    num sampleRate,
-    TauAny sinkId,
-    TauAny renderSizeHint,
+    TauAny? latencyHint,
+    num? sampleRate,
+    TauAny? sinkId,
+    TauAny? renderSizeHint,
   }) => c.AudioContextOptions(latencyHint: latencyHint, sampleRate: sampleRate, sinkId: sinkId, renderSizeHint: renderSizeHint);
 
 
@@ -48,16 +48,16 @@ class TauwaImplementation implements TauwaInterface
 
 
   AudioTimestamp newAudioTimestamp({
-    num contextTime,
-    TauHighResTimeStamp performanceTime,
+    num? contextTime,
+    TauHighResTimeStamp? performanceTime,
   }) => c.AudioTimestamp(contextTime: contextTime, performanceTime: performanceTime);
 
 
 
   OfflineAudioContext newOfflineAudioContext(
     TauAny contextOptionsOrNumberOfChannels, [
-    int length,
-    num sampleRate,
+    int? length,
+    num? sampleRate,
   ]) => c.OfflineAudioContext(contextOptionsOrNumberOfChannels, length, sampleRate);
 
 
@@ -65,10 +65,10 @@ class TauwaImplementation implements TauwaInterface
 
 
   OfflineAudioContextOptions newOfflineAudioContextOptions({
-    int numberOfChannels,
+    int? numberOfChannels,
     required int length,
     required num sampleRate,
-    TauAny renderSizeHint,
+    TauAny? renderSizeHint,
   }) => c.OfflineAudioContextOptions(
     numberOfChannels: numberOfChannels,
     length: length,
@@ -87,11 +87,11 @@ class TauwaImplementation implements TauwaInterface
 
 
   OfflineAudioCompletionEventInit newOfflineAudioCompletionEventInit({
-    bool bubbles,
-    bool cancelable,
-    bool composed,
+    bool? bubbles,
+    bool? cancelable,
+    bool? composed,
     required AudioBuffer renderedBuffer,
-  }) => c.OfflineAudioCompletionEventInit(bubbles: bubbles, cancelable: cancelable, composed: composed);
+  }) => c.OfflineAudioCompletionEventInit(bubbles: bubbles, cancelable: cancelable, composed: composed, renderedBuffer: renderedBuffer);
 
 
 
@@ -101,7 +101,7 @@ class TauwaImplementation implements TauwaInterface
 
 
   AudioBufferOptions newAudioBufferOptions({
-    int numberOfChannels,
+    int? numberOfChannels,
     required int length,
     required num sampleRate,
   }) => c.AudioBufferOptions(numberOfChannels: numberOfChannels, length: length, sampleRate: sampleRate);
@@ -109,28 +109,28 @@ class TauwaImplementation implements TauwaInterface
 
 
   AudioNodeOptions newAudioNodeOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-  }) => c.AudioNodeOptions(channelCount: channelCount, channelCountMode: channelCountMode, channelInterpretation: channelInterpretation);
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+  }) => c.AudioNodeOptionsImp(channelCount: channelCount, channelCountMode: channelCountMode, channelInterpretation: channelInterpretation);
 
 
 
   AnalyserNode newAnalyserNode(
     BaseAudioContext context, [
-    AnalyserOptions options,
+    AnalyserOptions? options,
   ]) => c.AnalyserNode(context, options);
 
 
 
   AnalyserOptions newAnalyserOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    int fftSize,
-    num maxDecibels,
-    num minDecibels,
-    num smoothingTimeConstant,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    int? fftSize,
+    num? maxDecibels,
+    num? minDecibels,
+    num? smoothingTimeConstant,
   }) => c.AnalyserOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -145,7 +145,7 @@ class TauwaImplementation implements TauwaInterface
 
   AudioBufferSourceNode newAudioBufferSourceNode(
     BaseAudioContext context, [
-    AudioBufferSourceOptions options,
+    AudioBufferSourceOptions? options,
   ]) => c.AudioBufferSourceNode(context, options);
 
 
@@ -153,11 +153,11 @@ class TauwaImplementation implements TauwaInterface
 
   AudioBufferSourceOptions newAudioBufferSourceOptions({
     AudioBuffer? buffer,
-    num detune,
-    bool loop,
-    num loopEnd,
-    num loopStart,
-    num playbackRate,
+    num? detune,
+    bool? loop,
+    num? loopEnd,
+    num? loopStart,
+    num? playbackRate,
   }) => c.AudioBufferSourceOptions(
     buffer: buffer,
     detune: detune,
@@ -177,9 +177,9 @@ class TauwaImplementation implements TauwaInterface
 
 
   AudioProcessingEventInit newAudioProcessingEventInit({
-    bool bubbles,
-    bool cancelable,
-    bool composed,
+    bool? bubbles,
+    bool? cancelable,
+    bool? composed,
     required num playbackTime,
     required AudioBuffer inputBuffer,
     required AudioBuffer outputBuffer,
@@ -197,7 +197,7 @@ class TauwaImplementation implements TauwaInterface
 
   BiquadFilterNode newBiquadFilterNode(
     BaseAudioContext context, [
-    BiquadFilterOptions options,
+    BiquadFilterOptions? options,
   ]) => c.BiquadFilterNode(
     context, options
   );
@@ -205,14 +205,14 @@ class TauwaImplementation implements TauwaInterface
 
 
   BiquadFilterOptions newBiquadFilterOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    BiquadFilterType type,
-    num Q,
-    num detune,
-    num frequency,
-    num gain,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    BiquadFilterType? type,
+    num? Q,
+    num? detune,
+    num? frequency,
+    num? gain,
   }) => c.BiquadFilterOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -228,7 +228,7 @@ class TauwaImplementation implements TauwaInterface
 
   ChannelMergerNode newChannelMergerNode(
     BaseAudioContext context, [
-    ChannelMergerOptions options,
+    ChannelMergerOptions? options,
   ]) => c.ChannelMergerNode(
     context,
     options,
@@ -237,10 +237,10 @@ class TauwaImplementation implements TauwaInterface
 
 
  ChannelMergerOptions newChannelMergerOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    int numberOfInputs,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    int? numberOfInputs,
   }) => c.ChannelMergerOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -252,7 +252,7 @@ class TauwaImplementation implements TauwaInterface
 
   ChannelSplitterNode newChannelSplitterNode(
     BaseAudioContext context, [
-    ChannelSplitterOptions options,
+    ChannelSplitterOptions? options,
   ]) => c.ChannelSplitterNode(
     context,
     options,
@@ -261,10 +261,10 @@ class TauwaImplementation implements TauwaInterface
 
 
   ChannelSplitterOptions newChannelSplitterOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    int numberOfOutputs,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    int? numberOfOutputs,
   }) => c.ChannelSplitterOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -276,7 +276,7 @@ class TauwaImplementation implements TauwaInterface
 
   ConstantSourceNode newConstantSourceNode(
     BaseAudioContext context, [
-    ConstantSourceOptions options,
+    ConstantSourceOptions? options,
   ]) => c.ConstantSourceNode(
     context,
     options,
@@ -284,15 +284,15 @@ class TauwaImplementation implements TauwaInterface
 
 
 
-  ConstantSourceOptions newConstantSourceOptions({num offset}) =>c.ConstantSourceOption(offset: offset);
+  ConstantSourceOptions newConstantSourceOptions({num? offset}) =>c.ConstantSourceOptions(offset: offset);
 
 
 
 
   ConvolverNode newConvolverNode(
     BaseAudioContext context, [
-    ConvolverOptions options,
-  ]) => c.ConstantSourceOption(
+    ConvolverOptions? options,
+  ]) => c.ConvolverNode(
     context,
     options,
   );
@@ -300,11 +300,11 @@ class TauwaImplementation implements TauwaInterface
 
 
   ConvolverOptions newConvolverOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
     AudioBuffer? buffer,
-    bool disableNormalization,
+    bool? disableNormalization,
   }) => c.ConvolverOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -317,7 +317,7 @@ class TauwaImplementation implements TauwaInterface
 
   DelayNode newDelayNode(
     BaseAudioContext context, [
-    DelayOptions options,
+    DelayOptions? options,
   ]) => c.DelayNode(
     context,
     options,
@@ -326,11 +326,11 @@ class TauwaImplementation implements TauwaInterface
 
 
   DelayOptions newDelayOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    num maxDelayTime,
-    num delayTime,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    num? maxDelayTime,
+    num? delayTime,
   }) => c.DelayOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -343,7 +343,7 @@ class TauwaImplementation implements TauwaInterface
 
   DynamicsCompressorNode newDynamicsCompressorNode(
     BaseAudioContext context, [
-    DynamicsCompressorOptions options,
+    DynamicsCompressorOptions? options,
   ]) => c.DynamicsCompressorNode(
     context,
     options,
@@ -352,14 +352,14 @@ class TauwaImplementation implements TauwaInterface
 
 
   DynamicsCompressorOptions newDynamicsCompressorOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    num attack,
-    num knee,
-    num ratio,
-    num release,
-    num threshold,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    num? attack,
+    num? knee,
+    num? ratio,
+    num? release,
+    num? threshold,
   }) => c.DynamicsCompressorOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -375,7 +375,7 @@ class TauwaImplementation implements TauwaInterface
 
   GainNode newGainNode(
     BaseAudioContext context, [
-    GainOptions options,
+    GainOptions? options,
   ]) => c.GainNode(
     context,
     options,
@@ -384,10 +384,10 @@ class TauwaImplementation implements TauwaInterface
 
 
   GainOptions newGainOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    num gain,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    num? gain,
   }) => c.GainOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -408,9 +408,9 @@ class TauwaImplementation implements TauwaInterface
 
 
   IIRFilterOptions newIIRFilterOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
     required TauArray<TauNumber> feedforward,
     required TauArray<TauNumber> feedback,
   }) => c.IIRFilterOptions(
@@ -443,7 +443,7 @@ class TauwaImplementation implements TauwaInterface
 
   MediaStreamAudioDestinationNode newMediaStreamAudioDestinationNode(
     AudioContext context, [
-    AudioNodeOptions options,
+    AudioNodeOptions? options,
   ]) => c.MediaStreamAudioDestinationNode(
     context,
     options,
@@ -489,7 +489,7 @@ class TauwaImplementation implements TauwaInterface
 
   OscillatorNode newOscillatorNode(
     BaseAudioContext context, [
-    OscillatorOptions options,
+    OscillatorOptions? options,
   ]) => c.OscillatorNode(
     context,
     options,
@@ -498,13 +498,13 @@ class TauwaImplementation implements TauwaInterface
 
 
   OscillatorOptions newOscillatorOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    OscillatorType type,
-    num frequency,
-    num detune,
-    PeriodicWave periodicWave,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    OscillatorType? type,
+    num? frequency,
+    num? detune,
+    PeriodicWave? periodicWave,
   }) => c.OscillatorOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -519,7 +519,7 @@ class TauwaImplementation implements TauwaInterface
 
   PannerNode newPannerNode(
     BaseAudioContext context, [
-    PannerOptions options,
+    PannerOptions? options,
   ]) => c.PannerNode(
     context,
     options,
@@ -529,24 +529,24 @@ class TauwaImplementation implements TauwaInterface
 
 
   PannerOptions newPannerOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    PanningModelType panningModel,
-    DistanceModelType distanceModel,
-    num positionX,
-    num positionY,
-    num positionZ,
-    num orientationX,
-    num orientationY,
-    num orientationZ,
-    num refDistance,
-    num maxDistance,
-    num rolloffFactor,
-    num coneInnerAngle,
-    num coneOuterAngle,
-    num coneOuterGain,
-  }) => c.newPannerOptions(
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    PanningModelType? panningModel,
+    DistanceModelType? distanceModel,
+    num? positionX,
+    num? positionY,
+    num? positionZ,
+    num? orientationX,
+    num? orientationY,
+    num? orientationZ,
+    num? refDistance,
+    num? maxDistance,
+    num? rolloffFactor,
+    num? coneInnerAngle,
+    num? coneOuterAngle,
+    num? coneOuterGain,
+  }) => c.PannerOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
     channelInterpretation: channelInterpretation,
@@ -570,7 +570,7 @@ class TauwaImplementation implements TauwaInterface
 
   PeriodicWave newPeriodicWave(
     BaseAudioContext context, [
-    PeriodicWaveOptions options,
+    PeriodicWaveOptions? options,
   ]) => c.PeriodicWave(
     context,
     options,
@@ -578,17 +578,17 @@ class TauwaImplementation implements TauwaInterface
 
 
 
-  PeriodicWaveConstraints newPeriodicWaveConstraints({bool disableNormalization}) => c.PeriodicWaveConstraints(disableNormalization: disableNormalization);
+  PeriodicWaveConstraints newPeriodicWaveConstraints({bool? disableNormalization}) => c.PeriodicWaveConstraintsImpl(disableNormalization: disableNormalization);
 
 
 
 
 
   PeriodicWaveOptions newPeriodicWaveOptions({
-    bool disableNormalization,
-    TauArray<TauNumber> real,
-    TauArray<TauNumber> imag,
-  }) => c.PeriodicWaveConstraints(
+    bool? disableNormalization,
+    TauArray<TauNumber>? real,
+    TauArray<TauNumber>? imag,
+  }) => c.PeriodicWaveOptions(
     disableNormalization: disableNormalization,
     real: real,
     imag: imag,
@@ -599,7 +599,7 @@ class TauwaImplementation implements TauwaInterface
 
   StereoPannerNode newStereoPannerNode(
     BaseAudioContext context, [
-    StereoPannerOptions options,
+    StereoPannerOptions? options,
   ]) => c.StereoPannerNode(
     context,
     options,
@@ -608,10 +608,10 @@ class TauwaImplementation implements TauwaInterface
 
 
   StereoPannerOptions newStereoPannerOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    num pan,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    num? pan,
   }) => c.StereoPannerOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -623,7 +623,7 @@ class TauwaImplementation implements TauwaInterface
 
   WaveShaperNode newWaveShaperNode(
     BaseAudioContext context, [
-    WaveShaperOptions options,
+    WaveShaperOptions? options,
   ]) => c.WaveShaperNode(
     context,
     options,
@@ -632,11 +632,11 @@ class TauwaImplementation implements TauwaInterface
 
 
   WaveShaperOptions newWaveShaperOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    TauArray<TauNumber> curve,
-    OverSampleType oversample,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    TauArray<TauNumber>? curve,
+    OverSampleType? oversample,
   }) => c.WaveShaperOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -650,7 +650,7 @@ class TauwaImplementation implements TauwaInterface
  AudioWorkletNode newAudioWorkletNode(
     BaseAudioContext context,
     String name, [
-    AudioWorkletNodeOptions options,
+    AudioWorkletNodeOptions? options,
   ]) => c.AudioWorkletNode(
     context,
     name,
@@ -660,14 +660,14 @@ class TauwaImplementation implements TauwaInterface
 
 
   AudioWorkletNodeOptions newAudioWorkletNodeOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    int numberOfInputs,
-    int numberOfOutputs,
-    TauArray<TauNumber> outputChannelCount,
-    TauObject parameterData,
-    TauObject processorOptions,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    int? numberOfInputs,
+    int? numberOfOutputs,
+    TauArray<TauNumber>? outputChannelCount,
+    TauObject? parameterData,
+    TauObject? processorOptions,
   }) => c.AudioWorkletNodeOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,

@@ -148,10 +148,10 @@ extension type AudioContext._(JSObject _)
 
 extension type AudioContextOptions._(JSObject _) implements JSObject {
   external factory AudioContextOptions({
-    JSAny latencyHint,
-    num sampleRate,
-    JSAny sinkId,
-    JSAny renderSizeHint,
+    JSAny? latencyHint,
+    JSNumber? sampleRate,
+    JSAny? sinkId,
+    JSAny? renderSizeHint,
   });
 
   external JSAny get latencyHint;
@@ -191,8 +191,8 @@ extension type AudioSinkOptions._(JSObject _) implements JSObject {
 
 extension type AudioTimestamp._(JSObject _) implements JSObject {
   external factory AudioTimestamp({
-    num contextTime,
-    DOMHighResTimeStamp performanceTime,
+    num? contextTime,
+    DOMHighResTimeStamp? performanceTime,
   });
 
   external double get contextTime;
@@ -215,8 +215,8 @@ extension type OfflineAudioContext._(JSObject _)
     implements BaseAudioContext, JSObject {
   external factory OfflineAudioContext(
     JSAny contextOptionsOrNumberOfChannels, [
-    int length,
-    num sampleRate,
+    int? length,
+    num? sampleRate,
   ]);
   external JSPromise<AudioBuffer> startRendering();
   external JSPromise<JSAny?> resume();
@@ -237,10 +237,10 @@ extension type OfflineAudioContext._(JSObject _)
 
 extension type OfflineAudioContextOptions._(JSObject _) implements JSObject {
   external factory OfflineAudioContextOptions({
-    int numberOfChannels,
+    int? numberOfChannels,
     required int length,
     required num sampleRate,
-    JSAny renderSizeHint,
+    JSAny? renderSizeHint,
   });
 
   external int get numberOfChannels;
@@ -356,14 +356,14 @@ extension type AudioBufferOptions._(JSObject _) implements JSObject {
 
 extension type AudioNode._(JSObject _) implements EventTarget, JSObject {
   external AudioNode? connect(
-    JSObject destinationNodeOrDestinationParam, [
-    int output,
-    int input,
+    AudioNode destinationNodeOrDestinationParam, [
+    int? output,
+    int? input,
   ]);
   external void disconnect([
-    JSAny destinationNodeOrDestinationParamOrOutput,
-    int output,
-    int input,
+    AudioNode? destinationNodeOrDestinationParamOrOutput,
+    int? output,
+    int? input,
   ]);
   external BaseAudioContext get context;
   external int get numberOfInputs;
@@ -387,9 +387,9 @@ extension type AudioNode._(JSObject _) implements EventTarget, JSObject {
 
 extension type AudioNodeOptions._(JSObject _) implements JSObject {
   external factory AudioNodeOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
   });
 
   external int get channelCount;
@@ -454,8 +454,8 @@ extension type AudioParam._(JSObject _) implements JSObject {
 
 extension type AudioScheduledSourceNode._(JSObject _)
     implements AudioNode, JSObject {
-  external void start([num when]);
-  external void stop([num when]);
+  external void start([num? when]);
+  external void stop([num? when]);
   external EventHandler get onended;
   external set onended(EventHandler value);
 }
@@ -502,13 +502,13 @@ extension type AnalyserNode._(JSObject _) implements AudioNode, JSObject {
 extension type AnalyserOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory AnalyserOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    int fftSize,
-    num maxDecibels,
-    num minDecibels,
-    num smoothingTimeConstant,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    int? fftSize,
+    num? maxDecibels,
+    num? minDecibels,
+    num? smoothingTimeConstant,
   });
 
   external int get fftSize;
@@ -537,9 +537,9 @@ extension type AudioBufferSourceNode._(JSObject _)
     AudioBufferSourceOptions options,
   ]);
   external void start([
-    num when,
-    num offset,
-    num duration,
+    num? when,
+    num? offset,
+    num? duration,
   ]);
   external AudioBuffer? get buffer;
   external set buffer(AudioBuffer? value);
@@ -565,11 +565,11 @@ extension type AudioBufferSourceNode._(JSObject _)
 extension type AudioBufferSourceOptions._(JSObject _) implements JSObject {
   external factory AudioBufferSourceOptions({
     AudioBuffer? buffer,
-    num detune,
-    bool loop,
-    num loopEnd,
-    num loopStart,
-    num playbackRate,
+    num? detune,
+    bool? loop,
+    num? loopEnd,
+    num? loopStart,
+    num? playbackRate,
   });
 
   external AudioBuffer? get buffer;

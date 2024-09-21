@@ -33,8 +33,9 @@ library;
 import 'dart:typed_data';
 import 'package:tauwa/tauwa.dart' as t;
 import 'tauwaweb_audio.dart' as j;
-
-
+import 'tauwaweb_interop.dart';
+import 'dart:js_interop';
+import 'dart:html' as h;
 
 // ------------------------------------------------------------------------------------------------------------------
 
@@ -67,7 +68,7 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
   IIRFilterNode createIIRFilter(
     t.TauArray<t.TauNumber> feedforward,
     t.TauArray<t.TauNumber> feedback,
-  ) => IIRFilterNode.fromDelegate(getDelegate().createIIRFilter(feedforward, feedback));
+  ) => IIRFilterNode.fromDelegate(getDelegate().createIIRFilter(Interop().jsArrayNumber(feedforward), Interop().jsArrayNumber(feedback)) );
 
   OscillatorNode createOscillator() => OscillatorNode.fromDelegate(getDelegate().createOscillator());
   PannerNode createPanner() => PannerNode.fromDelegate(getDelegate().createPanner());
@@ -76,31 +77,31 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
     t.TauArray<t.TauNumber> real,
     t.TauArray<t.TauNumber> imag, [
     t.PeriodicWaveConstraints? constraints,
-  ]) => getDelegate().createPeriodicWave(real, imag, constraints);
+  ]) => PeriodicWave.fromDelegate(getDelegate().createPeriodicWave(Interop().jsArrayNumber(real), Interop().jsArrayNumber(imag), (constraints as PeriodicWaveConstraints).getDelegate()));
 
   ScriptProcessorNode createScriptProcessor([
     int? bufferSize,
     int? numberOfInputChannels,
     int? numberOfOutputChannels,
-  ]) => getDelegate().createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels);
+  ]) => ScriptProcessorNode.fromDelegate(getDelegate().createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels));
 
-  StereoPannerNode createStereoPanner() => getDelegate().createStereoPanner();
-  WaveShaperNode createWaveShaper() => getDelegate().createWaveShaper();
+  StereoPannerNode createStereoPanner() => StereoPannerNode.fromDelegate(getDelegate().createStereoPanner());
+  WaveShaperNode createWaveShaper() => WaveShaperNode.fromDelegate(getDelegate().createWaveShaper());
 
   t.TauPromise<AudioBuffer> decodeAudioData(
     t.TauArrayBuffer audioData, [
     t.DecodeSuccessCallback? successCallback,
     t.DecodeErrorCallback? errorCallback,
-  ]) => getDelegate().decodeAudioData(audioData, successCallback, errorCallback);
+  ]) => getDelegate().decodeAudioData(audioData.toJS, successCallback?.toJS, errorCallback?.toJS).toDart.then( (e){ return AudioBuffer.fromDelegate(e);});
 
-  AudioDestinationNode get destination => getDelegate().destination;
+  AudioDestinationNode get destination => AudioDestinationNode.fromDelegate(getDelegate().destination);
   double get sampleRate => getDelegate().sampleRate;
   double get currentTime => getDelegate().currentTime;
-  AudioListener get listener => getDelegate().listener;
+  AudioListener get listener => AudioListener.fromDelegate(getDelegate().listener);
   t.AudioContextState get state => getDelegate().state;
-  AudioWorklet get audioWorklet => getDelegate().audioWorklet;
+  AudioWorklet get audioWorklet => AudioWorklet.fromDelegate(getDelegate().audioWorklet);
   t.EventHandler get onstatechange => getDelegate().onstatechange;
-  set onstatechange(t.EventHandler value) => getDelegate().onstatechange(value);
+  set onstatechange(t.EventHandler value) => getDelegate().onstatechange = value.toJS;
 }
 
 
@@ -119,11 +120,11 @@ class AudioContext extends BaseAudioContext implements t.AudioContext {
   /* ctor */ AudioContext.fromDelegate(this.delegate);
   /* ctor */ AudioContext([t.AudioContextOptions? contextOptions]) : delegate = j.AudioContext((contextOptions as AudioContextOptions).delegate);
 
-  AudioTimestamp getOutputTimestamp() => delegate.OutputTimestamp;
-  t.TauPromise<t.TauAny?> resume() => delegate.resume();
-  t.TauPromise<t.TauAny?> suspend() => delegate.suspend();
-  t.TauPromise<t.TauAny?> close() => delegate.close();
-  MediaElementAudioSourceNode createMediaElementSource(t.HTMLMediaElement mediaElement) => delegate.createMediaElementSource(mediaElement);
+  AudioTimestamp getOutputTimestamp() => AudioTimestamp.fromDelegate(delegate.getOutputTimestamp());
+  t.TauPromise<t.TauAny?> resume() => delegate.resume().toDart;
+  t.TauPromise<t.TauAny?> suspend() => delegate.suspend().toDart;
+  t.TauPromise<t.TauAny?> close() => delegate.close().toDart;
+  MediaElementAudioSourceNode createMediaElementSource(t.MediaElement mediaElement) => MediaElementAudioSourceNode.fromDelegate(delegate.createMediaElementSource(mediaElement));
   MediaStreamAudioSourceNode createMediaStreamSource(t.MediaStream mediaStream) => delegate.createMediaStreamSource(mediaStream);
   MediaStreamTrackAudioSourceNode createMediaStreamTrackSource(t.MediaStreamTrack mediaStreamTrack) => delegate.createMediaStreamTrackSource(mediaStreamTrack);
   MediaStreamAudioDestinationNode createMediaStreamDestination() => delegate.createMediaStreamDestination();
@@ -705,11 +706,14 @@ class AudioBufferSourceOptions implements t.AudioBufferSourceOptions {
 
 
 
-abstract class AudioDestinationNode extends AudioNode implements t.AudioDestinationNode {
+class AudioDestinationNode extends AudioNode implements t.AudioDestinationNode {
 
-  j.AudioDestinationNode getDelegate();
+  j.AudioDestinationNode delegate;
+  j.AudioDestinationNode getDelegate() => delegate;
 
-  int get maxChannelCount => getDelegate().maxChannelCount;
+  /* ctor */ AudioDestinationNode.fromDelegate(this.delegate);
+
+  int get maxChannelCount => delegate.maxChannelCount;
 }
 
 
@@ -1427,7 +1431,7 @@ class MediaElementAudioSourceNode extends AudioNode implements t.MediaElementAud
     options,
   );
 
-  t.HTMLMediaElement get mediaElement => delegate.mediaElement;
+  t.MediaElement get mediaElement => delegate.mediaElement;
 }
 
 
@@ -1448,12 +1452,12 @@ class MediaElementAudioSourceOptions implements t.MediaElementAudioSourceOptions
 
   /* ctor */ MediaElementAudioSourceOptions.fromDelegate(this.delegate);
   /* ctor */ MediaElementAudioSourceOptions(
-      {required t.HTMLMediaElement mediaElement}) : delegate = j.MediaElementAudioSourceOptions(
+      {required t.MediaElement mediaElement}) : delegate = j.MediaElementAudioSourceOptions(
         mediaElement: mediaElement,
       );
 
-  t.HTMLMediaElement get mediaElement => delegate.mediaElement;
-  set mediaElement(t.HTMLMediaElement value) => delegate.mediaElement = value;
+  t.MediaElement get mediaElement => delegate.mediaElement;
+  set mediaElement(t.MediaElement value) => delegate.mediaElement = value;
 }
 
 
@@ -1825,6 +1829,10 @@ class PannerOptions extends AudioNodeOptions implements t.PannerOptions {
 
 class PeriodicWave implements t.PeriodicWave {
 
+  j.PeriodicWave delegate;
+  j.PeriodicWave getDelegate() => delegate;
+
+  /* ctor */ PeriodicWave.fromDelegate(this.delegate);
   /* ctor */ PeriodicWave(
     t.BaseAudioContext context, [
     t.PeriodicWaveOptions? options,
@@ -2059,6 +2067,10 @@ class WaveShaperOptions extends AudioNodeOptions implements t.WaveShaperOptions 
 
 
 class AudioWorklet implements t.AudioWorklet {
+  j.AudioWorklet delegate;
+  j.AudioWorklet getDelegate() => delegate;
+
+  /* ctor */ AudioWorklet.fromDelegate(this.delegate);
 
 }
 
@@ -2071,7 +2083,7 @@ class AudioWorklet implements t.AudioWorklet {
 
 
 
-class AudioWorkletGlobalScope extends t.WorkletGlobalScope implements t.AudioWorkletGlobalScope {
+class AudioWorkletGlobalScope implements t.AudioWorkletGlobalScope {
   j.AudioWorkletGlobalScope delegate;
   j.AudioWorkletGlobalScope getDelegate() => delegate;
 
@@ -2140,6 +2152,67 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 
 
 
+
+
+
+// =================================================================================================
+//                          Added because of Tau_waweb
+// =================================================================================================
+
+
+class MediaStream implements t.MediaStream
+{
+  h.MediaStream delegate;
+  h.MediaStream getDelegate() => delegate;
+
+  /* ctor */ MediaStream.fromDelegate(this.delegate);
+  /* ctor */ MediaStream();
+
+}
+
+class MediaStreamTrack implements t.MediaStreamTrack
+{
+  h.MediaStreamTrack delegate;
+  h.MediaStreamTrack getDelegate() => delegate;
+
+  /* ctor */ MediaStreamTrack.fromDelegate(this.delegate);
+  /* ctor */ MediaStreamTrack();
+
+}
+
+/*
+class Worklet implements t.Worklet
+{
+  j.Worklet delegate;
+  j.Worklet getDelegate() => delegate;
+
+  /* ctor */ Worklet.fromDelegate(this.delegate);
+  /* ctor */ Worklet();
+
+}
+*/
+
+/*
+class WorkletGlobalScope implements t.WorkletGlobalScope
+{
+  j.WorkletGlobalScope delegate;
+  j.WorkletGlobalScope getDelegate() => delegate;
+
+  /* ctor */ WorkletGlobalScope.fromDelegate(this.delegate);
+  /* ctor */ WorkletGlobalScope();
+
+}
+ */
+
+class MessagePort implements t.MessagePort
+{
+  h.MessagePort delegate;
+  h.MessagePort getDelegate() => delegate;
+
+  /* ctor */ MessagePort.fromDelegate(this.delegate);
+  /* ctor */ MessagePort();
+
+}
 
 
 

@@ -434,7 +434,7 @@ class TauwaImplementation implements TauwaInterface
 
 
   MediaElementAudioSourceOptions newMediaElementAudioSourceOptions(
-      {required HTMLMediaElement mediaElement}) => c.MediaElementAudioSourceOptions(
+      {required MediaElement mediaElement}) => c.MediaElementAudioSourceOptions(
         mediaElement: mediaElement,
       );
 
@@ -684,6 +684,22 @@ class TauwaImplementation implements TauwaInterface
   AudioWorkletProcessor newAudioWorkletProcessor() => c.AudioWorkletProcessor();
 
 
+
+
+// =================================================================================================
+//                          Added because of Tau_waweb
+// =================================================================================================
+
+
+  MediaStream newMediaStream() => c.MediaStream();
+
+  MediaStreamTrack newMediaStreamTrack() => c.MediaStreamTrack();
+
+ // Worklet newWorklet() => c.newWorklet();
+
+ // WorkletGlobalScope newWorkletGlobalScope() => c.WorkletGlobalScope();
+
+  MessagePort newMessagePort() => c.MessagePort();
 
 
 }

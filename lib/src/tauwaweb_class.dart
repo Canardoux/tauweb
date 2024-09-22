@@ -46,7 +46,7 @@ import 'package:web/web.dart' as w;
 
 abstract class BaseAudioContext implements t.BaseAudioContext {
   j.BaseAudioContext getDelegate();
-  t.EventHandler _onStateChange;
+  t.EventHandler _onStateChange = (){};
 
   AnalyserNode createAnalyser() => AnalyserNode.fromDelegate(getDelegate().createAnalyser());
   BiquadFilterNode createBiquadFilter() => BiquadFilterNode.fromDelegate(getDelegate().createBiquadFilter());
@@ -223,7 +223,7 @@ class OfflineAudioContext extends BaseAudioContext implements t.OfflineAudioCont
   j.OfflineAudioContext delegate;
   j.BaseAudioContext getDelegate() => delegate;
 
-  t.EventHandler _onComplete;
+  t.EventHandler _onComplete = (){};
 
   /* ctor */ OfflineAudioContext.fromDelegate(this.delegate);
   /* ctor */  OfflineAudioContext(
@@ -544,7 +544,7 @@ class AudioParam implements t.AudioParam {
 
 
 abstract class AudioScheduledSourceNode extends AudioNode implements t.AudioScheduledSourceNode {
-  t.EventHandler _onEnded;
+  t.EventHandler _onEnded = (){};
   j.AudioScheduledSourceNode getDelegate();
 
   void start([num? when]) => getDelegate().start(when);
@@ -1895,7 +1895,7 @@ class PeriodicWaveOptions extends PeriodicWaveConstraints implements t.PeriodicW
 
 class ScriptProcessorNode extends AudioNode implements t.ScriptProcessorNode {
 
-  t.EventHandler _onaudioprocess;
+  t.EventHandler _onaudioprocess = (){};
   j.ScriptProcessorNode delegate;
   j.ScriptProcessorNode getDelegate() => delegate;
 
@@ -2108,6 +2108,7 @@ class AudioParamMap implements t.AudioParamMap
 
 class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 
+  t.EventHandler _onProcessorError = (){};
   j.AudioWorkletNode delegate;
   j.AudioWorkletNode getDelegate() => delegate;
 
@@ -2120,9 +2121,14 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 
 
   t.AudioParamMap get parameters => AudioParamMap.fromDelegate(delegate.parameters);
-  t.MessagePort get port => delegate.port;
-  t.EventHandler get onprocessorerror => delegate.onprocessorerror;
-  set onprocessorerror(t.EventHandler value) => delegate.onprocessorerror = value;
+  t.MessagePort get port => MessagePort.fromDelegate(delegate.port);
+
+  t.EventHandler get onProcessorError => _onProcessorError;
+
+  set onProcessorError(t.EventHandler value) {
+    _onProcessorError = value;
+    getDelegate().onprocessorerror = value.toJS;
+  }
 }
 
 
@@ -2141,7 +2147,7 @@ class MediaStream implements t.MediaStream
   w.MediaStream getDelegate() => delegate;
 
   /* ctor */ MediaStream.fromDelegate(this.delegate);
-  /* ctor */ MediaStream();
+  /* ctor */ MediaStream() : delegate = w.MediaStream();
 
 }
 
@@ -2151,7 +2157,7 @@ class MediaStreamTrack implements t.MediaStreamTrack
   w.MediaStreamTrack getDelegate() => delegate;
 
   /* ctor */ MediaStreamTrack.fromDelegate(this.delegate);
-  /* ctor */ MediaStreamTrack();
+  /* ctor */ MediaStreamTrack() : delegate = w.MediaStreamTrack();
 
 }
 
@@ -2181,11 +2187,11 @@ class WorkletGlobalScope implements t.WorkletGlobalScope
 
 class MessagePort implements t.MessagePort
 {
-  h.MessagePort delegate;
-  h.MessagePort getDelegate() => delegate;
+  w.MessagePort delegate;
+  w.MessagePort getDelegate() => delegate;
 
   /* ctor */ MessagePort.fromDelegate(this.delegate);
-  /* ctor */ MessagePort();
+  /* ctor */ MessagePort() : delegate = w.MessagePort();
 
 }
 
@@ -2221,7 +2227,7 @@ class AudioWorkletNodeOptions extends AudioNodeOptions implements t.AudioWorklet
     channelInterpretation: channelInterpretation,
     numberOfInputs: numberOfInputs,
     numberOfOutputs: numberOfOutputs,
-    outputChannelCount: outputChannelCount,
+    outputChannelCount: outputChannelCount == null ? null : Interop().jsArrayNumber(outputChannelCount),
     parameterData: parameterData,
     processorOptions: processorOptions,
   );
@@ -2230,8 +2236,8 @@ class AudioWorkletNodeOptions extends AudioNodeOptions implements t.AudioWorklet
   set numberOfInputs(int value) => delegate.numberOfInputs = value;
   int get numberOfOutputs => delegate.numberOfOutputs;
   set numberOfOutputs(int value) => delegate.numberOfOutputs = value;
-  t.TauArray<t.TauNumber> get outputChannelCount => delegate.outputChannelCount;
-  set outputChannelCount(t.TauArray<t.TauNumber> value) => delegate.outputChannelCount = value;
+  t.TauArray<t.TauNumber> get outputChannelCount => Interop().listNum(delegate.outputChannelCount);
+  set outputChannelCount(t.TauArray<t.TauNumber> value) => delegate.outputChannelCount = Interop().jsArrayNumber(value);
   t.TauObject get parameterData => delegate.parameterData;
   set parameterData(t.TauObject value) => delegate.parameterData = value;
   t.TauObject get processorOptions => delegate.processorOptions;
@@ -2250,13 +2256,13 @@ class AudioWorkletNodeOptions extends AudioNodeOptions implements t.AudioWorklet
 
 
 class AudioWorkletProcessor implements t.AudioWorkletProcessor {
-  j.AudioWorkletProcessor delegate;
-  j.AudioWorkletProcessor getDelegate() => delegate;
+  w.AudioWorkletProcessor delegate;
+  w.AudioWorkletProcessor getDelegate() => delegate;
 
   /* ctor */ AudioWorkletProcessor.fromDelegate(this.delegate);
-  /* ctor */ AudioWorkletProcessor() : delegate = j.AudioWorkletProcessor();
+  /* ctor */ AudioWorkletProcessor() : delegate = w.AudioWorkletProcessor();
 
-  t.MessagePort get port => delegate.port;
+  t.MessagePort get port => MessagePort.fromDelegate(delegate.port);
 }
 
 

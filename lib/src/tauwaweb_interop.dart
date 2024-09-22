@@ -31,17 +31,19 @@ class Interop
 
         JSArray<JSNumber> jsArrayNumber(List<num> listNum)
         {
-                var r = JsArray();
+                var r = JSArray<JSNumber>();
                 for (var v in listNum) {
                         r.add(v.toJS);
                 }
+                return r;
         }
-        List<num> listNum(JSArray<JSNumber> l)
+        List<num> listNum(JSArray<JSNumber> j)
         {
-                var r = List<num>(l.length);
-                for (i = 0; i < l.length; ++i)
+                List<num> r = [];
+                List<JSNumber> l = j.toDart;
+                for (int i = 0; i < l.length; ++i)
                 {
-                        r[i] = l[i].toDart;
+                        r.add(l[i].toDartDouble);
                 }
                 return r;
         }

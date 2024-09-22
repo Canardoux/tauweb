@@ -1587,14 +1587,14 @@ extension type AudioWorkletNode._(JSObject _) implements AudioNode, JSObject {
 extension type AudioWorkletNodeOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory AudioWorkletNodeOptions({
-    int channelCount,
-    ChannelCountMode channelCountMode,
-    ChannelInterpretation channelInterpretation,
-    int numberOfInputs,
-    int numberOfOutputs,
-    JSArray<JSNumber> outputChannelCount,
-    JSObject parameterData,
-    JSObject processorOptions,
+    int? channelCount,
+    ChannelCountMode? channelCountMode,
+    ChannelInterpretation? channelInterpretation,
+    int? numberOfInputs,
+    int? numberOfOutputs,
+    JSArray<JSNumber>? outputChannelCount,
+    JSObject? parameterData,
+    JSObject? processorOptions,
   });
 
   external int get numberOfInputs;

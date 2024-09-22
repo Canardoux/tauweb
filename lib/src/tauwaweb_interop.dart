@@ -36,4 +36,13 @@ class Interop
                         r.add(v.toJS);
                 }
         }
+        List<num> listNum(JSArray<JSNumber> l)
+        {
+                var r = List<num>(l.length);
+                for (i = 0; i < l.length; ++i)
+                {
+                        r[i] = l[i].toDart;
+                }
+                return r;
+        }
 }

@@ -283,9 +283,9 @@ extension type OfflineAudioCompletionEvent._(JSObject _)
 extension type OfflineAudioCompletionEventInit._(JSObject _)
     implements EventInit, JSObject {
   external factory OfflineAudioCompletionEventInit({
-    bool bubbles,
-    bool cancelable,
-    bool composed,
+    bool? bubbles,
+    bool? cancelable,
+    bool? composed,
     required AudioBuffer renderedBuffer,
   });
 
@@ -307,8 +307,8 @@ extension type AudioBuffer._(JSObject _) implements JSObject {
   external JSFloat32Array getChannelData(int channel);
   external void copyFromChannel(
     JSFloat32Array destination,
-    int channelNumber, [
-    int bufferOffset,
+    int? channelNumber, [
+    int? bufferOffset,
   ]);
   external void copyToChannel(
     JSFloat32Array source,
@@ -332,7 +332,7 @@ extension type AudioBuffer._(JSObject _) implements JSObject {
 
 extension type AudioBufferOptions._(JSObject _) implements JSObject {
   external factory AudioBufferOptions({
-    int numberOfChannels,
+    int? numberOfChannels,
     required int length,
     required num sampleRate,
   });

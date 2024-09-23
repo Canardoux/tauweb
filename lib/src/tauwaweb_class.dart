@@ -298,8 +298,8 @@ class OfflineAudioCompletionEvent implements t.OfflineAudioCompletionEvent {
   /* ctor */ OfflineAudioCompletionEvent.fromDelegate(this.delegate);
   /* ctor */ OfflineAudioCompletionEvent (
     String type,
-    dynamic eventInitDict, //t.OfflineAudioCompletionEventInit eventInitDict,
-  ) : delegate = j.OfflineAudioCompletionEvent(type, eventInitDict);
+    t.OfflineAudioCompletionEventInit eventInitDict,
+  ) : delegate = j.OfflineAudioCompletionEvent(type, (eventInitDict as OfflineAudioCompletionEventInit).delegate);
 
 
   AudioBuffer get renderedBuffer => AudioBuffer.fromDelegate(delegate.renderedBuffer);
@@ -322,9 +322,9 @@ class OfflineAudioCompletionEventInit implements t.OfflineAudioCompletionEventIn
 
     /* ctor */ OfflineAudioCompletionEventInit.fromDelegate(this.delegate);
     /* ctor */ OfflineAudioCompletionEventInit({
-    dynamic bubbles, // bool? bubbles,
-    dynamic cancelable, // bool? cancelable,
-    dynamic composed, // bool? composed,
+    bool? bubbles,
+    bool? cancelable,
+    bool? composed,
     required t.AudioBuffer renderedBuffer,
   }) : delegate =  j.OfflineAudioCompletionEventInit(bubbles: bubbles, cancelable: cancelable, composed: composed, renderedBuffer: (renderedBuffer as AudioBuffer).delegate);
 
@@ -353,7 +353,7 @@ class AudioBuffer implements t.AudioBuffer {
   void copyFromChannel(
     t.TauFloat32Array destination,
     int channelNumber, [
-    dynamic bufferOffset, // int? bufferOffset,
+    int? bufferOffset,
   ]) => delegate.copyFromChannel(
     destination.toJS,
     channelNumber,
@@ -386,7 +386,7 @@ class AudioBufferOptions implements t.AudioBufferOptions {
 
   /* ctor */ AudioBufferOptions.fromDelegate(this.delegate);
   /* ctor */ AudioBufferOptions({
-    dynamic numberOfChannels, // int? numberOfChannels,
+    int? numberOfChannels,
     required int length,
     required num sampleRate,
   }) : delegate = j.AudioBufferOptions(numberOfChannels: numberOfChannels, length: length, sampleRate: sampleRate);
@@ -2151,13 +2151,16 @@ class MediaStream implements t.MediaStream
 
 }
 
+
 class MediaStreamTrack implements t.MediaStreamTrack
 {
   w.MediaStreamTrack delegate;
   w.MediaStreamTrack getDelegate() => delegate;
 
   /* ctor */ MediaStreamTrack.fromDelegate(this.delegate);
-  /* ctor */ MediaStreamTrack() : delegate = w.MediaStreamTrack();
+  /* ctor */ // MediaStreamTrack() : delegate = w.MediaStreamTrack();
+
+// !!!Missing many methods, here
 
 }
 
@@ -2191,7 +2194,7 @@ class MessagePort implements t.MessagePort
   w.MessagePort getDelegate() => delegate;
 
   /* ctor */ MessagePort.fromDelegate(this.delegate);
-  /* ctor */ MessagePort() : delegate = w.MessagePort();
+  /* ctor */ // MessagePort() : delegate = w.MessagePort();
 
 }
 
@@ -2200,8 +2203,22 @@ class MessagePort implements t.MessagePort
 // ------------------------------------------------------------------------------------------------------------------
 
 
+/*
+
+class ProcessorOptions  implements t.ProcessorOptions
+{
+
+}
 
 
+class ParameterData  implements t.ParameterData
+{
+
+}
+
+
+
+ */
 
 
 
@@ -2219,8 +2236,8 @@ class AudioWorkletNodeOptions extends AudioNodeOptions implements t.AudioWorklet
     int? numberOfInputs,
     int? numberOfOutputs,
     t.TauArray<t.TauNumber>? outputChannelCount,
-    t.TauObject? parameterData,
-    t.TauObject? processorOptions,
+    t.ParameterData? parameterData,
+    t.ProcessorOptions? processorOptions,
   }) : delegate = j.AudioWorkletNodeOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -2228,8 +2245,8 @@ class AudioWorkletNodeOptions extends AudioNodeOptions implements t.AudioWorklet
     numberOfInputs: numberOfInputs,
     numberOfOutputs: numberOfOutputs,
     outputChannelCount: outputChannelCount == null ? null : Interop().jsArrayNumber(outputChannelCount),
-    parameterData: parameterData,
-    processorOptions: processorOptions,
+    //parameterData: parameterData,
+    //processorOptions: processorOptions,
   );
 
   int get numberOfInputs => delegate.numberOfInputs;
@@ -2238,10 +2255,10 @@ class AudioWorkletNodeOptions extends AudioNodeOptions implements t.AudioWorklet
   set numberOfOutputs(int value) => delegate.numberOfOutputs = value;
   t.TauArray<t.TauNumber> get outputChannelCount => Interop().listNum(delegate.outputChannelCount);
   set outputChannelCount(t.TauArray<t.TauNumber> value) => delegate.outputChannelCount = Interop().jsArrayNumber(value);
-  t.TauObject get parameterData => delegate.parameterData;
-  set parameterData(t.TauObject value) => delegate.parameterData = value;
-  t.TauObject get processorOptions => delegate.processorOptions;
-  set processorOptions(t.TauObject value) => delegate.processorOptions = value;
+  //t.ParameterData get parameterData => delegate.parameterData;
+  //set parameterData(t.ParameterData value) => delegate.parameterData = value;
+  //t.ProcessorOptions get processorOptions => delegate.processorOptions;
+  //set processorOptions(t.ProcessorOptions value) => delegate.processorOptions = value;
 }
 
 

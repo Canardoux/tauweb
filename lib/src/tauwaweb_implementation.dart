@@ -659,6 +659,7 @@ class TauwaImplementation implements TauwaInterface
 
 
 
+
   AudioWorkletNodeOptions newAudioWorkletNodeOptions({
     int? channelCount,
     ChannelCountMode? channelCountMode,
@@ -666,8 +667,8 @@ class TauwaImplementation implements TauwaInterface
     int? numberOfInputs,
     int? numberOfOutputs,
     TauArray<TauNumber>? outputChannelCount,
-    TauObject? parameterData,
-    TauObject? processorOptions,
+    ParameterData? parameterData,
+    ProcessorOptions? processorOptions,
   }) => c.AudioWorkletNodeOptions(
     channelCount: channelCount,
     channelCountMode: channelCountMode,
@@ -693,13 +694,13 @@ class TauwaImplementation implements TauwaInterface
 
   MediaStream newMediaStream() => c.MediaStream();
 
-  MediaStreamTrack newMediaStreamTrack() => c.MediaStreamTrack();
+  // MediaStreamTrack newMediaStreamTrack() => c.MediaStreamTrack();
 
  // Worklet newWorklet() => c.newWorklet();
 
  // WorkletGlobalScope newWorkletGlobalScope() => c.WorkletGlobalScope();
 
-  MessagePort newMessagePort() => c.MessagePort();
+ // MessagePort newMessagePort() => c.MessagePort();
 
 
 }

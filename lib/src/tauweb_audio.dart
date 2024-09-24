@@ -26,7 +26,7 @@ import 'dart:js';
 import 'dart:js_util';
 import 'dart:web_audio';
 import 'package:web/web.dart';
-import 'package:tauwa/tauwa.dart' as t;
+import 'package:tau/tau.dart' as t;
 
 //import 'package:js/js.dart';
 //import 'dart:dom';
@@ -121,7 +121,7 @@ extension type BaseAudioContext._(JSObject _) implements  JSObject {
 
 extension type AudioContext._(JSObject _)
     implements BaseAudioContext, JSObject {
-  external factory AudioContext([AudioContextOptions contextOptions]);
+  external factory AudioContext([AudioContextOptions? contextOptions]);
   external AudioTimestamp getOutputTimestamp();
   external JSPromise<JSAny?> resume();
   external JSPromise<JSAny?> suspend();

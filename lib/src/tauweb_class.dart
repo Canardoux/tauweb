@@ -31,9 +31,9 @@
 library;
 
 import 'dart:typed_data';
-import 'package:tauwa/tauwa.dart' as t;
-import 'tauwaweb_audio.dart' as j;
-import 'tauwaweb_interop.dart';
+import 'package:tau/tau.dart' as t;
+import 'tauweb_audio.dart' as j;
+import 'tauweb_interop.dart';
 import 'dart:js_interop';
 import 'dart:html' as h;
 import 'package:web/web.dart' as w;
@@ -120,7 +120,7 @@ class AudioContext extends BaseAudioContext implements t.AudioContext {
   j.AudioContext delegate;
   j.BaseAudioContext getDelegate() => delegate;
   /* ctor */ AudioContext.fromDelegate(this.delegate);
-  /* ctor */ AudioContext([t.AudioContextOptions? contextOptions]) : delegate = j.AudioContext((contextOptions as AudioContextOptions).delegate);
+  /* ctor */ AudioContext([t.AudioContextOptions? contextOptions]) : delegate = j.AudioContext((contextOptions as AudioContextOptions?)?.delegate);
 
   AudioTimestamp getOutputTimestamp() => AudioTimestamp.fromDelegate(delegate.getOutputTimestamp());
   t.TauPromise<t.TauAny?> resume() => delegate.resume().toDart;
@@ -129,9 +129,17 @@ class AudioContext extends BaseAudioContext implements t.AudioContext {
   MediaElementAudioSourceNode     createMediaElementSource    (t.MediaElement mediaElement)         => MediaElementAudioSourceNode    .fromDelegate (delegate.createMediaElementSource    ((mediaElement     as MediaElement)    .delegate));
   MediaStreamAudioSourceNode      createMediaStreamSource     (t.MediaStream mediaStream)           => MediaStreamAudioSourceNode     .fromDelegate (delegate.createMediaStreamSource     ((mediaStream      as MediaStream)     .delegate));
   MediaStreamTrackAudioSourceNode createMediaStreamTrackSource(t.MediaStreamTrack mediaStreamTrack) => MediaStreamTrackAudioSourceNode.fromDelegate (delegate.createMediaStreamTrackSource((mediaStreamTrack as MediaStreamTrack).delegate));
-  MediaStreamAudioDestinationNode createMediaStreamDestination()                                    => MediaStreamAudioDestinationNode .fromDelegate(delegate.createMediaStreamDestination());
+  MediaStreamAudioDestinationNode createMediaStreamDestination()                                    => MediaStreamAudioDestinationNode.fromDelegate (delegate.createMediaStreamDestination());
   double get baseLatency => delegate.baseLatency;
   double get outputLatency => delegate.outputLatency;
+
+
+
+// =================================================================================================
+//                          Added specific to Tau
+// =================================================================================================
+
+  void dispose(){}
 }
 
 
@@ -243,6 +251,13 @@ class OfflineAudioContext extends BaseAudioContext implements t.OfflineAudioCont
   t.EventHandler get oncomplete => _onComplete;
   set oncomplete(t.EventHandler value) {_onComplete = value; getDelegate().onstatechange = value.toJS; }
 
+
+
+// =================================================================================================
+//                          Added specific to Tau
+// =================================================================================================
+
+  void dispose(){}
 }
 
 
@@ -660,7 +675,7 @@ class AudioBufferSourceNode extends AudioScheduledSourceNode implements t.AudioB
     num? when,
     num? offset,
     num? duration,
-  ]) => delegate.start(when, offset, duration);
+  ]) => delegate.start(when, offset, null /* !!! LARPOUX, duration */);
 
   AudioBuffer? get buffer => delegate.buffer == null ? null : AudioBuffer.fromDelegate(delegate.buffer!);
   set buffer(t.AudioBuffer? value) => delegate.buffer = (value as AudioBuffer).delegate;

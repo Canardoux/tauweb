@@ -16,15 +16,15 @@
  * along with τ.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import 'package:tauwa/tauwa.dart';
-import 'tauwaweb_class.dart' as c;
+import 'package:tau/tau.dart';
+import 'tauweb_class.dart' as c;
 
-class TauwaImplementation implements TauwaInterface
+class TauwebImplementation implements TauInterface
 {
 
-  static final TauwaImplementation _singleton = TauwaImplementation._internal();
-  factory TauwaImplementation() => _singleton;
-  TauwaImplementation._internal();
+  static final TauwebImplementation _singleton = TauwebImplementation._internal();
+  factory TauwebImplementation() => _singleton;
+  TauwebImplementation._internal();
 
 
 

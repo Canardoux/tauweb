@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tauwa/tauwa.dart';
-import 'package:tauwaweb/tauwaweb.dart';
+import 'package:tau/tau.dart';
+import 'package:tauweb/tauweb.dart';
 
 void main() => runApp(const MyApp());
 
@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   void _incrementCounter() {
   //=================================================
-  TauwaInterface tau = tauwaImp();
+  var tau =  Tau();
   //=================================================
     setState(() {
       // This call to setState tells the Flutter framework that something has

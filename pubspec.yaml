@@ -1,5 +1,5 @@
-name: tauwaweb
-description: "A Tauwa implementation for the Web."
+name: tauweb
+description: "A Tau implementation for the Web."
 version: 0.0.1
 homepage:
 
@@ -10,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  tauwa: # ^9.15.61
-    path: ../tauwa # tauwa Dir
+  tau: # ^9.15.61
+    path: ../tau # tauwa Dir
   web: ^1.0.0
 
 dev_dependencies:

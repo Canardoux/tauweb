@@ -70,11 +70,11 @@ extension type BaseAudioContext._(JSObject _) implements  JSObject {
   );
 
   external AudioBufferSourceNode createBufferSource();
-  external ChannelMergerNode createChannelMerger([int? numberOfInputs]);
-  external ChannelSplitterNode createChannelSplitter([int? numberOfOutputs]);
+  external ChannelMergerNode createChannelMerger([int numberOfInputs]);
+  external ChannelSplitterNode createChannelSplitter([int numberOfOutputs]);
   external ConstantSourceNode createConstantSource();
   external ConvolverNode createConvolver();
-  external DelayNode createDelay([num? maxDelayTime]);
+  external DelayNode createDelay([num maxDelayTime]);
   external DynamicsCompressorNode createDynamicsCompressor();
   external GainNode createGain();
   external IIRFilterNode createIIRFilter(
@@ -86,12 +86,12 @@ extension type BaseAudioContext._(JSObject _) implements  JSObject {
   external PeriodicWave createPeriodicWave(
     JSArray<JSNumber> real,
     JSArray<JSNumber> imag, [
-    PeriodicWaveConstraints? constraints,
+    PeriodicWaveConstraints constraints,
   ]);
   external ScriptProcessorNode createScriptProcessor([
-    int? bufferSize,
-    int? numberOfInputChannels,
-    int? numberOfOutputChannels,
+    int bufferSize,
+    int numberOfInputChannels,
+    int numberOfOutputChannels,
   ]);
   external StereoPannerNode createStereoPanner();
   external WaveShaperNode createWaveShaper();
@@ -121,7 +121,7 @@ extension type BaseAudioContext._(JSObject _) implements  JSObject {
 
 extension type AudioContext._(JSObject _)
     implements BaseAudioContext, JSObject {
-  external factory AudioContext([AudioContextOptions? contextOptions]);
+  external factory AudioContext([AudioContextOptions contextOptions]);
   external AudioTimestamp getOutputTimestamp();
   external JSPromise<JSAny?> resume();
   external JSPromise<JSAny?> suspend();
@@ -148,10 +148,10 @@ extension type AudioContext._(JSObject _)
 
 extension type AudioContextOptions._(JSObject _) implements JSObject {
   external factory AudioContextOptions({
-    JSAny? latencyHint,
-    JSNumber? sampleRate,
-    JSAny? sinkId,
-    JSAny? renderSizeHint,
+    JSAny latencyHint,
+    JSNumber sampleRate,
+    JSAny sinkId,
+    JSAny renderSizeHint,
   });
 
   external JSAny get latencyHint;
@@ -191,8 +191,8 @@ extension type AudioSinkOptions._(JSObject _) implements JSObject {
 
 extension type AudioTimestamp._(JSObject _) implements JSObject {
   external factory AudioTimestamp({
-    num? contextTime,
-    DOMHighResTimeStamp? performanceTime,
+    num?  contextTime, // [LARPOUX]
+    DOMHighResTimeStamp? performanceTime, // [LARPOUX]
   });
 
   external double get contextTime;
@@ -215,8 +215,8 @@ extension type OfflineAudioContext._(JSObject _)
     implements BaseAudioContext, JSObject {
   external factory OfflineAudioContext(
     JSAny contextOptionsOrNumberOfChannels, [
-    int? length,
-    num? sampleRate,
+    int length,
+    num sampleRate,
   ]);
   external JSPromise<AudioBuffer> startRendering();
   external JSPromise<JSAny?> resume();
@@ -237,10 +237,10 @@ extension type OfflineAudioContext._(JSObject _)
 
 extension type OfflineAudioContextOptions._(JSObject _) implements JSObject {
   external factory OfflineAudioContextOptions({
-    int? numberOfChannels,
+    int? numberOfChannels, // [LARPOUX]
     required int length,
     required num sampleRate,
-    JSAny? renderSizeHint,
+    JSAny renderSizeHint,
   });
 
   external int get numberOfChannels;
@@ -283,9 +283,9 @@ extension type OfflineAudioCompletionEvent._(JSObject _)
 extension type OfflineAudioCompletionEventInit._(JSObject _)
     implements EventInit, JSObject {
   external factory OfflineAudioCompletionEventInit({
-    bool? bubbles,
-    bool? cancelable,
-    bool? composed,
+    bool? bubbles, // [LARPOUX]
+    bool? cancelable, // [LARPOUX]
+    bool? composed, // [LARPOUX]
     required AudioBuffer renderedBuffer,
   });
 
@@ -307,8 +307,8 @@ extension type AudioBuffer._(JSObject _) implements JSObject {
   external JSFloat32Array getChannelData(int channel);
   external void copyFromChannel(
     JSFloat32Array destination,
-    int? channelNumber, [
-    int? bufferOffset,
+    int channelNumber, [
+    int bufferOffset,
   ]);
   external void copyToChannel(
     JSFloat32Array source,
@@ -332,7 +332,7 @@ extension type AudioBuffer._(JSObject _) implements JSObject {
 
 extension type AudioBufferOptions._(JSObject _) implements JSObject {
   external factory AudioBufferOptions({
-    int? numberOfChannels,
+    int? numberOfChannels, // [LARPOUX]
     required int length,
     required num sampleRate,
   });
@@ -357,13 +357,13 @@ extension type AudioBufferOptions._(JSObject _) implements JSObject {
 extension type AudioNode._(JSObject _) implements EventTarget, JSObject {
   external AudioNode? connect(
     AudioNode destinationNodeOrDestinationParam, [
-    int? output,
-    int? input,
+    int output,
+    int input,
   ]);
   external void disconnect([
-    AudioNode? destinationNodeOrDestinationParamOrOutput,
-    int? output,
-    int? input,
+    AudioNode destinationNodeOrDestinationParamOrOutput,
+    int output,
+    int input,
   ]);
   external BaseAudioContext get context;
   external int get numberOfInputs;
@@ -387,9 +387,9 @@ extension type AudioNode._(JSObject _) implements EventTarget, JSObject {
 
 extension type AudioNodeOptions._(JSObject _) implements JSObject {
   external factory AudioNodeOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
   });
 
   external int get channelCount;
@@ -454,8 +454,8 @@ extension type AudioParam._(JSObject _) implements JSObject {
 
 extension type AudioScheduledSourceNode._(JSObject _)
     implements AudioNode, JSObject {
-  external void start([num? when]);
-  external void stop([num? when]);
+  external void start([num when]);
+  external void stop([num when]);
   external EventHandler get onended;
   external set onended(EventHandler value);
 }
@@ -502,13 +502,13 @@ extension type AnalyserNode._(JSObject _) implements AudioNode, JSObject {
 extension type AnalyserOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory AnalyserOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    int? fftSize,
-    num? maxDecibels,
-    num? minDecibels,
-    num? smoothingTimeConstant,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    int? fftSize, // [LARPOUX]
+    num? maxDecibels, // [LARPOUX]
+    num? minDecibels, // [LARPOUX]
+    num? smoothingTimeConstant, // [LARPOUX]
   });
 
   external int get fftSize;
@@ -537,9 +537,9 @@ extension type AudioBufferSourceNode._(JSObject _)
     AudioBufferSourceOptions options,
   ]);
   external void start([
-    num? when,
-    num? offset,
-    num? duration,
+    num when,
+    num offset,
+    num duration,
   ]);
   external AudioBuffer? get buffer;
   external set buffer(AudioBuffer? value);
@@ -565,11 +565,11 @@ extension type AudioBufferSourceNode._(JSObject _)
 extension type AudioBufferSourceOptions._(JSObject _) implements JSObject {
   external factory AudioBufferSourceOptions({
     AudioBuffer? buffer,
-    num? detune,
-    bool? loop,
-    num? loopEnd,
-    num? loopStart,
-    num? playbackRate,
+    num? detune, // [LARPOUX]
+    bool? loop, // [LARPOUX]
+    num? loopEnd, // [LARPOUX]
+    num? loopStart, // [LARPOUX]
+    num? playbackRate, // [LARPOUX]
   });
 
   external AudioBuffer? get buffer;
@@ -668,9 +668,9 @@ extension type AudioProcessingEvent._(JSObject _) implements Event, JSObject {
 extension type AudioProcessingEventInit._(JSObject _)
     implements EventInit, JSObject {
   external factory AudioProcessingEventInit({
-    bool? bubbles,
-    bool? cancelable,
-    bool? composed,
+    bool? bubbles, // [LARPOUX]
+    bool? cancelable, // [LARPOUX]
+    bool? composed, // [LARPOUX]
     required num playbackTime,
     required AudioBuffer inputBuffer,
     required AudioBuffer outputBuffer,
@@ -723,14 +723,14 @@ extension type BiquadFilterNode._(JSObject _) implements AudioNode, JSObject {
 extension type BiquadFilterOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory BiquadFilterOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    BiquadFilterType? type,
-    num? Q,
-    num? detune,
-    num? frequency,
-    num? gain,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    BiquadFilterType? type, // [LARPOUX]
+    num? Q, // [LARPOUX]
+    num? detune, // [LARPOUX]
+    num? frequency, // [LARPOUX]
+    num? gain, // [LARPOUX]
   });
 
   external BiquadFilterType get type;
@@ -773,10 +773,10 @@ extension type ChannelMergerNode._(JSObject _) implements AudioNode, JSObject {
 extension type ChannelMergerOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory ChannelMergerOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    int? numberOfInputs,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    int? numberOfInputs, // [LARPOUX]
   });
 
   external int get numberOfInputs;
@@ -813,10 +813,10 @@ extension type ChannelSplitterNode._(JSObject _)
 extension type ChannelSplitterOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory ChannelSplitterOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    int? numberOfOutputs,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    int? numberOfOutputs, // [LARPOUX]
   });
 
   external int get numberOfOutputs;
@@ -851,7 +851,7 @@ extension type ConstantSourceNode._(JSObject _)
 
 
 extension type ConstantSourceOptions._(JSObject _) implements AudioNodeOptions,JSObject { // LARPOUX
-  external factory ConstantSourceOptions({num? offset});
+  external factory ConstantSourceOptions({num? offset}); // [LARPOUX]
 
   external double get offset;
   external set offset(num value);
@@ -890,11 +890,11 @@ extension type ConvolverNode._(JSObject _) implements AudioNode, JSObject {
 extension type ConvolverOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory ConvolverOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
     AudioBuffer? buffer,
-    bool? disableNormalization,
+    bool? disableNormalization, // [LARPOUX]
   });
 
   external AudioBuffer? get buffer;
@@ -933,11 +933,11 @@ extension type DelayNode._(JSObject _) implements AudioNode, JSObject {
 extension type DelayOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory DelayOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    num? maxDelayTime,
-    num? delayTime,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    num? maxDelayTime, // [LARPOUX]
+    num? delayTime, // [LARPOUX]
   });
 
   external double get maxDelayTime;
@@ -982,14 +982,14 @@ extension type DynamicsCompressorNode._(JSObject _)
 extension type DynamicsCompressorOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory DynamicsCompressorOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    num? attack,
-    num? knee,
-    num? ratio,
-    num? release,
-    num? threshold,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    num? attack, // [LARPOUX]
+    num? knee, // [LARPOUX]
+    num? ratio, // [LARPOUX]
+    num? release, // [LARPOUX]
+    num? threshold, // [LARPOUX]
   });
 
   external double get attack;
@@ -1032,10 +1032,10 @@ extension type GainNode._(JSObject _) implements AudioNode, JSObject {
 
 extension type GainOptions._(JSObject _) implements AudioNodeOptions, JSObject {
   external factory GainOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    num? gain,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    num? gain, // [LARPOUX]
   });
 
   external double get gain;
@@ -1076,9 +1076,9 @@ extension type IIRFilterNode._(JSObject _) implements AudioNode, JSObject {
 extension type IIRFilterOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory IIRFilterOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
     required JSArray<JSNumber> feedforward,
     required JSArray<JSNumber> feedback,
   });
@@ -1249,13 +1249,13 @@ extension type OscillatorNode._(JSObject _)
 extension type OscillatorOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory OscillatorOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    OscillatorType? type,
-    num? frequency,
-    num? detune,
-    PeriodicWave? periodicWave,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    OscillatorType? type, // [LARPOUX]
+    num? frequency, // [LARPOUX]
+    num? detune, // [LARPOUX]
+    PeriodicWave? periodicWave, // [LARPOUX]
   });
 
   external OscillatorType get type;
@@ -1328,23 +1328,23 @@ extension type PannerNode._(JSObject _) implements AudioNode, JSObject {
 extension type PannerOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory PannerOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    PanningModelType? panningModel,
-    DistanceModelType? distanceModel,
-    num? positionX,
-    num? positionY,
-    num? positionZ,
-    num? orientationX,
-    num? orientationY,
-    num? orientationZ,
-    num? refDistance,
-    num? maxDistance,
-    num? rolloffFactor,
-    num? coneInnerAngle,
-    num? coneOuterAngle,
-    num? coneOuterGain,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    PanningModelType? panningModel, // [LARPOUX]
+    DistanceModelType? distanceModel, // [LARPOUX]
+    num? positionX, // [LARPOUX]
+    num? positionY, // [LARPOUX]
+    num? positionZ, // [LARPOUX]
+    num? orientationX, // [LARPOUX]
+    num? orientationY, // [LARPOUX]
+    num? orientationZ, // [LARPOUX]
+    num? refDistance, // [LARPOUX]
+    num? maxDistance, // [LARPOUX]
+    num? rolloffFactor, // [LARPOUX]
+    num? coneInnerAngle, // [LARPOUX]
+    num? coneOuterAngle, // [LARPOUX]
+    num? coneOuterGain, // [LARPOUX]
   });
 
   external PanningModelType get panningModel;
@@ -1403,7 +1403,7 @@ extension type PeriodicWave._(JSObject _) implements JSObject {
 
 
 extension type PeriodicWaveConstraints._(JSObject _) implements JSObject {
-  external factory PeriodicWaveConstraints({bool? disableNormalization});
+  external factory PeriodicWaveConstraints({bool? disableNormalization}); // [LARPOUX]
 
   external bool get disableNormalization;
   external set disableNormalization(bool value);
@@ -1421,9 +1421,9 @@ extension type PeriodicWaveConstraints._(JSObject _) implements JSObject {
 extension type PeriodicWaveOptions._(JSObject _)
     implements PeriodicWaveConstraints, JSObject {
   external factory PeriodicWaveOptions({
-    bool? disableNormalization,
-    JSArray<JSNumber>? real,
-    JSArray<JSNumber>? imag,
+    bool? disableNormalization, // [LARPOUX]
+    JSArray<JSNumber>? real, // [LARPOUX]
+    JSArray<JSNumber>? imag, // [LARPOUX]
   });
 
   external JSArray<JSNumber> get real;
@@ -1477,10 +1477,10 @@ extension type StereoPannerNode._(JSObject _) implements AudioNode, JSObject {
 extension type StereoPannerOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory StereoPannerOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    num? pan,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    num? pan, // [LARPOUX]
   });
 
   external double get pan;
@@ -1501,8 +1501,8 @@ extension type WaveShaperNode._(JSObject _) implements AudioNode, JSObject {
     BaseAudioContext context, [
     WaveShaperOptions options,
   ]);
-  external JSFloat32Array? get curve;
-  external set curve(JSFloat32Array? value);
+  external JSFloat32Array get curve;
+  external set curve(JSFloat32Array value);
   external OverSampleType get oversample;
   external set oversample(OverSampleType value);
 }
@@ -1519,11 +1519,11 @@ extension type WaveShaperNode._(JSObject _) implements AudioNode, JSObject {
 extension type WaveShaperOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory WaveShaperOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    JSArray<JSNumber>? curve,
-    OverSampleType? oversample,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    JSArray<JSNumber>? curve, // [LARPOUX]
+    OverSampleType? oversample, // [LARPOUX]
   });
 
   external JSArray<JSNumber> get curve;
@@ -1587,14 +1587,14 @@ extension type AudioWorkletNode._(JSObject _) implements AudioNode, JSObject {
 extension type AudioWorkletNodeOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
   external factory AudioWorkletNodeOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    int? numberOfInputs,
-    int? numberOfOutputs,
-    JSArray<JSNumber>? outputChannelCount,
-    JSObject? parameterData,
-    JSObject? processorOptions,
+    int? channelCount, // [LARPOUX]
+    ChannelCountMode? channelCountMode, // [LARPOUX]
+    ChannelInterpretation? channelInterpretation, // [LARPOUX]
+    int? numberOfInputs, // [LARPOUX]
+    int? numberOfOutputs, // [LARPOUX]
+    JSArray<JSNumber>? outputChannelCount, // [LARPOUX]
+    JSObject? parameterData, // [LARPOUX]
+    JSObject? processorOptions, // [LARPOUX]
   });
 
   external int get numberOfInputs;

@@ -33,6 +33,7 @@ library;
 import 'dart:typed_data';
 import 'package:tau/tau.dart' as t;
 import 'tauweb_audio.dart' as j;
+//import 'webaudio.dart' as j;
 import 'tauweb_interop.dart';
 import 'dart:js_interop';
 import 'dart:html' as h;
@@ -58,12 +59,15 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
   ) => AudioBuffer.fromDelegate(getDelegate().createBuffer(numberOfChannels, length, sampleRate));
 
   AudioBufferSourceNode createBufferSource() => AudioBufferSourceNode.fromDelegate(getDelegate().createBufferSource());
-  ChannelMergerNode createChannelMerger([int? numberOfInputs]) => ChannelMergerNode.fromDelegate(getDelegate().createChannelMerger(numberOfInputs));
+  ChannelMergerNode createChannelMerger([int? numberOfInputs]) => numberOfInputs == null ? ChannelMergerNode.fromDelegate(getDelegate().createChannelMerger() ) :
+                   ChannelMergerNode.fromDelegate(getDelegate().createChannelMerger(numberOfInputs));
 
-  ChannelSplitterNode createChannelSplitter([int? numberOfOutputs]) => ChannelSplitterNode.fromDelegate(getDelegate().createChannelSplitter(numberOfOutputs));
+  ChannelSplitterNode createChannelSplitter([int? numberOfOutputs]) => numberOfOutputs == null ? ChannelSplitterNode.fromDelegate(getDelegate().createChannelSplitter()) :
+                   ChannelSplitterNode.fromDelegate(getDelegate().createChannelSplitter(numberOfOutputs));
   ConstantSourceNode createConstantSource() => ConstantSourceNode.fromDelegate(getDelegate().createConstantSource());
   ConvolverNode createConvolver() => ConvolverNode.fromDelegate(getDelegate().createConvolver());
-  DelayNode createDelay([num? maxDelayTime]) => DelayNode.fromDelegate(getDelegate().createDelay(maxDelayTime));
+  DelayNode createDelay([num? maxDelayTime]) => maxDelayTime == null ? DelayNode.fromDelegate(getDelegate().createDelay()) :
+           DelayNode.fromDelegate(getDelegate().createDelay(maxDelayTime));
   DynamicsCompressorNode createDynamicsCompressor() => DynamicsCompressorNode.fromDelegate(getDelegate().createDynamicsCompressor());
   GainNode createGain() => GainNode.fromDelegate(getDelegate().createGain());
 
@@ -79,13 +83,18 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
     t.TauArray<t.TauNumber> real,
     t.TauArray<t.TauNumber> imag, [
     t.PeriodicWaveConstraints? constraints,
-  ]) => PeriodicWave.fromDelegate(getDelegate().createPeriodicWave(Interop().jsArrayNumber(real), Interop().jsArrayNumber(imag), (constraints as PeriodicWaveConstraints).getDelegate()));
+  ]) =>
+      constraints == null ? PeriodicWave.fromDelegate(getDelegate().createPeriodicWave(Interop().jsArrayNumber(real), Interop().jsArrayNumber(imag))) :
+      PeriodicWave.fromDelegate(getDelegate().createPeriodicWave(Interop().jsArrayNumber(real), Interop().jsArrayNumber(imag), (constraints as PeriodicWaveConstraints).getDelegate()));
 
   ScriptProcessorNode createScriptProcessor([
     int? bufferSize,
     int? numberOfInputChannels,
     int? numberOfOutputChannels,
-  ]) => ScriptProcessorNode.fromDelegate(getDelegate().createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels));
+  ]) => bufferSize == null ? ScriptProcessorNode.fromDelegate(getDelegate().createScriptProcessor()) :
+        numberOfInputChannels == null ? ScriptProcessorNode.fromDelegate(getDelegate().createScriptProcessor(bufferSize)) :
+        numberOfOutputChannels == null ? ScriptProcessorNode.fromDelegate(getDelegate().createScriptProcessor(bufferSize, numberOfInputChannels)):
+        ScriptProcessorNode.fromDelegate(getDelegate().createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels));
 
   StereoPannerNode createStereoPanner() => StereoPannerNode.fromDelegate(getDelegate().createStereoPanner());
   WaveShaperNode createWaveShaper() => WaveShaperNode.fromDelegate(getDelegate().createWaveShaper());
@@ -120,7 +129,8 @@ class AudioContext extends BaseAudioContext implements t.AudioContext {
   j.AudioContext delegate;
   j.BaseAudioContext getDelegate() => delegate;
   /* ctor */ AudioContext.fromDelegate(this.delegate);
-  /* ctor */ AudioContext([t.AudioContextOptions? contextOptions]) : delegate = j.AudioContext((contextOptions as AudioContextOptions?)?.delegate);
+  /* ctor */ AudioContext([t.AudioContextOptions? contextOptions]) : delegate = contextOptions == null ? j.AudioContext() :
+       j.AudioContext((contextOptions as AudioContextOptions).delegate);
 
   AudioTimestamp getOutputTimestamp() => AudioTimestamp.fromDelegate(delegate.getOutputTimestamp());
   t.TauPromise<t.TauAny?> resume() => delegate.resume().toDart;
@@ -159,7 +169,8 @@ class AudioContextOptions implements t.AudioContextOptions {
     num? sampleRate,
     dynamic sinkId, // t.TauAny? sinkId,
     dynamic renderSizeHint, // t.TauAny? renderSizeHint,
-  }) : delegate = j.AudioContextOptions(latencyHint: latencyHint, sampleRate: sampleRate?.toJS, sinkId: sinkId, renderSizeHint: renderSizeHint);
+  }) : delegate = sampleRate == null ? j.AudioContextOptions(latencyHint: latencyHint, sinkId: sinkId, renderSizeHint: renderSizeHint) :
+      j.AudioContextOptions(latencyHint: latencyHint, sampleRate: sampleRate.toJS, sinkId: sinkId, renderSizeHint: renderSizeHint);
 
 
   t.TauAny get latencyHint => delegate.latencyHint;
@@ -239,7 +250,9 @@ class OfflineAudioContext extends BaseAudioContext implements t.OfflineAudioCont
   [
     int? length,
     num? sampleRate,
-  ])  : delegate = j. OfflineAudioContext(contextOptionsOrNumberOfChannels, length, sampleRate);
+  ])  : delegate = length == null ? j.OfflineAudioContext(contextOptionsOrNumberOfChannels) :
+     sampleRate == null ? j.OfflineAudioContext(contextOptionsOrNumberOfChannels, length) :
+     j.OfflineAudioContext(contextOptionsOrNumberOfChannels, length, sampleRate);
 
   t.TauPromise<AudioBuffer> startRendering() => delegate.startRendering().toDart.then( (e){ return AudioBuffer.fromDelegate(e);});
   t.TauPromise<t.TauAny?> resume() => delegate.resume().toDart;
@@ -369,11 +382,14 @@ class AudioBuffer implements t.AudioBuffer {
     t.TauFloat32Array destination,
     int channelNumber, [
     int? bufferOffset,
-  ]) => delegate.copyFromChannel(
-    destination.toJS,
-    channelNumber,
-    bufferOffset,
-  );
+  ]) => bufferOffset == null ? delegate.copyFromChannel(
+      destination.toJS,
+      channelNumber,) :
+    delegate.copyFromChannel(
+      destination.toJS,
+      channelNumber,
+      bufferOffset,
+    );
   void copyToChannel(
       t.TauFloat32Array source,
       int channelNumber, [
@@ -431,13 +447,18 @@ abstract class AudioNode implements t.AudioNode {
       [
     int? output,
     int? input,
-  ]) { getDelegate().connect((destinationNodeOrDestinationParam as AudioNode).getDelegate(), output, input); return destinationNodeOrDestinationParam;}
+  ]) { output == null ? getDelegate().connect((destinationNodeOrDestinationParam as AudioNode).getDelegate()) :
+        input == null ? getDelegate().connect((destinationNodeOrDestinationParam as AudioNode).getDelegate(), output,) :
+                        getDelegate().connect((destinationNodeOrDestinationParam as AudioNode).getDelegate(), output, input);
+      return destinationNodeOrDestinationParam;}
   void disconnect([
     // !!!! The DestinationParamOrOutput case is not handled
     t.AudioNode? destinationNodeOrDestinationParamOrOutput, // t.TauAny? destinationNodeOrDestinationParamOrOutput,
     int? output,
     int? input,
-  ]) => getDelegate().disconnect((destinationNodeOrDestinationParamOrOutput as AudioNode?)?.getDelegate(), output, input);
+  ]) => output == null ? getDelegate().disconnect((destinationNodeOrDestinationParamOrOutput as AudioNode).getDelegate()) :
+         input == null ? getDelegate().disconnect((destinationNodeOrDestinationParamOrOutput as AudioNode).getDelegate(), output,) :
+                         getDelegate().disconnect((destinationNodeOrDestinationParamOrOutput as AudioNode).getDelegate(), output, input);
   BaseAudioContext get context => AudioContext.fromDelegate(getDelegate().context as j.AudioContext);
   int get numberOfInputs => getDelegate().numberOfInputs;
   int get numberOfOutputs => getDelegate().numberOfOutputs;
@@ -562,9 +583,9 @@ abstract class AudioScheduledSourceNode extends AudioNode implements t.AudioSche
   t.EventHandler _onEnded = (){};
   j.AudioScheduledSourceNode getDelegate();
 
-  void start([num? when]) => getDelegate().start(when);
+  void start([num? when]) => when == null ?  getDelegate().start() : getDelegate().start(when);
 
-  void stop([num? when]) => getDelegate().stop(when);
+  void stop([num? when]) => when == null ? getDelegate().stop() : getDelegate().stop(when);
 
 
   t.EventHandler get onended => _onEnded;
@@ -592,7 +613,7 @@ class AnalyserNode extends AudioNode implements t.AnalyserNode {
   /* ctor */ AnalyserNode(
     t.BaseAudioContext context, [
     t.AnalyserOptions? options,
-  ]) : delegate = j.AnalyserNode((context as AudioContext).delegate, (options as AnalyserOptions).delegate);
+  ]) : delegate = options == null ? j.AnalyserNode((context as AudioContext).delegate) : j.AnalyserNode((context as AudioContext).delegate, (options! as AnalyserOptions).delegate);
 
   void getFloatFrequencyData(t.TauFloat32Array array) => delegate.getFloatFrequencyData(array.toJS);
   void getByteFrequencyData(t.TauUint8Array array) => delegate.getByteFrequencyData(array.toJS);
@@ -669,16 +690,20 @@ class AudioBufferSourceNode extends AudioScheduledSourceNode implements t.AudioB
   /* ctor */ AudioBufferSourceNode(
     t.BaseAudioContext context, [
     t.AudioBufferSourceOptions? options,
-  ]) : delegate = j.AudioBufferSourceNode((context as AudioContext).delegate, (options as AudioBufferSourceOptions).delegate);
+  ]) : delegate = options == null ? j.AudioBufferSourceNode((context as AudioContext).delegate) :
+          j.AudioBufferSourceNode((context as AudioContext).delegate, (options as AudioBufferSourceOptions).delegate);
 
   void start([
     num? when,
     num? offset,
     num? duration,
-  ]) => delegate.start(when, offset, null /* !!! LARPOUX, duration */);
+  ]) =>  when == null ? delegate.start() :
+       offset == null ? delegate.start(when,):
+     duration == null ? delegate.start(when, offset,) :
+                        delegate.start(when, offset, duration);
 
   AudioBuffer? get buffer => delegate.buffer == null ? null : AudioBuffer.fromDelegate(delegate.buffer!);
-  set buffer(t.AudioBuffer? value) => delegate.buffer = (value as AudioBuffer).delegate;
+  set buffer(t.AudioBuffer? value) => delegate.buffer = (value as AudioBuffer?)?.delegate;
   AudioParam get playbackRate => AudioParam.fromDelegate(delegate.playbackRate);
   AudioParam get detune => AudioParam.fromDelegate(delegate.detune);
   bool get loop => delegate.loop;
@@ -712,7 +737,7 @@ class AudioBufferSourceOptions implements t.AudioBufferSourceOptions {
     num? loopStart,
     num? playbackRate,
   }) : delegate = j.AudioBufferSourceOptions(
-    buffer: (buffer as AudioBuffer)?.delegate,
+    buffer: (buffer as AudioBuffer?)?.delegate,
     detune: detune,
     loop: loop,
     loopEnd: loopEnd,
@@ -721,7 +746,7 @@ class AudioBufferSourceOptions implements t.AudioBufferSourceOptions {
   );
 
   AudioBuffer? get buffer => delegate.buffer == null ? null : AudioBuffer.fromDelegate(delegate.buffer!);
-  set buffer(t.AudioBuffer? value) => delegate.buffer = (value as AudioBuffer).delegate;
+  set buffer(t.AudioBuffer? value) => delegate.buffer = (value as AudioBuffer?)?.delegate;
   double get detune => delegate.detune;
   set detune(num value) => delegate.detune = value;
   bool get loop => delegate.loop;
@@ -880,7 +905,8 @@ class BiquadFilterNode extends AudioNode implements t.BiquadFilterNode {
   /* ctor */ BiquadFilterNode(
     t.BaseAudioContext context, [
     t.BiquadFilterOptions? options,
-  ]) : delegate = j.BiquadFilterNode((context as BaseAudioContext).getDelegate(), (options as BiquadFilterOptions).delegate);
+  ]) : delegate = options == null ? j.BiquadFilterNode((context as BaseAudioContext).getDelegate()) :
+              j.BiquadFilterNode((context as BaseAudioContext).getDelegate(), (options as BiquadFilterOptions).delegate);
 
   void getFrequencyResponse(
     t.TauFloat32Array frequencyHz,
@@ -960,7 +986,8 @@ class ChannelMergerNode extends AudioNode implements t.ChannelMergerNode {
   /* ctor */ ChannelMergerNode(
     t.BaseAudioContext context, [
     t.ChannelMergerOptions? options,
-  ]) : delegate = j.ChannelMergerNode((context as BaseAudioContext).getDelegate(), (options as ChannelMergerOptions).delegate);
+  ]) : delegate = options == null ? j.ChannelMergerNode((context as BaseAudioContext).getDelegate()) :
+                 j.ChannelMergerNode((context as BaseAudioContext).getDelegate(), (options as ChannelMergerOptions).delegate);
 
 }
 
@@ -1013,7 +1040,8 @@ class ChannelSplitterNode extends AudioNode implements t.ChannelSplitterNode {
   /* ctor */ ChannelSplitterNode(
     t.BaseAudioContext context, [
     t.ChannelSplitterOptions? options,
-  ]) : delegate = j.ChannelSplitterNode((context as BaseAudioContext).getDelegate(), (options as ChannelSplitterOptions).delegate);
+  ]) : delegate = options == null ? j.ChannelSplitterNode((context as BaseAudioContext).getDelegate()) :
+       j.ChannelSplitterNode((context as BaseAudioContext).getDelegate(), (options as ChannelSplitterOptions).delegate);
 
 
 }
@@ -1069,7 +1097,8 @@ class ConstantSourceNode extends AudioScheduledSourceNode implements t.ConstantS
   /* ctor */ ConstantSourceNode(
     t.BaseAudioContext context, [
     t.ConstantSourceOptions? options,
-  ]) : delegate = j.ConstantSourceNode((context as BaseAudioContext).getDelegate(), (options as ConstantSourceOptions).delegate);
+  ]) : delegate = options == null ? j.ConstantSourceNode((context as BaseAudioContext).getDelegate()) :
+                   j.ConstantSourceNode((context as BaseAudioContext).getDelegate(), (options as ConstantSourceOptions).delegate);
 
   AudioParam get offset => AudioParam.fromDelegate(delegate.offset);
 }
@@ -1115,10 +1144,11 @@ class ConvolverNode extends AudioNode implements t.ConvolverNode {
   /* ctor */ ConvolverNode(
     t.BaseAudioContext context, [
     t.ConvolverOptions? options,
-  ]) : delegate = j.ConvolverNode((context as BaseAudioContext).getDelegate(), (options as ConvolverOptions).delegate);
+  ]) : delegate = options == null ? j.ConvolverNode((context as BaseAudioContext).getDelegate()) :
+            j.ConvolverNode((context as BaseAudioContext).getDelegate(), (options as ConvolverOptions).delegate);
 
   AudioBuffer? get buffer => delegate.buffer == null ? null : AudioBuffer.fromDelegate(delegate.buffer!);
-  set buffer(t.AudioBuffer? value) => delegate.buffer = (value as AudioBuffer).delegate;
+  set buffer(t.AudioBuffer? value) => delegate.buffer = (value as AudioBuffer?)?.delegate;
   bool get normalize => delegate.normalize;
   set normalize(bool value) => delegate.normalize = value;
 }
@@ -1153,7 +1183,7 @@ class ConvolverOptions extends AudioNodeOptions implements t.ConvolverOptions {
   );
 
   AudioBuffer? get buffer => delegate.buffer == null ? null : AudioBuffer.fromDelegate(delegate.buffer!);
-  set buffer(t.AudioBuffer? value) => delegate.buffer = (value as AudioBuffer).delegate;
+  set buffer(t.AudioBuffer? value) => delegate.buffer = (value as AudioBuffer?)?.delegate;
   bool get disableNormalization => delegate.disableNormalization;
   set disableNormalization(bool value) => delegate.disableNormalization = value;
 }
@@ -1177,7 +1207,8 @@ class DelayNode extends AudioNode implements t.DelayNode {
   /* ctor */ DelayNode(
     t.BaseAudioContext context, [
     t.DelayOptions? options,
-  ]) : delegate = j.DelayNode((context as BaseAudioContext).getDelegate(), (options as DelayOptions).delegate);
+  ]) : delegate = options == null ? j.DelayNode((context as BaseAudioContext).getDelegate()) :
+        j.DelayNode((context as BaseAudioContext).getDelegate(), (options as DelayOptions).delegate);
 
   AudioParam get delayTime => AudioParam.fromDelegate(delegate.delayTime);
 }
@@ -1235,7 +1266,8 @@ class DynamicsCompressorNode extends AudioNode implements t.DynamicsCompressorNo
   /* ctor */ DynamicsCompressorNode(
     t.BaseAudioContext context, [
     t.DynamicsCompressorOptions? options,
-  ]) : delegate = j.DynamicsCompressorNode((context as BaseAudioContext).getDelegate(), (options as DynamicsCompressorOptions).delegate);
+  ]) : delegate = options == null ? j.DynamicsCompressorNode((context as BaseAudioContext).getDelegate()) :
+         j.DynamicsCompressorNode((context as BaseAudioContext).getDelegate(), (options as DynamicsCompressorOptions).delegate);
 
   AudioParam get threshold => AudioParam.fromDelegate(delegate.threshold);
   AudioParam get knee => AudioParam.fromDelegate(delegate.knee);
@@ -1312,7 +1344,8 @@ class GainNode extends AudioNode implements t.GainNode{
   /* ctor */ GainNode(
     t.BaseAudioContext context, [
     t.GainOptions? options,
-  ]) : delegate = j.GainNode((context as BaseAudioContext).getDelegate(), (options as GainOptions).delegate);
+  ]) : delegate = options == null ? j.GainNode((context as BaseAudioContext).getDelegate()) :
+       j.GainNode((context as BaseAudioContext).getDelegate(), (options as GainOptions).delegate);
 
   AudioParam get gain => AudioParam.fromDelegate(delegate.gain);
 }
@@ -1487,7 +1520,8 @@ class MediaStreamAudioDestinationNode extends AudioNode implements t.MediaStream
   /* ctor */ MediaStreamAudioDestinationNode(
     t.AudioContext context, [
     t.AudioNodeOptions? options,
-  ]) : delegate = j.MediaStreamAudioDestinationNode((context as AudioContext).delegate, (options as AudioNodeOptions).getDelegate());
+  ]) : delegate = options == null ? j.MediaStreamAudioDestinationNode((context as AudioContext).delegate) :
+        j.MediaStreamAudioDestinationNode((context as AudioContext).delegate, (options as AudioNodeOptions).getDelegate());
 
   t.MediaStream get stream => MediaStream.fromDelegate(delegate.stream);
 }
@@ -1608,7 +1642,8 @@ class OscillatorNode extends AudioScheduledSourceNode implements t.OscillatorNod
   /* ctor */ OscillatorNode(
     t.BaseAudioContext context, [
     t.OscillatorOptions? options,
-  ]) : delegate = j.OscillatorNode((context as AudioContext).delegate, (options as OscillatorOptions).delegate);
+  ]) : delegate = options == null ? j.OscillatorNode((context as AudioContext).delegate) :
+        j.OscillatorNode((context as AudioContext).delegate, (options as OscillatorOptions).delegate);
 
   void setPeriodicWave(t.PeriodicWave periodicWave) => delegate.setPeriodicWave((periodicWave as PeriodicWave).delegate);
   t.OscillatorType get type => delegate.type;
@@ -1651,7 +1686,7 @@ class OscillatorOptions extends AudioNodeOptions implements t.OscillatorOptions 
     type: type,
     frequency: frequency,
     detune: detune,
-    periodicWave: (periodicWave as PeriodicWave).delegate,
+    periodicWave: (periodicWave as PeriodicWave?)?.delegate,
   );
 
   t.OscillatorType get type => delegate.type;
@@ -1684,7 +1719,8 @@ class PannerNode extends AudioNode implements t.PannerNode {
   /* ctor */ PannerNode(
     t.BaseAudioContext context, [
     t.PannerOptions? options,
-  ]) : delegate = j.PannerNode((context as AudioContext).delegate, (options as PannerOptions).delegate);
+  ]) : delegate = options == null ? j.PannerNode((context as AudioContext).delegate) :
+              j.PannerNode((context as AudioContext).delegate, (options as PannerOptions).delegate);
 
    void setPosition(
     num x,
@@ -1829,7 +1865,8 @@ class PeriodicWave implements t.PeriodicWave {
   /* ctor */ PeriodicWave(
     t.BaseAudioContext context, [
     t.PeriodicWaveOptions? options,
-  ]) : delegate = j.PeriodicWave((context as AudioContext).delegate, (options as PeriodicWaveOptions).delegate);
+  ]) : delegate = options == null ? j.PeriodicWave((context as AudioContext).delegate) :
+         j.PeriodicWave((context as AudioContext).delegate, (options as PeriodicWaveOptions).delegate);
 
 }
 
@@ -1942,7 +1979,8 @@ class StereoPannerNode extends AudioNode implements t.StereoPannerNode {
   /* ctor */ StereoPannerNode(
     t.BaseAudioContext context, [
     t.StereoPannerOptions? options,
-  ]) : delegate = j.StereoPannerNode((context as AudioContext).delegate, (options as StereoPannerOptions).delegate);
+  ]) : delegate = options == null ? j.StereoPannerNode((context as AudioContext).delegate) :
+        j.StereoPannerNode((context as AudioContext).delegate, (options as StereoPannerOptions).delegate);
 
   AudioParam get pan => AudioParam.fromDelegate(delegate.pan);
 }
@@ -1999,10 +2037,11 @@ class WaveShaperNode extends AudioNode implements t.WaveShaperNode {
   /* ctor */ WaveShaperNode(
     t.BaseAudioContext context, [
     t.WaveShaperOptions? options,
-  ]) :delegate = j.WaveShaperNode((context as AudioContext).delegate, (options as WaveShaperOptions).delegate);
+  ]) : delegate = options == null ? j.WaveShaperNode((context as AudioContext).delegate) :
+        j.WaveShaperNode((context as AudioContext).delegate, (options as WaveShaperOptions).delegate);
 
-  t.TauFloat32Array? get curve => delegate.curve?.toDart;
-  set curve(t.TauFloat32Array? value) => delegate.curve = value?.toJS;
+  t.TauFloat32Array get curve => delegate.curve.toDart;
+  set curve(t.TauFloat32Array value) => delegate.curve = value.toJS;
   t.OverSampleType get oversample => delegate.oversample;
   set oversample(t.OverSampleType value) => delegate.oversample = value;
 }
@@ -2132,7 +2171,8 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
     t.BaseAudioContext context,
     String name, [
     t.AudioWorkletNodeOptions? options,
-  ]) : delegate = j.AudioWorkletNode((context as AudioContext).delegate, name, (options as AudioWorkletNodeOptions).delegate);
+  ]) : delegate = options == null ? j.AudioWorkletNode((context as AudioContext).delegate, name) :
+       j.AudioWorkletNode((context as AudioContext).delegate, name, (options as AudioWorkletNodeOptions).delegate);
 
 
   t.AudioParamMap get parameters => AudioParamMap.fromDelegate(delegate.parameters);
@@ -2152,7 +2192,7 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 
 
 // =================================================================================================
-//                          Added because of Tau_waweb
+//                          Added because of Tau_web
 // =================================================================================================
 
 
@@ -2167,6 +2207,11 @@ class MediaStream implements t.MediaStream
 }
 
 
+
+// ------------------------------------------------------------------------------------------------------------------
+
+
+
 class MediaStreamTrack implements t.MediaStreamTrack
 {
   w.MediaStreamTrack delegate;
@@ -2178,6 +2223,11 @@ class MediaStreamTrack implements t.MediaStreamTrack
 // !!!Missing many methods, here
 
 }
+
+
+// ------------------------------------------------------------------------------------------------------------------
+
+
 
 /*
 class Worklet implements t.Worklet
@@ -2191,6 +2241,11 @@ class Worklet implements t.Worklet
 }
 */
 
+
+// ------------------------------------------------------------------------------------------------------------------
+
+
+
 /*
 class WorkletGlobalScope implements t.WorkletGlobalScope
 {
@@ -2202,6 +2257,11 @@ class WorkletGlobalScope implements t.WorkletGlobalScope
 
 }
  */
+
+
+// ------------------------------------------------------------------------------------------------------------------
+
+
 
 class MessagePort implements t.MessagePort
 {
@@ -2226,6 +2286,11 @@ class ProcessorOptions  implements t.ProcessorOptions
 }
 
 
+// ------------------------------------------------------------------------------------------------------------------
+
+
+
+
 class ParameterData  implements t.ParameterData
 {
 
@@ -2234,6 +2299,11 @@ class ParameterData  implements t.ParameterData
 
 
  */
+
+
+
+// ------------------------------------------------------------------------------------------------------------------
+
 
 
 

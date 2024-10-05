@@ -17,16 +17,24 @@
  */
 
 import 'dart:js_interop';
+import 'tauweb_audio.dart' as j;
+import 'tauweb_implementation.dart' as i;
+import 'tauweb_class.dart' as c;
+import 'package:web/web.dart' as w;
+import 'dart:js_interop' as p;
 
-class Interop
-{
+
+class Interop {
+
+
+        JSPromise<JSObject>? totofut;
         static final Interop _singleton = Interop._internal();
         
         factory Interop() {
                 return _singleton;
         }
   
-        Interop._internal();
+        Interop._internal() ;
 
 
         JSArray<JSNumber> jsArrayNumber(List<num> listNum)
@@ -46,5 +54,42 @@ class Interop
                         r.add(l[i].toDartDouble);
                 }
                 return r;
+        }
+
+               // The Audio Context
+        late j.AudioContext audioCtx;
+      
+        // The three nodes
+        j.MediaElementAudioSourceNode? source;
+        j.StereoPannerNode? pannerNode;
+        j.AudioDestinationNode? dest;
+      
+        w.HTMLAudioElement? audioElt;
+
+        void toto()
+        {
+                        audioElt = w.HTMLAudioElement( );
+                        audioElt!.src = 'https://flutter-sound.canardoux.xyz/extract/05.mp3';
+                        
+                        audioCtx = j.AudioContext();
+                        dest = audioCtx.destination;
+                        source =  audioCtx.createMediaElementSource(audioElt!);
+                        dest = audioCtx.destination;
+                        pannerNode = audioCtx.createStereoPanner();
+                        source!.connect(pannerNode!);
+                        pannerNode!.connect(dest!);
+
+                        //audioElt!.src = 'https://flutter-sound.canardoux.xyz/extract/05.mp3';
+                        //audioElt.crossorigin = 'anonymous';
+                        //MediaElementAudioSourceOptions opt = Tau().newMediaElementAudioSourceOptions(mediaElement: audioElt);
+                        //opt.mediaElement = audioElt;
+                        //source = Tau().newMediaElementAudioSourceNode(audioCtx, opt);
+                        //source =  audioCtx.createMediaElementSource(audioElt!);
+                        //pannerNode!.pan.value = pannerValue;
+                        //source!.connect(pannerNode!);
+                        //pannerNode!.connect(dest!);
+
+                        audioElt!.play();
+
         }
 }

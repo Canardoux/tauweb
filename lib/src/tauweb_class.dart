@@ -36,8 +36,13 @@ import 'tauweb_audio.dart' as j;
 //import 'webaudio.dart' as j;
 import 'tauweb_interop.dart';
 import 'dart:js_interop';
-import 'dart:html' as h;
+//import 'dart:html' as h;
 import 'package:web/web.dart' as w;
+
+
+typedef TauSampleRate = double;
+typedef TauTime = double;
+
 
 // ------------------------------------------------------------------------------------------------------------------
 
@@ -55,7 +60,7 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
   AudioBuffer createBuffer(
     int numberOfChannels,
     int length,
-    num sampleRate,
+    TauSampleRate sampleRate,
   ) => AudioBuffer.fromDelegate(getDelegate().createBuffer(numberOfChannels, length, sampleRate));
 
   AudioBufferSourceNode createBufferSource() => AudioBufferSourceNode.fromDelegate(getDelegate().createBufferSource());
@@ -106,7 +111,7 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
   ]) => getDelegate().decodeAudioData(audioData.toJS, successCallback?.toJS, errorCallback?.toJS).toDart.then( (e){ return AudioBuffer.fromDelegate(e);});
 
   AudioDestinationNode get destination => AudioDestinationNode.fromDelegate(getDelegate().destination);
-  double get sampleRate => getDelegate().sampleRate;
+  TauSampleRate get sampleRate => getDelegate().sampleRate;
   double get currentTime => getDelegate().currentTime;
   AudioListener get listener => AudioListener.fromDelegate(getDelegate().listener);
   t.AudioContextState get state => getDelegate().state;
@@ -146,7 +151,7 @@ class AudioContext extends BaseAudioContext implements t.AudioContext {
 
 
 // =================================================================================================
-//                          Added specific to Tau
+//                          Added specific to τ
 // =================================================================================================
 
   void dispose(){}
@@ -166,7 +171,7 @@ class AudioContextOptions implements t.AudioContextOptions {
   /* ctor */ AudioContextOptions.fromDelegate(this.delegate);
   /* ctor */ AudioContextOptions({
     dynamic latencyHint, // t.TauAny? latencyHint,
-    num? sampleRate,
+    TauSampleRate? sampleRate,
     dynamic sinkId, // t.TauAny? sinkId,
     dynamic renderSizeHint, // t.TauAny? renderSizeHint,
   }) : delegate = sampleRate == null ? j.AudioContextOptions(latencyHint: latencyHint, sinkId: sinkId, renderSizeHint: renderSizeHint) :
@@ -175,8 +180,8 @@ class AudioContextOptions implements t.AudioContextOptions {
 
   t.TauAny get latencyHint => delegate.latencyHint;
   set latencyHint(dynamic /*t.TauAny*/ value) => delegate.latencyHint = value;
-  double get sampleRate => delegate.sampleRate;
-  set sampleRate(num value) => delegate.sampleRate = value;
+  TauSampleRate get sampleRate => delegate.sampleRate;
+  set sampleRate(TauSampleRate value) => delegate.sampleRate = value;
   t.TauAny get sinkId => delegate.sinkId;
   set sinkId(dynamic /*t.TauAny*/ value) => delegate.sinkId = value;
   t.TauAny get renderSizeHint => delegate.renderSizeHint;
@@ -249,7 +254,7 @@ class OfflineAudioContext extends BaseAudioContext implements t.OfflineAudioCont
     dynamic contextOptionsOrNumberOfChannels, // t.TauAny contextOptionsOrNumberOfChannels,
   [
     int? length,
-    num? sampleRate,
+    TauSampleRate? sampleRate,
   ])  : delegate = length == null ? j.OfflineAudioContext(contextOptionsOrNumberOfChannels) :
      sampleRate == null ? j.OfflineAudioContext(contextOptionsOrNumberOfChannels, length) :
      j.OfflineAudioContext(contextOptionsOrNumberOfChannels, length, sampleRate);
@@ -291,7 +296,7 @@ class OfflineAudioContextOptions implements t.OfflineAudioContextOptions {
   /* ctor */  OfflineAudioContextOptions({
     int? numberOfChannels,
     required int length,
-    required num sampleRate,
+    required TauSampleRate sampleRate,
     dynamic renderSizeHint, // t.TauAny? renderSizeHint,
   }) : delegate = j.OfflineAudioContextOptions(
     numberOfChannels: numberOfChannels,
@@ -304,8 +309,8 @@ class OfflineAudioContextOptions implements t.OfflineAudioContextOptions {
   set numberOfChannels(int value) => delegate.numberOfChannels = value;
   int get length =>  delegate.length;
   set length(int value) => delegate.length = value;
-  double get sampleRate => delegate.sampleRate;
-  set sampleRate(num value) => delegate.sampleRate = value;
+  TauSampleRate get sampleRate => delegate.sampleRate;
+  set sampleRate(TauSampleRate value) => delegate.sampleRate = value;
   t.TauAny get renderSizeHint => delegate.renderSizeHint;
   set renderSizeHint(dynamic /*t.TauAny*/ value) => delegate.renderSizeHint = value;
 }
@@ -396,7 +401,7 @@ class AudioBuffer implements t.AudioBuffer {
       int? bufferOffset,
       ]) => copyToChannel(source, channelNumber, bufferOffset);
 
-  double get sampleRate => delegate.sampleRate;
+  TauSampleRate get sampleRate => delegate.sampleRate;
   int get length => delegate.length;
   double get duration => delegate.duration;
   int get numberOfChannels => delegate.numberOfChannels;
@@ -419,15 +424,15 @@ class AudioBufferOptions implements t.AudioBufferOptions {
   /* ctor */ AudioBufferOptions({
     int? numberOfChannels,
     required int length,
-    required num sampleRate,
+    required TauSampleRate sampleRate,
   }) : delegate = j.AudioBufferOptions(numberOfChannels: numberOfChannels, length: length, sampleRate: sampleRate);
 
   int get numberOfChannels => delegate.numberOfChannels;
   set numberOfChannels(int value) => delegate.numberOfChannels = value;
   int get length => delegate.length;
   set length(int value) => delegate.length = value;
-  double get sampleRate => delegate.sampleRate;
-  set sampleRate(num value) => delegate.sampleRate = value;
+  TauSampleRate get sampleRate => delegate.sampleRate;
+  set sampleRate(TauSampleRate value) => delegate.sampleRate = value;
 }
 
 
@@ -2122,7 +2127,7 @@ class AudioWorkletGlobalScope implements t.AudioWorkletGlobalScope {
   
   int get currentFrame => delegate.currentFrame;
   double get currentTime => delegate.currentTime;
-  double get sampleRate => delegate.sampleRate;
+  TauSampleRate get sampleRate => delegate.sampleRate;
 }
 
 
@@ -2374,12 +2379,33 @@ class AudioWorkletProcessor implements t.AudioWorkletProcessor {
 
 
 
+
 class MediaElement implements t.MediaElement
 {
   w.HTMLAudioElement delegate;
   w.HTMLAudioElement getDelegate() => delegate;
 
   /* ctor */ MediaElement.fromDelegate(this.delegate);
-  /* ctor */ MediaElement() : delegate = w.HTMLAudioElement();
+  /* ctor */ MediaElement({required String src, }) : delegate = w.HTMLAudioElement() {delegate.src = src; }
+  TauTime get currentTime => delegate.currentTime as double;
+  set currentTime(TauTime currentTime) => delegate.currentTime = currentTime;
+  bool get loop => delegate.loop;
+  set loop(bool loop) => delegate.loop = loop;
+  //play() => delegate.play().toDart;
+  t.TauPromise<void> play() => delegate.play().toDart.then ( (e){ 
+    return null;
+  });
+  pause() => delegate.pause();
+  bool paused() => delegate.paused;
+  TauSampleRate get playbackRate => delegate.playbackRate as double;
+  set playbackRate(TauSampleRate playbackRate) => delegate.playbackRate = playbackRate;
+  //t.EventHandler?  get onplay => delegate.onplay?.toDart as t.EventHandler;
+  set onplay(t.EventHandler? f) => delegate.onplay = f?.toJS;
+
+  String get src => delegate.src;
+  set src(String src) => delegate.src = src;
+  String? get crossorigin => delegate.crossOrigin;
+  set crossorigin(String? crossorigin) => delegate.crossOrigin = crossorigin;
 
 }
+

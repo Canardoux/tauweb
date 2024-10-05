@@ -18,13 +18,37 @@
 
 import 'package:tau/tau.dart';
 import 'tauweb_class.dart' as c;
+import 'package:web/web.dart' as w;
+import 'dart:js_interop';
+
+
+extension type TauwebJS._(JSObject _) implements JSObject {
+        external factory TauwebJS();
+
+        external static int papa();
+}
+
 
 class TauwebImplementation implements TauInterface
 {
-
   static final TauwebImplementation _singleton = TauwebImplementation._internal();
   factory TauwebImplementation() => _singleton;
-  TauwebImplementation._internal();
+
+
+        static int papa() => TauwebJS.papa();
+        
+        TauwebImplementation._internal() {
+        }
+
+
+  @override
+  Future<void> init() async {
+    await importModule("./js/tauweb.js".toJS,).toDart;
+
+    //int xxx = TauwebJS.papa();
+    //print(xxx);
+
+  }
 
 
 
@@ -36,7 +60,7 @@ class TauwebImplementation implements TauInterface
 
   AudioContextOptions newAudioContextOptions({
     TauAny? latencyHint,
-    num? sampleRate,
+    TauSampleRate? sampleRate,
     TauAny? sinkId,
     TauAny? renderSizeHint,
   }) => c.AudioContextOptions(latencyHint: latencyHint, sampleRate: sampleRate, sinkId: sinkId, renderSizeHint: renderSizeHint);
@@ -57,7 +81,7 @@ class TauwebImplementation implements TauInterface
   OfflineAudioContext newOfflineAudioContext(
     TauAny contextOptionsOrNumberOfChannels, [
     int? length,
-    num? sampleRate,
+    TauSampleRate? sampleRate,
   ]) => c.OfflineAudioContext(contextOptionsOrNumberOfChannels, length, sampleRate);
 
 
@@ -67,7 +91,7 @@ class TauwebImplementation implements TauInterface
   OfflineAudioContextOptions newOfflineAudioContextOptions({
     int? numberOfChannels,
     required int length,
-    required num sampleRate,
+    required TauSampleRate sampleRate,
     TauAny? renderSizeHint,
   }) => c.OfflineAudioContextOptions(
     numberOfChannels: numberOfChannels,
@@ -103,7 +127,7 @@ class TauwebImplementation implements TauInterface
   AudioBufferOptions newAudioBufferOptions({
     int? numberOfChannels,
     required int length,
-    required num sampleRate,
+    required TauSampleRate sampleRate,
   }) => c.AudioBufferOptions(numberOfChannels: numberOfChannels, length: length, sampleRate: sampleRate);
 
 
@@ -702,5 +726,6 @@ class TauwebImplementation implements TauInterface
 
  // MessagePort newMessagePort() => c.MessagePort();
 
+ MediaElement newMediaElement({required String src, }) => c.MediaElement(src: src, );
 
 }

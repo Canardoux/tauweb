@@ -13,7 +13,11 @@ dependencies:
   tau: # ^9.15.61
     path: ../tau # tauwa Dir
   web: ^1.0.0
-
+  #import_js_library: ^1.0.1
+  #flutter_js: ^0.8.1 
+  #js: ^0.6.0
+  #dart:js_interop
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -55,3 +59,6 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/to/font-from-package
+
+#  assets:
+#  - js/tauweb.js

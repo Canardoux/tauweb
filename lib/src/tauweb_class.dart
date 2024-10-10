@@ -2201,6 +2201,8 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 // =================================================================================================
 
 
+
+
 class MediaStream implements t.MediaStream
 {
   w.MediaStream delegate;
@@ -2209,8 +2211,8 @@ class MediaStream implements t.MediaStream
   /* ctor */ MediaStream.fromDelegate(this.delegate);
   /* ctor */ MediaStream() : delegate = w.MediaStream();
 
+  /* ctor */ //MediaStream({ bool audio = true, bool video = true}) : delegate = w.window.navigator.mediaDevices.getUserMedia(w.MediaStreamConstraints(  audio: true.toJS)).toDart;;
 }
-
 
 
 // ------------------------------------------------------------------------------------------------------------------
@@ -2283,7 +2285,6 @@ class MessagePort implements t.MessagePort
 // ------------------------------------------------------------------------------------------------------------------
 
 
-/*
 
 class ProcessorOptions  implements t.ProcessorOptions
 {
@@ -2303,7 +2304,6 @@ class ParameterData  implements t.ParameterData
 
 
 
- */
 
 
 
@@ -2409,3 +2409,36 @@ class MediaElement implements t.MediaElement
 
 }
 
+
+// ------------------------------------------------------------------------------------------------------------------
+
+
+
+class MediaDevices implements t.MediaDevices
+{
+  late w.MediaDevices delegate;
+  /* ctor */ MediaDevices.fromDelegate(this.delegate);
+  /* ctor */ MediaDevices() : delegate =  w.window.navigator.mediaDevices;
+
+  Future<MediaStream> getUserMedia({ bool audio = true, bool video = true}) async {
+    var l = await delegate
+        .getUserMedia(_mediaConstraints(audio: audio, video: video))
+        .toDart;
+    return MediaStream.fromDelegate(l);
+  }
+
+    w.MediaStreamConstraints _mediaConstraints({bool audio = true, bool video = false}) =>
+        audio == null ?(video == null ?  w.MediaStreamConstraints() : w.MediaStreamConstraints( video: true.toJS))
+            : (video == null ?  w.MediaStreamConstraints( audio: true.toJS) : w.MediaStreamConstraints( audio: true.toJS, video: true.toJS) );
+
+    Future<List<t.MediaDeviceInfo>> enumerateDevices() async
+    {
+      var dev = await delegate.enumerateDevices().toDart;
+      List<t.MediaDeviceInfo> r = [];
+      for (var info in dev.toDart)
+      {
+        r.add(t.MediaDeviceInfo());
+      }
+      return r;
+    }
+}

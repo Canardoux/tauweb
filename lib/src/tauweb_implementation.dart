@@ -16,17 +16,19 @@
  * along with τ.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import 'dart:async';
 import 'package:tau/tau.dart';
 import 'tauweb_class.dart' as c;
 import 'package:web/web.dart' as w;
 import 'dart:js_interop';
-
+import 'package:tau/tau.dart' as i show MediaDevices;
 
 extension type TauwebJS._(JSObject _) implements JSObject {
         external factory TauwebJS();
 
-        external static int papa();
+        //external static int papa();
 }
+
 
 
 class TauwebImplementation implements TauInterface
@@ -35,19 +37,87 @@ class TauwebImplementation implements TauInterface
   factory TauwebImplementation() => _singleton;
 
 
-        static int papa() => TauwebJS.papa();
-        
-        TauwebImplementation._internal() {
-        }
+  //static int papa() => TauwebJS.papa();
 
+  TauwebImplementation._internal() {
+  }
+
+  @override MediaDevices getDevices() => c.MediaDevices();
 
   @override
   Future<void> init() async {
     await importModule("./js/tauweb.js".toJS,).toDart;
+    /***************** 
+    var nav = w.window.navigator;
+    //var nav2 = h.window.navigator;
+    w.MediaDevices dev = nav.mediaDevices;
+    //var dev2 = nav2.mediaDevices;
 
-    //int xxx = TauwebJS.papa();
-    //print(xxx);
+    //final mediaConstraints = <String, dynamic>{
+      //'audio': true,
+      //'video': true,
+    //};
 
+    //var x = nav!.enumerateDevices();
+    //var x2 = nav2!.enumeratedDevices();
+
+    var y =  await dev!.enumerateDevices().toDart;
+    var yyy = y.toDart;
+
+    for (final toto in yyy)
+    {
+      print(toto.deviceId);
+      print(toto.groupId);
+      print(toto.kind);
+      print(toto.label);
+      print('');
+    }
+
+    //var y2 =  await dev2!.enumerateDevices();
+
+    //var z =  nav!.getUserMedia( // !!!!!!!!!!
+    //  audio: true,
+     //  video: true,
+    //);
+    
+    var yy =  await dev!.getUserMedia(w.MediaStreamConstraints(  audio: true.toJS)).toDart; // !!!!!!!!!!!!!!!!
+    //StreamController<dynamic> streamController = StreamController<dynamic>();
+    //var mediaStream = w.MediaStream(3.toJS);
+    /*var yy2 =  await dev2!.getUserMedia(mediaConstraints);*/
+    var p1 = yy.id;
+    var p2 = yy.active;
+    var p3 = yy.onaddtrack;
+    var p4 = yy.getAudioTracks().toDart;
+    var p5 = yy.getTracks().toDart;
+    var q1 = p4[0].id;
+    var q2 = p4[0].kind;
+    var q3 = p4[0].onended;
+    var q4 = p4[0].enabled;
+
+    var q5 = p4[0].getSettings().deviceId;
+    var q6 = p4[0].getSettings().groupId;
+    var q7 = p4[0].getSettings().sampleRate;
+    var q8 = p4[0].getSettings().channelCount;
+    var q9 = p4[0].getSettings().echoCancellation;
+
+
+
+    var x =  await dev!.enumerateDevices().toDart;
+    var xxx = x.toDart;
+    //var x2 =  await dev2!.enumerateDevices();
+
+    var a =  await dev!.enumerateDevices().toDart;
+    var aaa = a.toDart;
+    //var a2 =  await dev2!.enumerateDevices();
+    for (final toto in aaa)
+      {
+        print(toto.deviceId);
+        print(toto.groupId);
+        print(toto.kind);
+        print(toto.label);
+        print('');
+      }
+*****************/
   }
 
 
@@ -712,7 +782,7 @@ class TauwebImplementation implements TauInterface
 
 
 // =================================================================================================
-//                          Added because of Tau_waweb
+//                          Added because of Tau_web
 // =================================================================================================
 
 
@@ -726,6 +796,6 @@ class TauwebImplementation implements TauInterface
 
  // MessagePort newMessagePort() => c.MessagePort();
 
- MediaElement newMediaElement({required String src, }) => c.MediaElement(src: src, );
+  MediaElement newMediaElement({required String src, }) => c.MediaElement(src: src, );
 
 }

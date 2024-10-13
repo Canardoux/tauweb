@@ -1542,6 +1542,7 @@ extension type WaveShaperOptions._(JSObject _)
 
 
 extension type AudioWorklet._(JSObject _) implements Worklet, JSObject {}
+
 extension type AudioWorkletGlobalScope._(JSObject _)
     implements WorkletGlobalScope, JSObject {
   external void registerProcessor(

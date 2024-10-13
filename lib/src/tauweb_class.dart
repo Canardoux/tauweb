@@ -104,6 +104,15 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
   StereoPannerNode createStereoPanner() => StereoPannerNode.fromDelegate(getDelegate().createStereoPanner());
   WaveShaperNode createWaveShaper() => WaveShaperNode.fromDelegate(getDelegate().createWaveShaper());
 
+  @override
+  TauStreamSourceNode createTauStreamSourceNode(Stream stream) => TauStreamSourceNode(this, stream);
+
+  @override
+  TauStreamDestinationNode createTauStreamDestinationNode(Stream stream) => TauStreamDestinationNode(this, stream);
+
+  @override
+  TauStreamNode createTauStreamNode(String name, [ t.TauStreamNodeOptions? options]) => TauStreamNode(this, name, options);
+
   t.TauPromise<AudioBuffer> decodeAudioData(
     t.TauArrayBuffer audioData, [
     t.DecodeSuccessCallback? successCallback,
@@ -236,6 +245,7 @@ class AudioTimestamp implements t.AudioTimestamp{
 
 
 
+
 // ------------------------------------------------------------------------------------------------------------------
 
 
@@ -337,8 +347,6 @@ class OfflineAudioCompletionEvent implements t.OfflineAudioCompletionEvent {
 
   AudioBuffer get renderedBuffer => AudioBuffer.fromDelegate(delegate.renderedBuffer);
 }
-
-
 
 
 
@@ -2102,7 +2110,7 @@ class AudioWorklet implements t.AudioWorklet {
   j.AudioWorklet getDelegate() => delegate;
 
   /* ctor */ AudioWorklet.fromDelegate(this.delegate);
-
+  addModule(String script) => delegate.addModule(script);
 }
 
 
@@ -2175,8 +2183,8 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
   /* ctor */ AudioWorkletNode(
     t.BaseAudioContext context,
     String name, [
-    t.AudioWorkletNodeOptions? options,
-  ]) : delegate = options == null ? j.AudioWorkletNode((context as AudioContext).delegate, name) :
+      t.AudioWorkletNodeOptions? options,
+    ]) : delegate = options == null ? j.AudioWorkletNode((context as AudioContext).delegate, name) :
        j.AudioWorkletNode((context as AudioContext).delegate, name, (options as AudioWorkletNodeOptions).delegate);
 
 
@@ -2441,4 +2449,92 @@ class MediaDevices implements t.MediaDevices
       }
       return r;
     }
+}
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------
+
+
+
+class TauStreamSourceNode extends AudioWorkletNode implements t.TauStreamSourceNode
+{
+  late j.AudioWorkletNode delegate;
+  j.AudioWorkletNode getDelegate() => delegate;
+  Stream stream;
+
+  /* ctor */ //TauStreamSourceNode.fromDelegate(this.delegate);
+  /* ctor */ TauStreamSourceNode( t.BaseAudioContext context, this.stream) : super(context, 'toto')
+  {
+      delegate = j.AudioWorkletNode( (context as BaseAudioContext).getDelegate() , 'toto');
+  }
+
+}
+
+
+
+// ------------------------------------------------------------------------------------------------------------------
+
+
+
+class TauStreamDestinationNode extends AudioWorkletNode implements t.TauStreamDestinationNode
+{
+  late j.AudioWorkletNode delegate;
+  j.AudioWorkletNode getDelegate() => delegate;
+  Stream stream;
+
+  /* ctor */ //TauStreamDestinationNode.fromDelegate(this.delegate);
+  /* ctor */ TauStreamDestinationNode( t.BaseAudioContext context, this.stream) : super(context, 'toto')
+  {
+    delegate = j.AudioWorkletNode( (context as BaseAudioContext).getDelegate() , 'toto');
+  }
+
+}
+
+
+// ------------------------------------------------------------------------------------------------------------------
+
+
+
+class TauStreamNode extends AudioWorkletNode  implements t.TauStreamNode
+{
+  /* ctor */ TauStreamNode( t.BaseAudioContext context, String name, t.TauStreamNodeOptions? options) : super(context, name, options)
+  {
+
+  }
+
+}
+
+// ------------------------------------------------------------------------------------------------------------------
+
+
+
+class TauStreamNodeOptions extends AudioWorkletNodeOptions implements t.TauStreamNodeOptions {
+  //j.TauStreamNodeOptions delegate;
+  //j.TauStreamNodeOptions getDelegate() => delegate;
+
+  /* ctor */ //TauStreamNodeOptions.fromDelegate(this.delegate);
+  /* ctor */ TauStreamNodeOptions({
+    int? toto,
+    int? channelCount,
+    t.ChannelCountMode? channelCountMode,
+    t.ChannelInterpretation? channelInterpretation,
+    int? numberOfInputs,
+    int? numberOfOutputs,
+    t.TauArray<t.TauNumber>? outputChannelCount,
+    t.ParameterData? parameterData,
+    t.ProcessorOptions? processorOptions,
+  }) : super(
+    channelCount: channelCount,
+    channelCountMode: channelCountMode,
+    channelInterpretation: channelInterpretation,
+    numberOfInputs: numberOfInputs,
+    numberOfOutputs: numberOfOutputs,
+    outputChannelCount: outputChannelCount,
+    //parameterData: parameterData,
+    //processorOptions: processorOptions,
+  );
+
+
 }

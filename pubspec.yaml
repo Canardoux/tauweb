@@ -60,5 +60,6 @@ flutter:
   # For details regarding fonts in packages, see
   # https://flutter.dev/to/font-from-package
 
-#  assets:
-#  - js/tauweb.js
+  assets:
+  - js/tauweb.js
+  - js/random_noise_processor.js

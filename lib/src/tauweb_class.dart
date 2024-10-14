@@ -2110,7 +2110,7 @@ class AudioWorklet implements t.AudioWorklet {
   j.AudioWorklet getDelegate() => delegate;
 
   /* ctor */ AudioWorklet.fromDelegate(this.delegate);
-  addModule(String script) => delegate.addModule(script);
+  Future<void> addModule(String script) => delegate.addModule(script).toDart;
 }
 
 

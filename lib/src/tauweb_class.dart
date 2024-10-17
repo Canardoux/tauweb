@@ -456,14 +456,28 @@ abstract class AudioNode implements t.AudioNode {
 
   t.AudioNode connect(
       // !!!! The DestinationParam case is not handled
-    t.AudioNode destinationNodeOrDestinationParam, // t.TauAny? destinationNodeOrDestinationParam
+    t.AudioNode destinationNode, // t.TauAny? destinationNodeOrDestinationParam
       [
     int? output,
     int? input,
-  ]) { output == null ? getDelegate().connect((destinationNodeOrDestinationParam as AudioNode).getDelegate()) :
-        input == null ? getDelegate().connect((destinationNodeOrDestinationParam as AudioNode).getDelegate(), output,) :
-                        getDelegate().connect((destinationNodeOrDestinationParam as AudioNode).getDelegate(), output, input);
-      return destinationNodeOrDestinationParam;}
+  ]) { output == null ? getDelegate().connect((destinationNode as AudioNode).getDelegate()) :
+        input == null ? getDelegate().connect((destinationNode as AudioNode).getDelegate(), output,) :
+                        getDelegate().connect((destinationNode as AudioNode).getDelegate(), output, input);
+        return destinationNode;
+      }
+
+  void connectParam(
+    t.AudioParam DestinationParam, //TauObject destinationNodeOrDestinationParam,
+   [
+    int? output,
+    int? input,
+  ]) { output == null ? getDelegate().connect((DestinationParam as AudioParam).getDelegate()) :
+        input == null ? getDelegate().connect((DestinationParam as AudioParam).getDelegate(), output,) :
+                        getDelegate().connect((DestinationParam as AudioParam).getDelegate(), output, input);
+  }
+  
+
+
   void disconnect([
     // !!!! The DestinationParamOrOutput case is not handled
     t.AudioNode? destinationNodeOrDestinationParamOrOutput, // t.TauAny? destinationNodeOrDestinationParamOrOutput,
@@ -472,7 +486,22 @@ abstract class AudioNode implements t.AudioNode {
   ]) => output == null ? getDelegate().disconnect((destinationNodeOrDestinationParamOrOutput as AudioNode).getDelegate()) :
          input == null ? getDelegate().disconnect((destinationNodeOrDestinationParamOrOutput as AudioNode).getDelegate(), output,) :
                          getDelegate().disconnect((destinationNodeOrDestinationParamOrOutput as AudioNode).getDelegate(), output, input);
+
+  void disconnectParam(
+    t.AudioParam DestinationParam,
+   [
+    int? output,
+    int? input,
+  ]) => output == null ? getDelegate().disconnect((DestinationParam as AudioParam).getDelegate()) :
+         input == null ? getDelegate().disconnect((DestinationParam as AudioParam).getDelegate(), output,) :
+                         getDelegate().disconnect((DestinationParam as AudioParam).getDelegate(), output, input);
+
+
+
   BaseAudioContext get context => AudioContext.fromDelegate(getDelegate().context as j.AudioContext);
+
+
+
   int get numberOfInputs => getDelegate().numberOfInputs;
   int get numberOfOutputs => getDelegate().numberOfOutputs;
   int get channelCount => getDelegate().channelCount;
@@ -540,6 +569,8 @@ class AudioNodeOptionsImp extends AudioNodeOptions {
 class AudioParam implements t.AudioParam {
 
   j.AudioParam delegate;
+  j.AudioParam getDelegate() => delegate;
+
   /* ctor */ AudioParam.fromDelegate(this.delegate);
   /* ctor */ AudioParam(j.AudioParam param) : delegate = param;
 

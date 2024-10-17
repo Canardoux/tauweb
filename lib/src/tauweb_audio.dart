@@ -356,12 +356,13 @@ extension type AudioBufferOptions._(JSObject _) implements JSObject {
 
 extension type AudioNode._(JSObject _) implements EventTarget, JSObject {
   external AudioNode? connect(
-    AudioNode destinationNodeOrDestinationParam, [
+    JSObject destinationNodeOrDestinationParam, [
     int output,
     int input,
   ]);
+  
   external void disconnect([
-    AudioNode destinationNodeOrDestinationParamOrOutput,
+    JSObject destinationNodeOrDestinationParamOrOutput,
     int output,
     int input,
   ]);

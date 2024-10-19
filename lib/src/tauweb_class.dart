@@ -36,6 +36,8 @@ import 'tauweb_audio.dart' as j;
 //import 'webaudio.dart' as j;
 import 'tauweb_interop.dart';
 import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
+
 //import 'dart:html' as h;
 import 'package:web/web.dart' as w;
 
@@ -2466,9 +2468,27 @@ class MediaDevices implements t.MediaDevices
     return MediaStream.fromDelegate(l);
   }
 
-    w.MediaStreamConstraints _mediaConstraints({bool audio = true, bool video = false}) =>
-        audio == null ?(video == null ?  w.MediaStreamConstraints() : w.MediaStreamConstraints( video: true.toJS))
-            : (video == null ?  w.MediaStreamConstraints( audio: true.toJS) : w.MediaStreamConstraints( audio: true.toJS, video: true.toJS) );
+  w.MediaStreamConstraints _mediaConstraints({bool audio = true, bool video = false}) =>
+      audio == null ?(video == null ?  w.MediaStreamConstraints() : w.MediaStreamConstraints( video: true.toJS))
+          : (video == null ?  w.MediaStreamConstraints( audio: true.toJS) : w.MediaStreamConstraints( audio: true.toJS, video: true.toJS) );
+
+
+  JSObject mapToJsObject(Map map){
+    var object = JSObject();
+    map.forEach((k, v) {
+      if (v is Map) {
+        object.setProperty( k, mapToJsObject(v));
+      } else {
+        object.setProperty( k, v);
+      }
+    });
+    return object;
+  }
+
+  Future<MediaStream> getUserMediaWithConstraints({ required Map<String, Object> audio, required Map<String, Object> video}) async {
+    var l = await delegate.getUserMedia(w.MediaStreamConstraints( audio: mapToJsObject(audio), video: mapToJsObject(video))).toDart;
+    return MediaStream.fromDelegate(l);
+  }
 
     Future<List<t.MediaDeviceInfo>> enumerateDevices() async
     {
@@ -2476,7 +2496,19 @@ class MediaDevices implements t.MediaDevices
       List<t.MediaDeviceInfo> r = [];
       for (var info in dev.toDart)
       {
-        r.add(t.MediaDeviceInfo());
+        t.DeviceKind kind = t.DeviceKind.unknown;
+        switch(info.kind)
+        {
+          case 'audioinput': kind =  t.DeviceKind.audioinput; break;
+          case 'audiooutput': kind =  t.DeviceKind.audiooutput; break;
+          case 'videoinput': kind =  t.DeviceKind.videoinput; break;
+        }
+        r.add(t.MediaDeviceInfo(
+          deviceId: info.deviceId,
+          groupId: info.groupId,
+          label: info.label,
+          kind: kind
+        ));
       }
       return r;
     }
@@ -2569,3 +2601,34 @@ class TauStreamNodeOptions extends AudioWorkletNodeOptions implements t.TauStrea
 
 
 }
+
+
+// -----------------------------------------------------------------------------------------------------------------
+
+/*
+
+class MediaTrackConstraints extends t.MediaTrackConstraints
+{
+  String? deviceId;
+  String? groupId;
+  bool? autoGainControl;
+  int? channelCount;
+  bool? echoCancellation;
+  double? latency;
+  bool? noiseSupression;
+  int? sampleRate;
+  int? sampleSize;
+  double? volume;
+
+
+
+  w.MediaTrackConstraints getDelegate()
+  {
+    w.MediaTrackConstraints delegate = w.MediaTrackConstraints();
+    if (deviceId != null) delegate.deviceId = deviceId;
+    if (groupId != null) delegate.groupId = groupId;
+    if (autoGainControl != null) delegate.autoGainControl = autoGainControl;
+  }
+}
+
+ */

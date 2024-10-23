@@ -39,12 +39,35 @@ class Interop {
 
         JSArray<JSNumber> jsArrayNumber(List<num> listNum)
         {
-                var r = JSArray<JSNumber>();
+                List<JSNumber> r = [];
                 for (var v in listNum) {
                         r.add(v.toJS);
                 }
-                return r;
+                return r.toJS;
         }
+
+        JSArray<JSNumber> jsArrayInt(List<int> listInt)
+        {
+          List<JSNumber> r = [];
+          for (var v in listInt) {
+            r.add(v.toJS);
+          }
+          return r.toJS;
+        }
+
+
+        List<int> listNumInt(JSArray<JSNumber> j)
+        {
+          List<int> r = [];
+          List<JSNumber> l = j.toDart;
+          for (int i = 0; i < l.length; ++i)
+          {
+            r.add(l[i].toDartInt);
+          }
+          return r;
+        }
+
+
         List<num> listNum(JSArray<JSNumber> j)
         {
                 List<num> r = [];

@@ -2188,12 +2188,33 @@ class AudioParamMap implements t.AudioParamMap
   j.AudioParamMap delegate;
   j.AudioParamMap getDelegate() => delegate;
 
-  /* ctor */ AudioParamMap.fromDelegate(this.delegate);
+  /* ctor */ AudioParamMap.fromDelegate(this.delegate);//+++++++++++++++++++++++++++++
+
+  AudioParam? getProperty(String key) {
+    var x = delegate.getProperty(key.toJS);
+    return x == null ? null : AudioParam.fromDelegate(x as j.AudioParam);
+  }
+    //void setProperty(String key, dynamic value) => delegate.setProperty(key.toJS, value);
+
+
+    //List<String> get keys => delegate.keys;
+    //int get length => delegate.length;
+    //List<dynamic> get values => delegate.values;
+    //bool containsKey(String key) => delegate.containsKey(key);
+    AudioParam? operator [](String key) {
+      d = delegate;
+      jsparam = delegate[key];
+      //AudioParam p2 = jsparam as AudioParam;
+      return  jsparam == null ? null : AudioParam.fromDelegate(jsparam as j.AudioParam);
+  }
+      //delegate[key]?.toDart;
 
 }
 
-
-
+dynamic?  jsparam;
+AudioParam? p2;
+j.AudioParamMap? d;
+dynamic?  x;
 
 
 
@@ -2209,16 +2230,35 @@ class AudioParamMap implements t.AudioParamMap
 class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 
   t.EventHandler _onProcessorError = (){};
-  j.AudioWorkletNode delegate;
+  late j.AudioWorkletNode delegate;
   j.AudioWorkletNode getDelegate() => delegate;
 
-  /* ctor */ AudioWorkletNode.fromDelegate(this.delegate);
+  /* ctor */ AudioWorkletNode.fromDelegate(this.delegate); // \\\\\\\\\\\\\\\\\\\
   /* ctor */ AudioWorkletNode(
     t.BaseAudioContext context,
     String name, [
       t.AudioWorkletNodeOptions? options,
     ]) : delegate = options == null ? j.AudioWorkletNode((context as AudioContext).delegate, name) :
        j.AudioWorkletNode((context as AudioContext).delegate, name, (options as AudioWorkletNodeOptions).delegate);
+  /*
+  {
+    JSArray<JSNumber> cc = Interop().jsArrayInt(const [2]);
+    j.AudioWorkletNodeOptions opt = j.AudioWorkletNodeOptions(
+      channelCount: 2,
+      channelCountMode: 'explicit',
+      channelInterpretation: 'speakers',
+      numberOfInputs: 1,
+      numberOfOutputs: 1,
+      outputChannelCount:  cc,
+      //parameterData: parameterData,
+      //processorOptions: processorOptions,
+    );
+    j.AudioWorkletNode jsNode = j.AudioWorkletNode((context as AudioContext).delegate, name,opt);
+    delegate = jsNode;
+     AudioWorkletNode.fromDelegate(jsNode);
+  }
+
+   */
 
 
   t.AudioParamMap get parameters => AudioParamMap.fromDelegate(delegate.parameters);
@@ -2310,18 +2350,23 @@ class WorkletGlobalScope implements t.WorkletGlobalScope
 // ------------------------------------------------------------------------------------------------------------------
 
 
-
 class MessagePort implements t.MessagePort
 {
   w.MessagePort delegate;
   w.MessagePort getDelegate() => delegate;
-
+  t.MessageFn f = (e){};
   /* ctor */ MessagePort.fromDelegate(this.delegate);
   /* ctor */ // MessagePort() : delegate = w.MessagePort();
+  t.MessageFn get onmessage => f;
+  void set onmessage(f) { this.f = f; delegate.onmessage = rcvMessage.toJS;}
+  void postMessage(t.Message e) => delegate.postMessage(e['data']?.toJS);
+  void rcvMessage(w.MessageEvent e) {
+      Map<String, String> map = {'data': (e.data as JSString).toDart};
+      f(map);
+  }
+
 
 }
-
-
 
 // ------------------------------------------------------------------------------------------------------------------
 
@@ -2361,12 +2406,12 @@ class AudioWorkletNodeOptions extends AudioNodeOptions implements t.AudioWorklet
 
   /* ctor */ AudioWorkletNodeOptions.fromDelegate(this.delegate);
   /* ctor */ AudioWorkletNodeOptions({
-    int? channelCount,
-    t.ChannelCountMode? channelCountMode,
-    t.ChannelInterpretation? channelInterpretation,
-    int? numberOfInputs,
-    int? numberOfOutputs,
-    t.TauArray<t.TauNumber>? outputChannelCount,
+    int channelCount = 2,
+    t.ChannelCountMode channelCountMode = 'exact',
+    t.ChannelInterpretation channelInterpretation = 'speakers',
+    int numberOfInputs = 1,
+    int numberOfOutputs = 1,
+    List<int> outputChannelCount = const [2],
     t.ParameterData? parameterData,
     t.ProcessorOptions? processorOptions,
   }) : delegate = j.AudioWorkletNodeOptions(
@@ -2375,7 +2420,7 @@ class AudioWorkletNodeOptions extends AudioNodeOptions implements t.AudioWorklet
     channelInterpretation: channelInterpretation,
     numberOfInputs: numberOfInputs,
     numberOfOutputs: numberOfOutputs,
-    outputChannelCount: outputChannelCount == null ? null : Interop().jsArrayNumber(outputChannelCount),
+    outputChannelCount: outputChannelCount == null ? null : Interop().jsArrayInt(outputChannelCount),
     //parameterData: parameterData,
     //processorOptions: processorOptions,
   );
@@ -2384,16 +2429,13 @@ class AudioWorkletNodeOptions extends AudioNodeOptions implements t.AudioWorklet
   set numberOfInputs(int value) => delegate.numberOfInputs = value;
   int get numberOfOutputs => delegate.numberOfOutputs;
   set numberOfOutputs(int value) => delegate.numberOfOutputs = value;
-  t.TauArray<t.TauNumber> get outputChannelCount => Interop().listNum(delegate.outputChannelCount);
-  set outputChannelCount(t.TauArray<t.TauNumber> value) => delegate.outputChannelCount = Interop().jsArrayNumber(value);
+  List<int> get outputChannelCount => Interop().listNumInt(delegate.outputChannelCount);
+  set outputChannelCount(List<int> value) => delegate.outputChannelCount = Interop().jsArrayInt(value);
   //t.ParameterData get parameterData => delegate.parameterData;
   //set parameterData(t.ParameterData value) => delegate.parameterData = value;
   //t.ProcessorOptions get processorOptions => delegate.processorOptions;
   //set processorOptions(t.ProcessorOptions value) => delegate.processorOptions = value;
 }
-
-
-
 
 
 
@@ -2566,7 +2608,7 @@ class TauStreamNode extends AudioWorkletNode  implements t.TauStreamNode
   {
 
   }
-
+ 
 }
 
 // ------------------------------------------------------------------------------------------------------------------
@@ -2579,13 +2621,13 @@ class TauStreamNodeOptions extends AudioWorkletNodeOptions implements t.TauStrea
 
   /* ctor */ //TauStreamNodeOptions.fromDelegate(this.delegate);
   /* ctor */ TauStreamNodeOptions({
-    int? toto,
-    int? channelCount,
-    t.ChannelCountMode? channelCountMode,
-    t.ChannelInterpretation? channelInterpretation,
-    int? numberOfInputs,
-    int? numberOfOutputs,
-    t.TauArray<t.TauNumber>? outputChannelCount,
+    String momo = 'lolo',
+    int channelCount = 2,
+    t.ChannelCountMode channelCountMode = 'exact',
+    t.ChannelInterpretation channelInterpretation = 'speakers',
+    int numberOfInputs = 1,
+    int numberOfOutputs = 1,
+    List<int> outputChannelCount = const [2],
     t.ParameterData? parameterData,
     t.ProcessorOptions? processorOptions,
   }) : super(
@@ -2595,8 +2637,8 @@ class TauStreamNodeOptions extends AudioWorkletNodeOptions implements t.TauStrea
     numberOfInputs: numberOfInputs,
     numberOfOutputs: numberOfOutputs,
     outputChannelCount: outputChannelCount,
-    //parameterData: parameterData,
-    //processorOptions: processorOptions,
+    parameterData: parameterData,
+    processorOptions: processorOptions,
   );
 
 

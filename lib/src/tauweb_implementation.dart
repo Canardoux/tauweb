@@ -811,12 +811,12 @@ class TauwebImplementation implements TauInterface
 
   @override
   AudioWorkletNodeOptions newAudioWorkletNodeOptions({
-    int? channelCount,
-    ChannelCountMode? channelCountMode,
-    ChannelInterpretation? channelInterpretation,
-    int? numberOfInputs,
-    int? numberOfOutputs,
-    TauArray<TauNumber>? outputChannelCount,
+    int channelCount = 2,
+    ChannelCountMode channelCountMode = 'exact',
+    ChannelInterpretation channelInterpretation = 'speakers',
+    int numberOfInputs = 1,
+    int numberOfOutputs = 1,
+    TauArray<int> outputChannelCount =  const [2],
     ParameterData? parameterData,
     ProcessorOptions? processorOptions,
   }) => c.AudioWorkletNodeOptions(
@@ -868,13 +868,29 @@ class TauwebImplementation implements TauInterface
 
   @override
   TauStreamNodeOptions newTauStreamNodeOptions({
-    int? toto,
+    String momo = 'moumou',
     //int channelCount,
     //ChannelCountMode channelCountMode,
     //ChannelInterpretation channelInterpretation,
     //num pan,
+    int channelCount = 2,
+    ChannelCountMode channelCountMode = 'explicit',
+    ChannelInterpretation channelInterpretation = 'speakers',
+    int numberOfInputs = 1,
+    int numberOfOutputs = 1,
+    List<int> outputChannelCount = const [2],
+    ParameterData? parameterData,
+    ProcessorOptions? processorOptions,
   }) => c.TauStreamNodeOptions(
-    toto: toto,
+    momo: momo,
+    channelCount: channelCount,
+    channelCountMode: channelCountMode,
+    channelInterpretation: channelInterpretation,
+    numberOfInputs: numberOfInputs,
+    numberOfOutputs: numberOfOutputs,
+    //outputChannelCount: outputChannelCount,
+    //parameterData: parameterData,
+    //processorOptions: processorOptions,
   );
 
 

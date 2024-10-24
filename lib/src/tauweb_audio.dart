@@ -26,7 +26,7 @@ import 'dart:js_interop';
 //import 'dart:js_util';
 //import 'dart:web_audio';
 import 'package:web/web.dart';
-import 'package:tau/tau.dart' as t;
+import 'package:etau/etau.dart' as t;
 
 //import 'package:js/js.dart';
 //import 'dart:dom';

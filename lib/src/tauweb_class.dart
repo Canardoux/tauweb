@@ -31,7 +31,7 @@
 library;
 
 import 'dart:typed_data';
-import 'package:tau/tau.dart' as t;
+import 'package:etau/etau.dart' as t;
 import 'tauweb_audio.dart' as j;
 //import 'webaudio.dart' as j;
 import 'tauweb_interop.dart';

@@ -10,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  tau: # ^9.15.61
-    path: ../tau # tauwa Dir
+  etau: # ^9.15.61
+    path: ../etau # tauwa Dir
   web: ^1.0.0
   #import_js_library: ^1.0.1
   #flutter_js: ^0.8.1 

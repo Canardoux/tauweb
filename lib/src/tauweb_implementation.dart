@@ -17,11 +17,11 @@
  */
 
 import 'dart:async';
-import 'package:tau/tau.dart';
+import 'package:etau/etau.dart';
 import 'tauweb_class.dart' as c;
 import 'package:web/web.dart' as w;
 import 'dart:js_interop';
-import 'package:tau/tau.dart' as i show MediaDevices;
+import 'package:etau/etau.dart' as i show MediaDevices;
 
 extension type TauwebJS._(JSObject _) implements JSObject {
         external factory TauwebJS();

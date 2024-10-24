@@ -105,7 +105,7 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
 
   StereoPannerNode createStereoPanner() => StereoPannerNode.fromDelegate(getDelegate().createStereoPanner());
   WaveShaperNode createWaveShaper() => WaveShaperNode.fromDelegate(getDelegate().createWaveShaper());
-
+/*
   @override
   TauStreamSourceNode createTauStreamSourceNode(Stream stream) => TauStreamSourceNode(this, stream);
 
@@ -114,7 +114,7 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
 
   @override
   TauStreamNode createTauStreamNode(String name, [ t.TauStreamNodeOptions? options]) => TauStreamNode(this, name, options);
-
+*/
   t.TauPromise<AudioBuffer> decodeAudioData(
     t.TauArrayBuffer audioData, [
     t.DecodeSuccessCallback? successCallback,
@@ -2202,19 +2202,11 @@ class AudioParamMap implements t.AudioParamMap
     //List<dynamic> get values => delegate.values;
     //bool containsKey(String key) => delegate.containsKey(key);
     AudioParam? operator [](String key) {
-      d = delegate;
-      jsparam = delegate[key];
-      //AudioParam p2 = jsparam as AudioParam;
+      var jsparam = delegate[key];
       return  jsparam == null ? null : AudioParam.fromDelegate(jsparam as j.AudioParam);
   }
-      //delegate[key]?.toDart;
 
 }
-
-dynamic?  jsparam;
-AudioParam? p2;
-j.AudioParamMap? d;
-dynamic?  x;
 
 
 
@@ -2561,7 +2553,7 @@ class MediaDevices implements t.MediaDevices
 
 // ------------------------------------------------------------------------------------------------------------------
 
-
+/*
 
 class TauStreamSourceNode extends AudioWorkletNode implements t.TauStreamSourceNode
 {
@@ -2644,7 +2636,7 @@ class TauStreamNodeOptions extends AudioWorkletNodeOptions implements t.TauStrea
 
 }
 
-
+*/
 // -----------------------------------------------------------------------------------------------------------------
 
 /*

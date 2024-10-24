@@ -62,5 +62,3 @@ flutter:
 
   assets:
   - js/tauweb.js
-  - js/random_noise_processor.js
-  - js/stream_processor.js

@@ -857,6 +857,7 @@ class TauwebImplementation implements TauInterface
   @override
    MediaElement newMediaElement({required String src, }) => c.MediaElement(src: src, );
 
+/*
   @override
    TauStreamSourceNode newTauStreamSourceNode(BaseAudioContext context, Stream stream) => c.TauStreamSourceNode(context, stream);
   
@@ -893,6 +894,6 @@ class TauwebImplementation implements TauInterface
     //processorOptions: processorOptions,
   );
 
-
+*/
 
 }

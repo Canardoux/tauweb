@@ -2188,24 +2188,13 @@ class AudioParamMap implements t.AudioParamMap
   j.AudioParamMap delegate;
   j.AudioParamMap getDelegate() => delegate;
 
-  /* ctor */ AudioParamMap.fromDelegate(this.delegate);//+++++++++++++++++++++++++++++
+  /* ctor */ AudioParamMap.fromDelegate(this.delegate);
 
-  AudioParam? getProperty(String key) {
-    var x = delegate.getProperty(key.toJS);
-    return x == null ? null : AudioParam.fromDelegate(x as j.AudioParam);
-  }
-    //void setProperty(String key, dynamic value) => delegate.setProperty(key.toJS, value);
+    dynamic? getProperty(String key) =>  delegate.getProperty(key.toJS);
+    void setProperty(String key, dynamic value) => delegate.setProperty(key.toJS, value);
 
-
-    //List<String> get keys => delegate.keys;
-    //int get length => delegate.length;
-    //List<dynamic> get values => delegate.values;
-    //bool containsKey(String key) => delegate.containsKey(key);
-    AudioParam? operator [](String key) {
-      var jsparam = delegate[key];
-      return  jsparam == null ? null : AudioParam.fromDelegate(jsparam as j.AudioParam);
-  }
-
+    //int get size => delegate.size;
+    //dynamic get(String key) => delegate.get(key.toJS);
 }
 
 
@@ -2263,6 +2252,24 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
     getDelegate().onprocessorerror = value.toJS;
   }
 }
+
+
+class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode
+{
+  /* ctor */ AsyncWorkletNode.fromDelegate(delegate) : super.fromDelegate (delegate);
+  /* ctor */ AsyncWorkletNode(
+    t.BaseAudioContext context,
+    String name, [
+      t.AudioWorkletNodeOptions? options,
+    ]) : super(context, name, options);
+
+  void send({int output = 0, required List<Float32List> data})
+  {
+    port.postMessage({'output': output, 'data': data});
+  }  
+}
+
+
 
 
 
@@ -2350,8 +2357,8 @@ class MessagePort implements t.MessagePort
   /* ctor */ MessagePort.fromDelegate(this.delegate);
   /* ctor */ // MessagePort() : delegate = w.MessagePort();
   t.MessageFn get onmessage => f;
+  void postMessage(t.Message e) => delegate.postMessage(e['data']);
   void set onmessage(f) { this.f = f; delegate.onmessage = rcvMessage.toJS;}
-  void postMessage(t.Message e) => delegate.postMessage(e['data']?.toJS);
   void rcvMessage(w.MessageEvent e) {
       Map<String, String> map = {'data': (e.data as JSString).toDart};
       f(map);
@@ -2366,6 +2373,16 @@ class MessagePort implements t.MessagePort
 
 class ProcessorOptions  implements t.ProcessorOptions
 {
+  JSObject delegate;
+  JSObject getDelegate() => delegate;
+
+  /* ctor */ ProcessorOptions.fromDelegate(this.delegate);
+  /* ctor */ ProcessorOptions(Map<String, dynamic> m) : delegate = JSObject()
+  {
+    m.forEach((key, value) {
+      delegate.setProperty(key.toJS, value); //ob.parameters(key) = value;
+    });
+  }
 
 }
 
@@ -2377,6 +2394,15 @@ class ProcessorOptions  implements t.ProcessorOptions
 
 class ParameterData  implements t.ParameterData
 {
+  JSObject delegate;
+  JSObject getDelegate() => delegate;
+  /* ctor */ ParameterData.fromDelegate(this.delegate);
+  /* ctor */ ParameterData(Map<String, dynamic> m) : delegate = JSObject()
+  {
+    m.forEach((key, value) {
+      delegate.setProperty(key.toJS, value); //ob.parameters(key) = value;
+    });
+  }
 
 }
 
@@ -2401,7 +2427,7 @@ class AudioWorkletNodeOptions extends AudioNodeOptions implements t.AudioWorklet
     int channelCount = 2,
     t.ChannelCountMode channelCountMode = 'exact',
     t.ChannelInterpretation channelInterpretation = 'speakers',
-    int numberOfInputs = 1,
+    int numberOfInputs = 0,
     int numberOfOutputs = 1,
     List<int> outputChannelCount = const [2],
     t.ParameterData? parameterData,

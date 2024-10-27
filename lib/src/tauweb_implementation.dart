@@ -808,6 +808,21 @@ class TauwebImplementation implements TauInterface
 
 
 
+  @override
+  AsyncWorkletNode newAsyncWorkletNode(
+    BaseAudioContext context,
+    String name, [
+    AudioWorkletNodeOptions? options,
+  ]) => c.AsyncWorkletNode(
+        context,
+        name,
+        options,
+  );
+
+
+
+
+
 
   @override
   AudioWorkletNodeOptions newAudioWorkletNodeOptions({
@@ -835,6 +850,15 @@ class TauwebImplementation implements TauInterface
   @override
   AudioWorkletProcessor newAudioWorkletProcessor() => c.AudioWorkletProcessor();
 
+
+
+
+  @override
+  ParameterData newParameterData(Map<String, dynamic> m) => c.ParameterData(m);
+
+
+  @override
+  ProcessorOptions newProcessorOptions(Map<String, dynamic> m) => c.ProcessorOptions(m);
 
 
 

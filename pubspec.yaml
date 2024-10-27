@@ -62,3 +62,4 @@ flutter:
 
   assets:
   - js/tauweb.js
+  - js/async_processor.js

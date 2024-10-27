@@ -74,11 +74,13 @@ class AsyncProcessor extends AudioWorkletProcessor {
         return ch;
       }
       let r = [];
+      let channelNo = 0;
       ch.forEach((d)=> 
       {
             console.assert(numberOfFrames == d.length, "chunk length mismatch");
             r.push(d.subarray(0, ln));
-            d = d.subarray(ln, numberOfFrames);
+            ch[channelNo] = d.subarray(ln, numberOfFrames);
+            ++channelNo;
       });
       return r;
   }

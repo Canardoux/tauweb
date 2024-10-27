@@ -45,81 +45,15 @@ class TauwebImplementation implements TauInterface
   @override
   MediaDevices getDevices() => c.MediaDevices();
 
+  static bool alreadyInited = false;
+
   @override
   Future<void> init() async {
-    await importModule("./packages/tauweb/js/tauweb.js".toJS).toDart;
-    
-    /***************** 
-    var nav = w.window.navigator;
-    //var nav2 = h.window.navigator;
-    w.MediaDevices dev = nav.mediaDevices;
-    //var dev2 = nav2.mediaDevices;
-
-    //final mediaConstraints = <String, dynamic>{
-      //'audio': true,
-      //'video': true,
-    //};
-
-    //var x = nav!.enumerateDevices();
-    //var x2 = nav2!.enumeratedDevices();
-
-    var y =  await dev!.enumerateDevices().toDart;
-    var yyy = y.toDart;
-
-    for (final toto in yyy)
+     if (!alreadyInited)
     {
-      print(toto.deviceId);
-      print(toto.groupId);
-      print(toto.kind);
-      print(toto.label);
-      print('');
+      await importModule("./packages/tauweb/js/tauweb.js".toJS).toDart;
+      alreadyInited = true;
     }
-
-    //var y2 =  await dev2!.enumerateDevices();
-
-    //var z =  nav!.getUserMedia( // !!!!!!!!!!
-    //  audio: true,
-     //  video: true,
-    //);
-    
-    var yy =  await dev!.getUserMedia(w.MediaStreamConstraints(  audio: true.toJS)).toDart; // !!!!!!!!!!!!!!!!
-    //StreamController<dynamic> streamController = StreamController<dynamic>();
-    //var mediaStream = w.MediaStream(3.toJS);
-    /*var yy2 =  await dev2!.getUserMedia(mediaConstraints);*/
-    var p1 = yy.id;
-    var p2 = yy.active;
-    var p3 = yy.onaddtrack;
-    var p4 = yy.getAudioTracks().toDart;
-    var p5 = yy.getTracks().toDart;
-    var q1 = p4[0].id;
-    var q2 = p4[0].kind;
-    var q3 = p4[0].onended;
-    var q4 = p4[0].enabled;
-
-    var q5 = p4[0].getSettings().deviceId;
-    var q6 = p4[0].getSettings().groupId;
-    var q7 = p4[0].getSettings().sampleRate;
-    var q8 = p4[0].getSettings().channelCount;
-    var q9 = p4[0].getSettings().echoCancellation;
-
-
-
-    var x =  await dev!.enumerateDevices().toDart;
-    var xxx = x.toDart;
-    //var x2 =  await dev2!.enumerateDevices();
-
-    var a =  await dev!.enumerateDevices().toDart;
-    var aaa = a.toDart;
-    //var a2 =  await dev2!.enumerateDevices();
-    for (final toto in aaa)
-      {
-        print(toto.deviceId);
-        print(toto.groupId);
-        print(toto.kind);
-        print(toto.label);
-        print('');
-      }
-*****************/
   }
 
 

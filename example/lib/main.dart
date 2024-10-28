@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tau/tau.dart';
+import 'package:etau/etau.dart';
 import 'package:tauweb/tauweb.dart';
 
 void main() => runApp(const MyApp());

@@ -2261,7 +2261,29 @@ class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode
     t.BaseAudioContext context,
     String name, [
       t.AudioWorkletNodeOptions? options,
-    ]) : super(context, name, options);
+    ]) : super(context, name, options)
+      {
+        port.onmessage = (t.Message e)
+        {
+          var msg = e['msg'] as JSObject;
+          String msgType = msg.getProperty('messagetype'.toJS);
+          int outputNo = msg.getProperty('outputNo'.toJS);
+          List<Float32List> data =  msg.getProperty('data'.toJS);
+          print("AsyncWorkletNode Rcv: $e");
+          onReceiveMessage(msgType, outputNo, data);
+        };
+
+
+      }
+  void onReceiveMessage(String msgType, int outputNo, List<Float32List> data)
+  {
+    switch (msgType)
+    {
+      case 'AUDIO_BUFFER_UNDERFLOW': print('AUDIO_BUFFER_UNDERFLOW');
+
+    }
+
+}
 
   void send({int output = 0, required List<Float32List> data})
   {
@@ -2358,10 +2380,20 @@ class MessagePort implements t.MessagePort
   /* ctor */ // MessagePort() : delegate = w.MessagePort();
   t.MessageFn get onmessage => f;
   void postMessage(t.Message e) => delegate.postMessage(e['data']);
-  void set onmessage(f) { this.f = f; delegate.onmessage = rcvMessage.toJS;}
+  void set onmessage(f)
+  {
+    this.f = f;
+    delegate.onmessage = rcvMessage.toJS;
+  }
   void rcvMessage(w.MessageEvent e) {
-      Map<String, String> map = {'data': (e.data as JSString).toDart};
-      f(map);
+//    Map<String, dynamic> data = (e.data as JSObject).;
+    Map<String, dynamic> map =
+    {
+      'msg': e.data,
+      'origin': e.origin,
+      'type': e.type,
+    };
+    f(map);
   }
 
 

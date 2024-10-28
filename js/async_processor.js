@@ -52,6 +52,11 @@ class AsyncProcessor extends AudioWorkletProcessor {
     };
   }
 
+  bufferUndeflow(outputNo)
+  {
+    this.port.postMessage({'messagetype' : 'AUDIO_BUFFER_UNDERFLOW', 'outputNo' : outputNo})
+  }
+
   // The number of outputs is 1
   send( data)
   {
@@ -85,7 +90,7 @@ class AsyncProcessor extends AudioWorkletProcessor {
       return r;
   }
 
-  processOutput(output)
+  processOutput(outputNo, output)
   {
     let numberOfChannels = output.length;
     output.forEach((dataChannel) => // For each channel
@@ -98,6 +103,7 @@ class AsyncProcessor extends AudioWorkletProcessor {
             let d = this.getFloats(output[0].length - x);
             if (d == null)
             {
+              this.bufferUndeflow(outputNo);
               return; // No more data
             }
             console.assert(d.length == numberOfChannels, 'Chunk Length not equal to number of channels');
@@ -118,9 +124,11 @@ class AsyncProcessor extends AudioWorkletProcessor {
   }
      
   process(inputs, outputs, parameters) {
+        let outputNo = 0;
         outputs.forEach((output) => // For each output. Probably just one output
         {
-             this.processOutput(output);
+             this.processOutput(outputNo, output);
+             ++outputNo;
         });
 
         inputs.forEach((channel) => 

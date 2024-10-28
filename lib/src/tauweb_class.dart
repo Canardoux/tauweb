@@ -2256,6 +2256,10 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 
 class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode
 {
+  t.onAudioBufferUnderflowFn _onAudioBufferUnderflow = (int outputNo){
+    print('AUDIO_BUFFER_UNDERFLOW for outputNo = $outputNo');
+        };
+
   /* ctor */ AsyncWorkletNode.fromDelegate(delegate) : super.fromDelegate (delegate);
   /* ctor */ AsyncWorkletNode(
     t.BaseAudioContext context,
@@ -2266,20 +2270,23 @@ class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode
         port.onmessage = (t.Message e)
         {
           var msg = e['msg'] as JSObject;
-          String msgType = msg.getProperty('messagetype'.toJS);
-          int outputNo = msg.getProperty('outputNo'.toJS);
-          List<Float32List> data =  msg.getProperty('data'.toJS);
+          var msgType = (msg.getProperty('messageType'.toJS) as JSString).toDart;
+          var outputNo = (msg.getProperty('outputNo'.toJS) as JSNumber).toDartInt;
+          List<Float32List>? data =  null; //Interop().listFloat32List((msg.getProperty('data'.toJS) as JSArray<JSArray<JSNumber>>));
           print("AsyncWorkletNode Rcv: $e");
           onReceiveMessage(msgType, outputNo, data);
         };
 
 
       }
-  void onReceiveMessage(String msgType, int outputNo, List<Float32List> data)
+
+  void onBufferUnderflow(t.onAudioBufferUnderflowFn f) => _onAudioBufferUnderflow = f;
+
+  void onReceiveMessage(String msgType, int outputNo, List<Float32List>? data)
   {
     switch (msgType)
     {
-      case 'AUDIO_BUFFER_UNDERFLOW': print('AUDIO_BUFFER_UNDERFLOW');
+      case 'AUDIO_BUFFER_UNDERFLOW': _onAudioBufferUnderflow(outputNo); break;
 
     }
 
@@ -2375,7 +2382,10 @@ class MessagePort implements t.MessagePort
 {
   w.MessagePort delegate;
   w.MessagePort getDelegate() => delegate;
-  t.MessageFn f = (e){};
+  t.MessageFn f = (e)
+  {
+    print('Dummy');
+  };
   /* ctor */ MessagePort.fromDelegate(this.delegate);
   /* ctor */ // MessagePort() : delegate = w.MessagePort();
   t.MessageFn get onmessage => f;

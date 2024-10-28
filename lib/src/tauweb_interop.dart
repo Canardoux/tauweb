@@ -17,6 +17,7 @@
  */
 
 import 'dart:js_interop';
+import 'dart:typed_data';
 import 'tauweb_audio.dart' as j;
 import 'tauweb_implementation.dart' as i;
 import 'tauweb_class.dart' as c;
@@ -79,7 +80,36 @@ class Interop {
                 return r;
         }
 
-               // The Audio Context
+
+        Float32List listFloat32(JSArray<JSNumber> j)
+        {
+          Float32List r = Float32List(0);
+          List<JSNumber> l = j.toDart;
+          for (int i = 0; i < l.length; ++i)
+          {
+            r.add(l[i].toDartDouble);
+          }
+          return r;
+        }
+
+
+        List<Float32List> listFloat32List(JSArray<JSArray<JSNumber>> j)
+        {
+          List<Float32List> r = [];
+          // TODO
+          /*
+          List<JSNumber> l = j.toDart;
+          for (int i = 0; i < l.length; ++i)
+          {
+            r.add(l[i].toDartDouble);
+          }
+
+           */
+          return r;
+        }
+
+
+        // The Audio Context
         late j.AudioContext audioCtx;
       
         // The three nodes

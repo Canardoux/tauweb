@@ -54,7 +54,7 @@ class AsyncProcessor extends AudioWorkletProcessor {
 
   bufferUndeflow(outputNo)
   {
-    this.port.postMessage({'messagetype' : 'AUDIO_BUFFER_UNDERFLOW', 'outputNo' : outputNo})
+    this.port.postMessage({'messageType' : 'AUDIO_BUFFER_UNDERFLOW', 'outputNo' : outputNo})
   }
 
   // The number of outputs is 1

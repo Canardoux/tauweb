@@ -43,12 +43,19 @@ class AsyncProcessor extends AudioWorkletProcessor {
 
   constructor(...args) {
     super(...args);
-    this.chunks = [];
+    this.chunksArray = [];
     this.port.onmessage = (e) => {
       //console.log('Rcv ' + e.data);
       //this.port.postMessage("pong (" + e.data + ")");
-      this.send(e.data);
-      
+      let msg = e.data;
+      let msgType = msg['msgType'];
+      let outputNo = msg['outputNo'];
+      let data = msg['data'];
+      switch (msgType)
+      {
+        case 'SEND_DATA': this.send(outputNo, data); break;
+      }
+
     };
   }
 
@@ -57,63 +64,92 @@ class AsyncProcessor extends AudioWorkletProcessor {
     this.port.postMessage({'messageType' : 'AUDIO_BUFFER_UNDERFLOW', 'outputNo' : outputNo})
   }
 
-  // The number of outputs is 1
-  send( data)
+
+  send( outputNo, data)
   {
-      this.chunks.push(data);
+      while (outputNo >= this.chunksArray.length)
+      {
+            this.chunksArray.push([]);
+      }
+      this.chunksArray[outputNo].push(data);
   }
 
 
-  getFloats(ln)
+  getFloats(output, nextChunk,  ln, outNo)
   {
-      if (this.chunks.length == 0) // No more data
-      {
-        return null; // No more chunks
-      }
+      //if (chunks.length == 0) // No more data
+      //{
+        //return null; // No more chunks
+      //}
 
-      let ch = this.chunks[0]; // Current chunk
-      let numberOfFrames = ch[0].length; // Number of frames in the chunk
+      //let ch = chunks[0]; // Current chunk (the oldest one)
+      let numberOfChannels = nextChunk.length;
+      let numberOfChannelsRequested = output.length;
+      console.assert (numberOfChannels == numberOfChannelsRequested)
+      let numberOfFrames = nextChunk[0].length; // Number of frames in the chunk (First channel)
       if (ln >= numberOfFrames)
       {
-        this.chunks.shift();
-        return ch;
+        this.chunksArray[outNo].shift(); // Remove the next chunk
+        return nextChunk;
       }
       let r = [];
       let channelNo = 0;
-      ch.forEach((d)=> 
+      nextChunk.forEach((d)=> // For each requested channel
       {
             console.assert(numberOfFrames == d.length, "chunk length mismatch");
             r.push(d.subarray(0, ln));
-            ch[channelNo] = d.subarray(ln, numberOfFrames);
+            nextChunk[channelNo] = d.subarray(ln, numberOfFrames);
             ++channelNo;
       });
       return r;
   }
 
-  processOutput(outputNo, output)
+  processOutput(output, outNo) // Process the requested output
   {
-    let numberOfChannels = output.length;
-    output.forEach((dataChannel) => // For each channel
+    let numberOfChunks = this.chunksArray[outNo].length; // Just for debugging
+    if (numberOfChunks == 0)
+    {
+      this.bufferUndeflow(0); // don't do that when debugging!!!
+      return; // No more data
+    }
+    let nextChunk = this.chunksArray[outNo][0];
+    let numberOfChannels = nextChunk.length; // The number of channels in the next chunk
+    let numberOfChannelsRequested = output.length;// just for debugging
+    console.assert (numberOfChannels == numberOfChannelsRequested);
+    if (numberOfChannelsRequested == 0)
+    {
+        return; // No channels requested
+    }
+
+    //console.assert (numberOfChannels == numberOfChannelsRequested); // Just for debugging
+
+    output.forEach((dataChannel) => // For each wanted channels
     {
       console.assert(dataChannel.length == output[0].length, 'Number of frames not same for all channels');
     });
     let x = 0;
-    while (x < output[0].length) // for each frames
+    let sizeOfChunk = nextChunk[0].length; // Size for the first channel
+    let numberOfFramesWanted =  output[0].length - x;
+    while (x < numberOfFramesWanted) // for each wanted frames in the first channel
     {
-            let d = this.getFloats(output[0].length - x);
+            if (this.chunksArray[outNo].length == 0)
+            {
+                return;
+            }
+            let nextChunk = this.chunksArray[outNo][0];
+            let d = this.getFloats(output, nextChunk, numberOfFramesWanted - x, outNo);
             if (d == null)
             {
-              this.bufferUndeflow(outputNo);
+              this.bufferUnderflow(outputNo);
               return; // No more data
             }
+            let numberOfFramesGot = d[0].length; // Size got for the first channel
             console.assert(d.length == numberOfChannels, 'Chunk Length not equal to number of channels');
-            let channelNo = 0;
-            output.forEach((dataChannel) => // For each channel
+            for (let channelNo = 0; channelNo < numberOfChannels; ++channelNo)
             {
-              //console.assert(d[0].length == d.length, 'Frames not same for all channels');
-              dataChannel.set(d[channelNo], x);
-              ++ channelNo;
-            });
+              console.assert(d[0].length == d[channelNo].length, 'Frames not same for all channels');
+              output[channelNo].set(d[channelNo], x);
+            }
             x += d[0].length;
         
     }
@@ -124,17 +160,25 @@ class AsyncProcessor extends AudioWorkletProcessor {
   }
      
   process(inputs, outputs, parameters) {
-        let outputNo = 0;
-        outputs.forEach((output) => // For each output. Probably just one output
-        {
-             this.processOutput(outputNo, output);
-             ++outputNo;
-        });
 
-        inputs.forEach((channel) => 
-        {
+      let numberOfOutputs = this.chunksArray.length; // Just for debugging
+      let numberOfOutputsRequested = outputs.length;
+      if (outputs.length > numberOfOutputs)
+      {
+         this.chunksArray.push([]);
+      }
+      let outNo = 0;
+      outputs.forEach((output) => // For each output. Probably just one output
+      {
+
+             this.processOutput(output, outNo);
+             ++ outNo;
+      });
+
+      inputs.forEach((channel) =>
+      {
             // TODO cb(channel);
-        });
+      });
       
       
     return true;

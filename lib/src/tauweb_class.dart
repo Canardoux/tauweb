@@ -2292,9 +2292,13 @@ class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode
 
 }
 
-  void send({int output = 0, required List<Float32List> data})
+  void send({int outputNo = 0, required List<Float32List> data})
   {
-    port.postMessage({'output': output, 'data': data});
+    JSObject obj = JSObject();
+    obj.setProperty('msgType'.toJS, 'SEND_DATA'.toJS);
+    obj.setProperty('outputNo'.toJS, outputNo.toJS);
+    obj.setProperty('data'.toJS, Interop().jsArrayFloats(data));
+    port.postMessage(obj);
   }  
 }
 
@@ -2389,7 +2393,7 @@ class MessagePort implements t.MessagePort
   /* ctor */ MessagePort.fromDelegate(this.delegate);
   /* ctor */ // MessagePort() : delegate = w.MessagePort();
   t.MessageFn get onmessage => f;
-  void postMessage(t.Message e) => delegate.postMessage(e['data']);
+  void postMessage(t.Message msg) => delegate.postMessage(msg);
   void set onmessage(f)
   {
     this.f = f;

@@ -56,6 +56,22 @@ class Interop {
           return r.toJS;
         }
 
+        JSArray<JSFloat32Array> jsArrayFloats(List<Float32List> listFloats)
+        {
+          List<JSFloat32Array> r = [];
+          for (var v in listFloats) {// v is a Float32List
+            var vv = v.toJS; // vv is a JSFloat32Array
+            r.add(v.toJS);
+          }
+          /*
+          List<JSNumber> r = [];
+          for (var v in listInt) {
+            r.add(v.toJS);
+          }
+           */
+          return r.toJS;
+        }
+
 
         List<int> listNumInt(JSArray<JSNumber> j)
         {

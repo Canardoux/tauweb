@@ -61,7 +61,7 @@ class AsyncProcessor extends AudioWorkletProcessor {
 
   bufferUndeflow(outputNo)
   {
-    this.port.postMessage({'messageType' : 'AUDIO_BUFFER_UNDERFLOW', 'outputNo' : outputNo})
+    this.port.postMessage({'messageType' : 'AUDIO_BUFFER_UNDERFLOW', 'outputNo' : outputNo});
   }
 
 
@@ -74,6 +74,10 @@ class AsyncProcessor extends AudioWorkletProcessor {
       this.chunksArray[outputNo].push(data);
   }
 
+  receive(inNo, data)
+  {
+    this.port.postMessage({ 'messageType' : 'RECEIVE_DATA', 'inputNo' : inNo, 'data': data});
+  }
 
   getFloats(output, nextChunk,  ln, outNo)
   {
@@ -175,9 +179,11 @@ class AsyncProcessor extends AudioWorkletProcessor {
              ++ outNo;
       });
 
-      inputs.forEach((channel) =>
+      let inNo = 0;
+      inputs.forEach((input) => // For each input (Probably just one input)
       {
-            // TODO cb(channel);
+            this.receive(inNo, input);
+            ++ inNo;
       });
       
       
@@ -202,4 +208,8 @@ class AsyncProcessor extends AudioWorkletProcessor {
   }
 }
 
-registerProcessor("async-processor", AsyncProcessor);
+// Actually just 4 processors registered. It can be changed.
+registerProcessor("async-processor-1", AsyncProcessor);
+registerProcessor("async-processor-2", AsyncProcessor);
+registerProcessor("async-processor-3", AsyncProcessor);
+registerProcessor("async-processor-4", AsyncProcessor);

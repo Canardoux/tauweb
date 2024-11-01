@@ -135,6 +135,10 @@ extension type AudioContext._(JSObject _)
   external MediaStreamAudioDestinationNode createMediaStreamDestination();
   external double get baseLatency;
   external double get outputLatency;
+
+  // Tau:
+
+  external JSPromise<JSAny?> setSinkId(JSString sinkId);
 }
 
 

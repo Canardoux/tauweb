@@ -159,6 +159,9 @@ class AudioContext extends BaseAudioContext implements t.AudioContext {
   double get baseLatency => delegate.baseLatency;
   double get outputLatency => delegate.outputLatency;
 
+/// Tau:
+  Future<void> setSinkId(String sinkId) => (delegate.setSinkId(sinkId.toJS)).toDart;
+
 
 
 // =================================================================================================
@@ -2325,6 +2328,8 @@ class MediaStream implements t.MediaStream
   /* ctor */ MediaStream() : delegate = w.MediaStream();
 
   /* ctor */ //MediaStream({ bool audio = true, bool video = true}) : delegate = w.window.navigator.mediaDevices.getUserMedia(w.MediaStreamConstraints(  audio: true.toJS)).toDart;;
+  String get id => delegate.id;
+
 }
 
 
@@ -2591,9 +2596,13 @@ class MediaDevices implements t.MediaDevices
     return object;
   }
 
-  Future<MediaStream> getUserMediaWithConstraints({ required Map<String, Object> audio, required Map<String, Object> video}) async {
-    var l = await delegate.getUserMedia(w.MediaStreamConstraints( audio: mapToJsObject(audio), video: mapToJsObject(video))).toDart;
-    return MediaStream.fromDelegate(l);
+  Future<MediaStream> getUserMediaWithConstraints({ required Map<String, Object> audio, }) async {
+    var x = w.MediaStreamConstraints( audio: mapToJsObject(audio), video: false.toJS);
+    var l = delegate.getUserMedia(x);
+    var y = l.toDart;
+    var z = await y;
+    var r =  MediaStream.fromDelegate(z);
+    return r;
   }
 
     Future<List<t.MediaDeviceInfo>> enumerateDevices() async

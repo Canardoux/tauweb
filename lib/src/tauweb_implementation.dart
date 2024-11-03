@@ -22,6 +22,7 @@ import 'tauweb_class.dart' as c;
 import 'package:web/web.dart' as w;
 import 'dart:js_interop';
 import 'package:etau/etau.dart' as i show MediaDevices;
+import 'package:logger/logger.dart' as log;
 
 extension type TauwebJS._(JSObject _) implements JSObject {
         external factory TauwebJS();
@@ -35,12 +36,17 @@ class TauwebImplementation implements TauInterface
 {
   static final TauwebImplementation _singleton = TauwebImplementation._internal();
   factory TauwebImplementation() => _singleton;
+  late log.Logger _logger;
 
+  @override
+  log.Logger logger() => _logger;
 
   //static int papa() => TauwebJS.papa();
 
   TauwebImplementation._internal() {
   }
+
+
 
   @override
   MediaDevices getDevices() => c.MediaDevices();
@@ -48,8 +54,10 @@ class TauwebImplementation implements TauInterface
   static bool alreadyInited = false;
 
   @override
-  Future<void> init() async {
-     if (!alreadyInited)
+  Future<void> init([log.Level loglevel = log.Level.debug]) async {
+    _logger = log.Logger();
+    log.Logger.level = loglevel;
+    if (!alreadyInited)
     {
       await importModule("./packages/tauweb/js/tauweb.js".toJS).toDart;
       alreadyInited = true;

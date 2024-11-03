@@ -2259,7 +2259,7 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 
 class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode
 {
-  t.onAudioBufferUnderflowFn _onAudioBufferUnderflow = (int outputNo){
+  t.OnAudioBufferUnderflowFn _onAudioBufferUnderflow = (int outputNo){
     print('AUDIO_BUFFER_UNDERFLOW for outputNo = $outputNo');
         };
 
@@ -2283,7 +2283,7 @@ class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode
 
       }
 
-  void onBufferUnderflow(t.onAudioBufferUnderflowFn f) => _onAudioBufferUnderflow = f;
+  void onBufferUnderflow(t.OnAudioBufferUnderflowFn f) => _onAudioBufferUnderflow = f;
 
   void onReceiveMessage(String msgType, int outputNo, List<Float32List>? data)
   {

@@ -1,8 +1,8 @@
-name: tauweb
-description: "A E-τ (Etau) implementation for the Web."
+name: tau_web
+description: "A E_τ (Etau) implementation for the Web."
 version: 0.0.1
 homepage: https://tau.canardoux.xyz
-repository: https://github.com/canardoux/tauweb
+repository: https://github.com/canardoux/tau_web
 
 environment:
   sdk: ^3.5.3
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  etau: ^0.0.2
+  etau: ^0.0.888
 #    path: ../etau # etau Dir
   web: ^1.0.0
   logger: ^2.4.0
@@ -63,5 +63,5 @@ flutter:
   # https://flutter.dev/to/font-from-package
 
   assets:
-  - js/tauweb.js
+  - js/tau_web.js
   - js/async_processor.js

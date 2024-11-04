@@ -53,7 +53,7 @@ class TauwebImplementation implements TauInterface {
     _logger = log.Logger();
     log.Logger.level = loglevel;
     if (!alreadyInited) {
-      await importModule("./packages/tauweb/js/tauweb.js".toJS).toDart;
+      await importModule("./packages/tau_web/js/tau_web.js".toJS).toDart;
       alreadyInited = true;
     }
   }

@@ -24,8 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  tauweb: ^0.0.1
-#    path: ../ # tauweb Dir
+  tau_web: ^0.0.1
+#    path: ../ # tau_web Dir
 
   etau: ^0.0.2
 #    path: ../../etau # etau Dir

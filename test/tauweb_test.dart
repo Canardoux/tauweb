@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:tauwaweb/tauwaweb.dart';
+import 'package:tauweb/tauweb.dart';
 
 void main() {
   test('adds one to input values', () {

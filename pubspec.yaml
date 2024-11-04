@@ -1,7 +1,8 @@
 name: tauweb
-description: "A Tau implementation for the Web."
+description: "A E-τ (Etau) implementation for the Web."
 version: 0.0.1
-homepage:
+homepage: https://tau.canardoux.xyz
+repository: https://github.com/canardoux/tauweb
 
 environment:
   sdk: ^3.5.3

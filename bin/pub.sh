@@ -52,7 +52,7 @@ fi
 
 flutter pub publish
 if [ $? -ne 0 ]; then
-    echo "Error: flutter pub publish[etau]"
+    echo "Error: flutter pub publish[tauweb]"
     exit -1
 fi
 

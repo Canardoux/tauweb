@@ -18,5 +18,4 @@
 import 'package:etau/etau.dart' show TauInterface;
 import 'src/tauweb_implementation.dart' show TauwebImplementation;
 
-
-TauInterface Tau() => TauwebImplementation();
+TauInterface tau() => TauwebImplementation();

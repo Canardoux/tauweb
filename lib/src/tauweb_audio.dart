@@ -16,24 +16,11 @@
  * along with τ.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 @JS()
 library;
 
 import 'dart:js_interop';
-//import 'dart:html';
-//import 'dart:js';
-//import 'dart:js_util';
-//import 'dart:web_audio';
 import 'package:web/web.dart';
-import 'package:etau/etau.dart' as t;
-
-//import 'package:js/js.dart';
-//import 'dart:dom';
-//import 'dart:dom.dart';
-//import 'dart:hr_time.dart';
-//import 'dart:html';
-//import 'mediacapture_streams.dart';
 
 typedef DecodeErrorCallback = JSFunction;
 typedef DecodeSuccessCallback = JSFunction;
@@ -51,16 +38,9 @@ typedef PanningModelType = String;
 typedef DistanceModelType = String;
 typedef OverSampleType = String;
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
-extension type BaseAudioContext._(JSObject _) implements  JSObject {
+extension type BaseAudioContext._(JSObject _) implements JSObject {
   external AnalyserNode createAnalyser();
   external BiquadFilterNode createBiquadFilter();
   external AudioBuffer createBuffer(
@@ -110,14 +90,7 @@ extension type BaseAudioContext._(JSObject _) implements  JSObject {
   external set onstatechange(EventHandler value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioContext._(JSObject _)
     implements BaseAudioContext, JSObject {
@@ -141,14 +114,7 @@ extension type AudioContext._(JSObject _)
   external JSPromise<JSAny?> setSinkId(JSString sinkId);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioContextOptions._(JSObject _) implements JSObject {
   external factory AudioContextOptions({
@@ -168,14 +134,7 @@ extension type AudioContextOptions._(JSObject _) implements JSObject {
   external set renderSizeHint(JSAny value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioSinkOptions._(JSObject _) implements JSObject {
   external factory AudioSinkOptions({required AudioSinkType type});
@@ -184,18 +143,11 @@ extension type AudioSinkOptions._(JSObject _) implements JSObject {
   external set type(AudioSinkType value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioTimestamp._(JSObject _) implements JSObject {
   external factory AudioTimestamp({
-    num?  contextTime, // [LARPOUX]
+    num? contextTime, // [LARPOUX]
     DOMHighResTimeStamp? performanceTime, // [LARPOUX]
   });
 
@@ -205,15 +157,7 @@ extension type AudioTimestamp._(JSObject _) implements JSObject {
   external set performanceTime(DOMHighResTimeStamp value);
 }
 
-
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type OfflineAudioContext._(JSObject _)
     implements BaseAudioContext, JSObject {
@@ -230,14 +174,7 @@ extension type OfflineAudioContext._(JSObject _)
   external set oncomplete(EventHandler value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type OfflineAudioContextOptions._(JSObject _) implements JSObject {
   external factory OfflineAudioContextOptions({
@@ -257,14 +194,7 @@ extension type OfflineAudioContextOptions._(JSObject _) implements JSObject {
   external set renderSizeHint(JSAny value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type OfflineAudioCompletionEvent._(JSObject _)
     implements Event, JSObject {
@@ -275,14 +205,7 @@ extension type OfflineAudioCompletionEvent._(JSObject _)
   external AudioBuffer get renderedBuffer;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type OfflineAudioCompletionEventInit._(JSObject _)
     implements EventInit, JSObject {
@@ -297,14 +220,7 @@ extension type OfflineAudioCompletionEventInit._(JSObject _)
   external set renderedBuffer(AudioBuffer value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioBuffer._(JSObject _) implements JSObject {
   external factory AudioBuffer(AudioBufferOptions options);
@@ -325,14 +241,7 @@ extension type AudioBuffer._(JSObject _) implements JSObject {
   external int get numberOfChannels;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioBufferOptions._(JSObject _) implements JSObject {
   external factory AudioBufferOptions({
@@ -349,14 +258,7 @@ extension type AudioBufferOptions._(JSObject _) implements JSObject {
   external set sampleRate(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioNode._(JSObject _) implements EventTarget, JSObject {
   external AudioNode? connect(
@@ -364,7 +266,7 @@ extension type AudioNode._(JSObject _) implements EventTarget, JSObject {
     int output,
     int input,
   ]);
-  
+
   external void disconnect([
     JSObject destinationNodeOrDestinationParamOrOutput,
     int output,
@@ -381,14 +283,7 @@ extension type AudioNode._(JSObject _) implements EventTarget, JSObject {
   external set channelInterpretation(ChannelInterpretation value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioNodeOptions._(JSObject _) implements JSObject {
   external factory AudioNodeOptions({
@@ -405,14 +300,7 @@ extension type AudioNodeOptions._(JSObject _) implements JSObject {
   external set channelInterpretation(ChannelInterpretation value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioParam._(JSObject _) implements JSObject {
   external AudioParam setValueAtTime(
@@ -448,14 +336,7 @@ extension type AudioParam._(JSObject _) implements JSObject {
   external double get maxValue;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioScheduledSourceNode._(JSObject _)
     implements AudioNode, JSObject {
@@ -465,14 +346,7 @@ extension type AudioScheduledSourceNode._(JSObject _)
   external set onended(EventHandler value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AnalyserNode._(JSObject _) implements AudioNode, JSObject {
   external factory AnalyserNode(
@@ -495,14 +369,7 @@ extension type AnalyserNode._(JSObject _) implements AudioNode, JSObject {
   external set smoothingTimeConstant(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AnalyserOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -526,14 +393,7 @@ extension type AnalyserOptions._(JSObject _)
   external set smoothingTimeConstant(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioBufferSourceNode._(JSObject _)
     implements AudioScheduledSourceNode, JSObject {
@@ -558,14 +418,7 @@ extension type AudioBufferSourceNode._(JSObject _)
   external set loopEnd(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioBufferSourceOptions._(JSObject _) implements JSObject {
   external factory AudioBufferSourceOptions({
@@ -591,29 +444,14 @@ extension type AudioBufferSourceOptions._(JSObject _) implements JSObject {
   external set playbackRate(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioDestinationNode._(JSObject _)
     implements AudioNode, JSObject {
   external int get maxChannelCount;
 }
 
-
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioListener._(JSObject _) implements JSObject {
   external void setPosition(
@@ -641,14 +479,7 @@ extension type AudioListener._(JSObject _) implements JSObject {
   external AudioParam get upZ;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioProcessingEvent._(JSObject _) implements Event, JSObject {
   external factory AudioProcessingEvent(
@@ -661,14 +492,7 @@ extension type AudioProcessingEvent._(JSObject _) implements Event, JSObject {
   external AudioBuffer get outputBuffer;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioProcessingEventInit._(JSObject _)
     implements EventInit, JSObject {
@@ -689,14 +513,7 @@ extension type AudioProcessingEventInit._(JSObject _)
   external set outputBuffer(AudioBuffer value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type BiquadFilterNode._(JSObject _) implements AudioNode, JSObject {
   external factory BiquadFilterNode(
@@ -716,14 +533,7 @@ extension type BiquadFilterNode._(JSObject _) implements AudioNode, JSObject {
   external AudioParam get gain;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type BiquadFilterOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -750,14 +560,7 @@ extension type BiquadFilterOptions._(JSObject _)
   external set gain(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type ChannelMergerNode._(JSObject _) implements AudioNode, JSObject {
   external factory ChannelMergerNode(
@@ -766,14 +569,7 @@ extension type ChannelMergerNode._(JSObject _) implements AudioNode, JSObject {
   ]);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type ChannelMergerOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -788,15 +584,7 @@ extension type ChannelMergerOptions._(JSObject _)
   external set numberOfInputs(int value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 
 extension type ChannelSplitterNode._(JSObject _)
     implements AudioNode, JSObject {
@@ -806,14 +594,7 @@ extension type ChannelSplitterNode._(JSObject _)
   ]);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type ChannelSplitterOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -828,14 +609,7 @@ extension type ChannelSplitterOptions._(JSObject _)
   external set numberOfOutputs(int value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type ConstantSourceNode._(JSObject _)
     implements AudioScheduledSourceNode, JSObject {
@@ -846,30 +620,18 @@ extension type ConstantSourceNode._(JSObject _)
   external AudioParam get offset;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
-extension type ConstantSourceOptions._(JSObject _) implements AudioNodeOptions,JSObject { // LARPOUX
+extension type ConstantSourceOptions._(JSObject _)
+    implements AudioNodeOptions, JSObject {
+  // LARPOUX
   external factory ConstantSourceOptions({num? offset}); // [LARPOUX]
 
   external double get offset;
   external set offset(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type ConvolverNode._(JSObject _) implements AudioNode, JSObject {
   external factory ConvolverNode(
@@ -883,14 +645,7 @@ extension type ConvolverNode._(JSObject _) implements AudioNode, JSObject {
   external set normalize(bool value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type ConvolverOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -908,14 +663,7 @@ extension type ConvolverOptions._(JSObject _)
   external set disableNormalization(bool value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type DelayNode._(JSObject _) implements AudioNode, JSObject {
   external factory DelayNode(
@@ -926,14 +674,7 @@ extension type DelayNode._(JSObject _) implements AudioNode, JSObject {
   external AudioParam get delayTime;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type DelayOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -951,14 +692,7 @@ extension type DelayOptions._(JSObject _)
   external set delayTime(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type DynamicsCompressorNode._(JSObject _)
     implements AudioNode, JSObject {
@@ -975,14 +709,7 @@ extension type DynamicsCompressorNode._(JSObject _)
   external AudioParam get release;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type DynamicsCompressorOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -1009,14 +736,7 @@ extension type DynamicsCompressorOptions._(JSObject _)
   external set threshold(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type GainNode._(JSObject _) implements AudioNode, JSObject {
   external factory GainNode(
@@ -1026,14 +746,7 @@ extension type GainNode._(JSObject _) implements AudioNode, JSObject {
   external AudioParam get gain;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type GainOptions._(JSObject _) implements AudioNodeOptions, JSObject {
   external factory GainOptions({
@@ -1047,14 +760,7 @@ extension type GainOptions._(JSObject _) implements AudioNodeOptions, JSObject {
   external set gain(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type IIRFilterNode._(JSObject _) implements AudioNode, JSObject {
   external factory IIRFilterNode(
@@ -1069,14 +775,7 @@ extension type IIRFilterNode._(JSObject _) implements AudioNode, JSObject {
   );
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type IIRFilterOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -1094,14 +793,7 @@ extension type IIRFilterOptions._(JSObject _)
   external set feedback(JSArray<JSNumber> value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type MediaElementAudioSourceNode._(JSObject _)
     implements AudioNode, JSObject {
@@ -1113,14 +805,7 @@ extension type MediaElementAudioSourceNode._(JSObject _)
   external HTMLMediaElement get mediaElement;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type MediaElementAudioSourceOptions._(JSObject _)
     implements JSObject {
@@ -1131,14 +816,7 @@ extension type MediaElementAudioSourceOptions._(JSObject _)
   external set mediaElement(HTMLMediaElement value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type MediaStreamAudioDestinationNode._(JSObject _)
     implements AudioNode, JSObject {
@@ -1149,14 +827,7 @@ extension type MediaStreamAudioDestinationNode._(JSObject _)
   external MediaStream get stream;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type MediaStreamAudioSourceNode._(JSObject _)
     implements AudioNode, JSObject {
@@ -1168,14 +839,7 @@ extension type MediaStreamAudioSourceNode._(JSObject _)
   external MediaStream get mediaStream;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type MediaStreamAudioSourceOptions._(JSObject _) implements JSObject {
   external factory MediaStreamAudioSourceOptions(
@@ -1185,14 +849,7 @@ extension type MediaStreamAudioSourceOptions._(JSObject _) implements JSObject {
   external set mediaStream(MediaStream value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type MediaStreamTrackAudioSourceNode._(JSObject _)
     implements AudioNode, JSObject {
@@ -1202,14 +859,7 @@ extension type MediaStreamTrackAudioSourceNode._(JSObject _)
   );
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type MediaStreamTrackAudioSourceOptions._(JSObject _)
     implements JSObject {
@@ -1220,14 +870,7 @@ extension type MediaStreamTrackAudioSourceOptions._(JSObject _)
   external set mediaStreamTrack(MediaStreamTrack value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type OscillatorNode._(JSObject _)
     implements AudioScheduledSourceNode, JSObject {
@@ -1242,14 +885,7 @@ extension type OscillatorNode._(JSObject _)
   external AudioParam get detune;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type OscillatorOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -1273,14 +909,7 @@ extension type OscillatorOptions._(JSObject _)
   external set periodicWave(PeriodicWave value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type PannerNode._(JSObject _) implements AudioNode, JSObject {
   external factory PannerNode(
@@ -1321,14 +950,7 @@ extension type PannerNode._(JSObject _) implements AudioNode, JSObject {
   external set coneOuterGain(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type PannerOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -1382,14 +1004,7 @@ extension type PannerOptions._(JSObject _)
   external set coneOuterGain(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type PeriodicWave._(JSObject _) implements JSObject {
   external factory PeriodicWave(
@@ -1398,30 +1013,17 @@ extension type PeriodicWave._(JSObject _) implements JSObject {
   ]);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
 extension type PeriodicWaveConstraints._(JSObject _) implements JSObject {
-  external factory PeriodicWaveConstraints({bool? disableNormalization}); // [LARPOUX]
+  external factory PeriodicWaveConstraints(
+      {bool? disableNormalization}); // [LARPOUX]
 
   external bool get disableNormalization;
   external set disableNormalization(bool value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type PeriodicWaveOptions._(JSObject _)
     implements PeriodicWaveConstraints, JSObject {
@@ -1437,14 +1039,7 @@ extension type PeriodicWaveOptions._(JSObject _)
   external set imag(JSArray<JSNumber> value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type ScriptProcessorNode._(JSObject _)
     implements AudioNode, JSObject {
@@ -1453,14 +1048,7 @@ extension type ScriptProcessorNode._(JSObject _)
   external int get bufferSize;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type StereoPannerNode._(JSObject _) implements AudioNode, JSObject {
   external factory StereoPannerNode(
@@ -1470,14 +1058,7 @@ extension type StereoPannerNode._(JSObject _) implements AudioNode, JSObject {
   external AudioParam get pan;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type StereoPannerOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -1492,14 +1073,7 @@ extension type StereoPannerOptions._(JSObject _)
   external set pan(num value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type WaveShaperNode._(JSObject _) implements AudioNode, JSObject {
   external factory WaveShaperNode(
@@ -1512,14 +1086,7 @@ extension type WaveShaperNode._(JSObject _) implements AudioNode, JSObject {
   external set oversample(OverSampleType value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type WaveShaperOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -1537,14 +1104,7 @@ extension type WaveShaperOptions._(JSObject _)
   external set oversample(OverSampleType value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioWorklet._(JSObject _) implements Worklet, JSObject {}
 
@@ -1559,14 +1119,7 @@ extension type AudioWorkletGlobalScope._(JSObject _)
   external double get sampleRate;
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioParamMap._(JSObject _) implements JSObject {}
 extension type AudioWorkletNode._(JSObject _) implements AudioNode, JSObject {
@@ -1581,14 +1134,7 @@ extension type AudioWorkletNode._(JSObject _) implements AudioNode, JSObject {
   external set onprocessorerror(EventHandler value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 extension type AudioWorkletNodeOptions._(JSObject _)
     implements AudioNodeOptions, JSObject {
@@ -1615,22 +1161,11 @@ extension type AudioWorkletNodeOptions._(JSObject _)
   external set processorOptions(JSObject value);
 }
 
-
-
-
 // ------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 
 extension type AudioWorkletProcessor._(JSObject _) implements JSObject {
   external factory AudioWorkletProcessor();
   external MessagePort get port;
 }
-
-
-
 
 // ------------------------------------------------------------------------------------------------------------------

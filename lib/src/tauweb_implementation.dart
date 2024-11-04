@@ -19,22 +19,20 @@
 import 'dart:async';
 import 'package:etau/etau.dart';
 import 'tauweb_class.dart' as c;
-import 'package:web/web.dart' as w;
+//import 'package:web/web.dart' as w;
 import 'dart:js_interop';
-import 'package:etau/etau.dart' as i show MediaDevices;
+//import 'package:etau/etau.dart' as i show MediaDevices;
 import 'package:logger/logger.dart' as log;
 
 extension type TauwebJS._(JSObject _) implements JSObject {
-        external factory TauwebJS();
+  external factory TauwebJS();
 
-        //external static int papa();
+  //external static int papa();
 }
 
-
-
-class TauwebImplementation implements TauInterface
-{
-  static final TauwebImplementation _singleton = TauwebImplementation._internal();
+class TauwebImplementation implements TauInterface {
+  static final TauwebImplementation _singleton =
+      TauwebImplementation._internal();
   factory TauwebImplementation() => _singleton;
   late log.Logger _logger;
 
@@ -43,10 +41,7 @@ class TauwebImplementation implements TauInterface
 
   //static int papa() => TauwebJS.papa();
 
-  TauwebImplementation._internal() {
-  }
-
-
+  TauwebImplementation._internal();
 
   @override
   MediaDevices getDevices() => c.MediaDevices();
@@ -57,21 +52,15 @@ class TauwebImplementation implements TauInterface
   Future<void> init([log.Level loglevel = log.Level.debug]) async {
     _logger = log.Logger();
     log.Logger.level = loglevel;
-    if (!alreadyInited)
-    {
+    if (!alreadyInited) {
       await importModule("./packages/tauweb/js/tauweb.js".toJS).toDart;
       alreadyInited = true;
     }
   }
 
-
-
-
   @override
-  AudioContext newAudioContext([AudioContextOptions? contextOptions]) => c.AudioContext(contextOptions);
-
-
-
+  AudioContext newAudioContext([AudioContextOptions? contextOptions]) =>
+      c.AudioContext(contextOptions);
 
   @override
   AudioContextOptions newAudioContextOptions({
@@ -79,33 +68,33 @@ class TauwebImplementation implements TauInterface
     TauSampleRate? sampleRate,
     TauAny? sinkId,
     TauAny? renderSizeHint,
-  }) => c.AudioContextOptions(latencyHint: latencyHint, sampleRate: sampleRate, sinkId: sinkId, renderSizeHint: renderSizeHint);
-
-
+  }) =>
+      c.AudioContextOptions(
+          latencyHint: latencyHint,
+          sampleRate: sampleRate,
+          sinkId: sinkId,
+          renderSizeHint: renderSizeHint);
 
   @override
-  AudioSinkOptions newAudioSinkOptions({required AudioSinkType type}) => c.AudioSinkOptions(type: type);
-
-
+  AudioSinkOptions newAudioSinkOptions({required AudioSinkType type}) =>
+      c.AudioSinkOptions(type: type);
 
   @override
   AudioTimestamp newAudioTimestamp({
     num? contextTime,
     TauHighResTimeStamp? performanceTime,
-  }) => c.AudioTimestamp(contextTime: contextTime, performanceTime: performanceTime);
-
-
+  }) =>
+      c.AudioTimestamp(
+          contextTime: contextTime, performanceTime: performanceTime);
 
   @override
   OfflineAudioContext newOfflineAudioContext(
     TauAny contextOptionsOrNumberOfChannels, [
     int? length,
     TauSampleRate? sampleRate,
-  ]) => c.OfflineAudioContext(contextOptionsOrNumberOfChannels, length, sampleRate);
-
-
-
-
+  ]) =>
+      c.OfflineAudioContext(
+          contextOptionsOrNumberOfChannels, length, sampleRate);
 
   @override
   OfflineAudioContextOptions newOfflineAudioContextOptions({
@@ -113,23 +102,20 @@ class TauwebImplementation implements TauInterface
     required int length,
     required TauSampleRate sampleRate,
     TauAny? renderSizeHint,
-  }) => c.OfflineAudioContextOptions(
-    numberOfChannels: numberOfChannels,
-    length: length,
-    sampleRate: sampleRate,
-    renderSizeHint: renderSizeHint,
-  );
-
-
+  }) =>
+      c.OfflineAudioContextOptions(
+        numberOfChannels: numberOfChannels,
+        length: length,
+        sampleRate: sampleRate,
+        renderSizeHint: renderSizeHint,
+      );
 
   @override
   OfflineAudioCompletionEvent newOfflineAudioCompletionEvent(
     String type,
     OfflineAudioCompletionEventInit eventInitDict,
-  ) => c.OfflineAudioCompletionEvent(type, eventInitDict);
-
-
-
+  ) =>
+      c.OfflineAudioCompletionEvent(type, eventInitDict);
 
   @override
   OfflineAudioCompletionEventInit newOfflineAudioCompletionEventInit({
@@ -137,41 +123,45 @@ class TauwebImplementation implements TauInterface
     bool? cancelable,
     bool? composed,
     required AudioBuffer renderedBuffer,
-  }) => c.OfflineAudioCompletionEventInit(bubbles: bubbles, cancelable: cancelable, composed: composed, renderedBuffer: renderedBuffer);
-
-
+  }) =>
+      c.OfflineAudioCompletionEventInit(
+          bubbles: bubbles,
+          cancelable: cancelable,
+          composed: composed,
+          renderedBuffer: renderedBuffer);
 
   @override
-  AudioBuffer newAudioBuffer(AudioBufferOptions options) => c.AudioBuffer(options);
-
-
-
+  AudioBuffer newAudioBuffer(AudioBufferOptions options) =>
+      c.AudioBuffer(options);
 
   @override
   AudioBufferOptions newAudioBufferOptions({
     int? numberOfChannels,
     required int length,
     required TauSampleRate sampleRate,
-  }) => c.AudioBufferOptions(numberOfChannels: numberOfChannels, length: length, sampleRate: sampleRate);
-
-
+  }) =>
+      c.AudioBufferOptions(
+          numberOfChannels: numberOfChannels,
+          length: length,
+          sampleRate: sampleRate);
 
   @override
   AudioNodeOptions newAudioNodeOptions({
     int? channelCount,
     ChannelCountMode? channelCountMode,
     ChannelInterpretation? channelInterpretation,
-  }) => c.AudioNodeOptionsImp(channelCount: channelCount, channelCountMode: channelCountMode, channelInterpretation: channelInterpretation);
-
-
+  }) =>
+      c.AudioNodeOptionsImp(
+          channelCount: channelCount,
+          channelCountMode: channelCountMode,
+          channelInterpretation: channelInterpretation);
 
   @override
   AnalyserNode newAnalyserNode(
     BaseAudioContext context, [
     AnalyserOptions? options,
-  ]) => c.AnalyserNode(context, options);
-
-
+  ]) =>
+      c.AnalyserNode(context, options);
 
   @override
   AnalyserOptions newAnalyserOptions({
@@ -182,26 +172,23 @@ class TauwebImplementation implements TauInterface
     num? maxDecibels,
     num? minDecibels,
     num? smoothingTimeConstant,
-  }) => c.AnalyserOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    fftSize: fftSize,
-    maxDecibels: maxDecibels,
-    minDecibels: minDecibels,
-    smoothingTimeConstant: smoothingTimeConstant,
-  );
-
-
+  }) =>
+      c.AnalyserOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        fftSize: fftSize,
+        maxDecibels: maxDecibels,
+        minDecibels: minDecibels,
+        smoothingTimeConstant: smoothingTimeConstant,
+      );
 
   @override
   AudioBufferSourceNode newAudioBufferSourceNode(
     BaseAudioContext context, [
     AudioBufferSourceOptions? options,
-  ]) => c.AudioBufferSourceNode(context, options);
-
-
-
+  ]) =>
+      c.AudioBufferSourceNode(context, options);
 
   @override
   AudioBufferSourceOptions newAudioBufferSourceOptions({
@@ -211,24 +198,22 @@ class TauwebImplementation implements TauInterface
     num? loopEnd,
     num? loopStart,
     num? playbackRate,
-  }) => c.AudioBufferSourceOptions(
-    buffer: buffer,
-    detune: detune,
-    loop: loop,
-    loopEnd: loopEnd,
-    loopStart: loopStart,
-    playbackRate: playbackRate,
-  );
-
-
+  }) =>
+      c.AudioBufferSourceOptions(
+        buffer: buffer,
+        detune: detune,
+        loop: loop,
+        loopEnd: loopEnd,
+        loopStart: loopStart,
+        playbackRate: playbackRate,
+      );
 
   @override
   AudioProcessingEvent newAudioProcessingEvent(
     String type,
     AudioProcessingEventInit eventInitDict,
-  ) => c.AudioProcessingEvent(type, eventInitDict);
-
-
+  ) =>
+      c.AudioProcessingEvent(type, eventInitDict);
 
   @override
   AudioProcessingEventInit newAudioProcessingEventInit({
@@ -238,27 +223,22 @@ class TauwebImplementation implements TauInterface
     required num playbackTime,
     required AudioBuffer inputBuffer,
     required AudioBuffer outputBuffer,
-  }) => c.AudioProcessingEventInit(
-    bubbles: bubbles,
-    cancelable: cancelable,
-    composed: composed,
-    playbackTime: playbackTime,
-    inputBuffer: inputBuffer,
-    outputBuffer: outputBuffer,
-  );
-
-
-
+  }) =>
+      c.AudioProcessingEventInit(
+        bubbles: bubbles,
+        cancelable: cancelable,
+        composed: composed,
+        playbackTime: playbackTime,
+        inputBuffer: inputBuffer,
+        outputBuffer: outputBuffer,
+      );
 
   @override
   BiquadFilterNode newBiquadFilterNode(
     BaseAudioContext context, [
     BiquadFilterOptions? options,
-  ]) => c.BiquadFilterNode(
-    context, options
-  );
-
-
+  ]) =>
+      c.BiquadFilterNode(context, options);
 
   @override
   BiquadFilterOptions newBiquadFilterOptions({
@@ -270,29 +250,27 @@ class TauwebImplementation implements TauInterface
     num? detune,
     num? frequency,
     num? gain,
-  }) => c.BiquadFilterOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    type: type,
-    Q: Q,
-    detune: detune,
-    frequency: frequency,
-    gain: gain,
-  );
-
-
+  }) =>
+      c.BiquadFilterOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        type: type,
+        Q: Q,
+        detune: detune,
+        frequency: frequency,
+        gain: gain,
+      );
 
   @override
   ChannelMergerNode newChannelMergerNode(
     BaseAudioContext context, [
     ChannelMergerOptions? options,
-  ]) => c.ChannelMergerNode(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.ChannelMergerNode(
+        context,
+        options,
+      );
 
   @override
   ChannelMergerOptions newChannelMergerOptions({
@@ -300,25 +278,23 @@ class TauwebImplementation implements TauInterface
     ChannelCountMode? channelCountMode,
     ChannelInterpretation? channelInterpretation,
     int? numberOfInputs,
-  }) => c.ChannelMergerOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    numberOfInputs: numberOfInputs,
-  );
-
-
+  }) =>
+      c.ChannelMergerOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        numberOfInputs: numberOfInputs,
+      );
 
   @override
   ChannelSplitterNode newChannelSplitterNode(
     BaseAudioContext context, [
     ChannelSplitterOptions? options,
-  ]) => c.ChannelSplitterNode(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.ChannelSplitterNode(
+        context,
+        options,
+      );
 
   @override
   ChannelSplitterOptions newChannelSplitterOptions({
@@ -326,69 +302,63 @@ class TauwebImplementation implements TauInterface
     ChannelCountMode? channelCountMode,
     ChannelInterpretation? channelInterpretation,
     int? numberOfOutputs,
-  }) => c.ChannelSplitterOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    numberOfOutputs: numberOfOutputs,
-  );
-
-
+  }) =>
+      c.ChannelSplitterOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        numberOfOutputs: numberOfOutputs,
+      );
 
   @override
   ConstantSourceNode newConstantSourceNode(
     BaseAudioContext context, [
     ConstantSourceOptions? options,
-  ]) => c.ConstantSourceNode(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.ConstantSourceNode(
+        context,
+        options,
+      );
 
   @override
-  ConstantSourceOptions newConstantSourceOptions({num? offset}) =>c.ConstantSourceOptions(offset: offset);
-
-
-
+  ConstantSourceOptions newConstantSourceOptions({num? offset}) =>
+      c.ConstantSourceOptions(offset: offset);
 
   @override
   ConvolverNode newConvolverNode(
     BaseAudioContext context, [
     ConvolverOptions? options,
-  ]) => c.ConvolverNode(
-    context,
-    options,
-  );
+  ]) =>
+      c.ConvolverNode(
+        context,
+        options,
+      );
 
-
-
+  @override
   ConvolverOptions newConvolverOptions({
     int? channelCount,
     ChannelCountMode? channelCountMode,
     ChannelInterpretation? channelInterpretation,
     AudioBuffer? buffer,
     bool? disableNormalization,
-  }) => c.ConvolverOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    buffer: buffer,
-    disableNormalization: disableNormalization,
-  );
-
-
+  }) =>
+      c.ConvolverOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        buffer: buffer,
+        disableNormalization: disableNormalization,
+      );
 
   @override
   DelayNode newDelayNode(
     BaseAudioContext context, [
     DelayOptions? options,
-  ]) => c.DelayNode(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.DelayNode(
+        context,
+        options,
+      );
 
   @override
   DelayOptions newDelayOptions({
@@ -397,26 +367,24 @@ class TauwebImplementation implements TauInterface
     ChannelInterpretation? channelInterpretation,
     num? maxDelayTime,
     num? delayTime,
-  }) => c.DelayOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    maxDelayTime: maxDelayTime,
-    delayTime: delayTime,
-  );
-
-
+  }) =>
+      c.DelayOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        maxDelayTime: maxDelayTime,
+        delayTime: delayTime,
+      );
 
   @override
   DynamicsCompressorNode newDynamicsCompressorNode(
     BaseAudioContext context, [
     DynamicsCompressorOptions? options,
-  ]) => c.DynamicsCompressorNode(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.DynamicsCompressorNode(
+        context,
+        options,
+      );
 
   @override
   DynamicsCompressorOptions newDynamicsCompressorOptions({
@@ -428,29 +396,27 @@ class TauwebImplementation implements TauInterface
     num? ratio,
     num? release,
     num? threshold,
-  }) => c.DynamicsCompressorOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    attack: attack,
-    knee: knee,
-    ratio: ratio,
-    release: release,
-    threshold: threshold,
-  );
-
-
+  }) =>
+      c.DynamicsCompressorOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        attack: attack,
+        knee: knee,
+        ratio: ratio,
+        release: release,
+        threshold: threshold,
+      );
 
   @override
   GainNode newGainNode(
     BaseAudioContext context, [
     GainOptions? options,
-  ]) => c.GainNode(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.GainNode(
+        context,
+        options,
+      );
 
   @override
   GainOptions newGainOptions({
@@ -458,25 +424,23 @@ class TauwebImplementation implements TauInterface
     ChannelCountMode? channelCountMode,
     ChannelInterpretation? channelInterpretation,
     num? gain,
-  }) => c.GainOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    gain: gain,
-  );
-
-
+  }) =>
+      c.GainOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        gain: gain,
+      );
 
   @override
   IIRFilterNode newIIRFilterNode(
     BaseAudioContext context,
     IIRFilterOptions options,
-  ) => c.IIRFilterNode(
-    context,
-    options,
-  );
-
-
+  ) =>
+      c.IIRFilterNode(
+        context,
+        options,
+      );
 
   @override
   IIRFilterOptions newIIRFilterOptions({
@@ -485,97 +449,84 @@ class TauwebImplementation implements TauInterface
     ChannelInterpretation? channelInterpretation,
     required TauArray<TauNumber> feedforward,
     required TauArray<TauNumber> feedback,
-  }) => c.IIRFilterOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    feedforward: feedforward,
-    feedback: feedback
-  );
-
-
+  }) =>
+      c.IIRFilterOptions(
+          channelCount: channelCount,
+          channelCountMode: channelCountMode,
+          channelInterpretation: channelInterpretation,
+          feedforward: feedforward,
+          feedback: feedback);
 
   @override
   MediaElementAudioSourceNode newMediaElementAudioSourceNode(
     AudioContext context,
     MediaElementAudioSourceOptions options,
-  ) => c.MediaElementAudioSourceNode(
-    context,
-    options,
-  );
-
-
+  ) =>
+      c.MediaElementAudioSourceNode(
+        context,
+        options,
+      );
 
   @override
   MediaElementAudioSourceOptions newMediaElementAudioSourceOptions(
-      {required MediaElement mediaElement}) => c.MediaElementAudioSourceOptions(
+          {required MediaElement mediaElement}) =>
+      c.MediaElementAudioSourceOptions(
         mediaElement: mediaElement,
       );
-
-
-
 
   @override
   MediaStreamAudioDestinationNode newMediaStreamAudioDestinationNode(
     AudioContext context, [
     AudioNodeOptions? options,
-  ]) => c.MediaStreamAudioDestinationNode(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.MediaStreamAudioDestinationNode(
+        context,
+        options,
+      );
 
   @override
   MediaStreamAudioSourceNode newMediaStreamAudioSourceNode(
     AudioContext context,
     MediaStreamAudioSourceOptions options,
-  ) => c.MediaStreamAudioSourceNode(
-    context,
-    options,
-  );
-
-
+  ) =>
+      c.MediaStreamAudioSourceNode(
+        context,
+        options,
+      );
 
   @override
   MediaStreamAudioSourceOptions newMediaStreamAudioSourceOptions(
-      {required MediaStream mediaStream}) => c.MediaStreamAudioSourceOptions(
+          {required MediaStream mediaStream}) =>
+      c.MediaStreamAudioSourceOptions(
         mediaStream: mediaStream,
       );
-
-
-
 
   @override
   MediaStreamTrackAudioSourceNode newMediaStreamTrackAudioSourceNode(
     AudioContext context,
     MediaStreamTrackAudioSourceOptions options,
-  ) => c.MediaStreamTrackAudioSourceNode(
-    context,
-    options,
-  );
-
-
+  ) =>
+      c.MediaStreamTrackAudioSourceNode(
+        context,
+        options,
+      );
 
   @override
   MediaStreamTrackAudioSourceOptions newMediaStreamTrackAudioSourceOptions(
-      {required MediaStreamTrack mediaStreamTrack}) => c.MediaStreamTrackAudioSourceOptions(
+          {required MediaStreamTrack mediaStreamTrack}) =>
+      c.MediaStreamTrackAudioSourceOptions(
         mediaStreamTrack: mediaStreamTrack,
       );
-
-
-
 
   @override
   OscillatorNode newOscillatorNode(
     BaseAudioContext context, [
     OscillatorOptions? options,
-  ]) => c.OscillatorNode(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.OscillatorNode(
+        context,
+        options,
+      );
 
   @override
   OscillatorOptions newOscillatorOptions({
@@ -586,29 +537,26 @@ class TauwebImplementation implements TauInterface
     num? frequency,
     num? detune,
     PeriodicWave? periodicWave,
-  }) => c.OscillatorOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    type: type,
-    frequency: frequency,
-    detune: detune,
-    periodicWave: periodicWave,
-  );
-
-
+  }) =>
+      c.OscillatorOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        type: type,
+        frequency: frequency,
+        detune: detune,
+        periodicWave: periodicWave,
+      );
 
   @override
   PannerNode newPannerNode(
     BaseAudioContext context, [
     PannerOptions? options,
-  ]) => c.PannerNode(
-    context,
-    options,
-  );
-
-
-
+  ]) =>
+      c.PannerNode(
+        context,
+        options,
+      );
 
   @override
   PannerOptions newPannerOptions({
@@ -629,70 +577,63 @@ class TauwebImplementation implements TauInterface
     num? coneInnerAngle,
     num? coneOuterAngle,
     num? coneOuterGain,
-  }) => c.PannerOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    panningModel: panningModel,
-    distanceModel: distanceModel,
-    positionX: positionX,
-    positionY: positionY,
-    positionZ: positionZ,
-    orientationX: orientationX,
-    orientationY: orientationY,
-    orientationZ: orientationZ,
-    refDistance: refDistance,
-    maxDistance: maxDistance,
-    rolloffFactor: rolloffFactor,
-    coneInnerAngle: coneInnerAngle,
-    coneOuterAngle: coneOuterAngle,
-    coneOuterGain: coneOuterGain,
-  );
-
-
+  }) =>
+      c.PannerOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        panningModel: panningModel,
+        distanceModel: distanceModel,
+        positionX: positionX,
+        positionY: positionY,
+        positionZ: positionZ,
+        orientationX: orientationX,
+        orientationY: orientationY,
+        orientationZ: orientationZ,
+        refDistance: refDistance,
+        maxDistance: maxDistance,
+        rolloffFactor: rolloffFactor,
+        coneInnerAngle: coneInnerAngle,
+        coneOuterAngle: coneOuterAngle,
+        coneOuterGain: coneOuterGain,
+      );
 
   @override
   PeriodicWave newPeriodicWave(
     BaseAudioContext context, [
     PeriodicWaveOptions? options,
-  ]) => c.PeriodicWave(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.PeriodicWave(
+        context,
+        options,
+      );
 
   @override
-  PeriodicWaveConstraints newPeriodicWaveConstraints({bool? disableNormalization}) => c.PeriodicWaveConstraintsImpl(disableNormalization: disableNormalization);
-
-
-
-
+  PeriodicWaveConstraints newPeriodicWaveConstraints(
+          {bool? disableNormalization}) =>
+      c.PeriodicWaveConstraintsImpl(disableNormalization: disableNormalization);
 
   @override
   PeriodicWaveOptions newPeriodicWaveOptions({
     bool? disableNormalization,
     TauArray<TauNumber>? real,
     TauArray<TauNumber>? imag,
-  }) => c.PeriodicWaveOptions(
-    disableNormalization: disableNormalization,
-    real: real,
-    imag: imag,
-  );
-
-
-
+  }) =>
+      c.PeriodicWaveOptions(
+        disableNormalization: disableNormalization,
+        real: real,
+        imag: imag,
+      );
 
   @override
   StereoPannerNode newStereoPannerNode(
     BaseAudioContext context, [
     StereoPannerOptions? options,
-  ]) => c.StereoPannerNode(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.StereoPannerNode(
+        context,
+        options,
+      );
 
   @override
   StereoPannerOptions newStereoPannerOptions({
@@ -700,25 +641,23 @@ class TauwebImplementation implements TauInterface
     ChannelCountMode? channelCountMode,
     ChannelInterpretation? channelInterpretation,
     num? pan,
-  }) => c.StereoPannerOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    pan: pan,
-  );
-
-
+  }) =>
+      c.StereoPannerOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        pan: pan,
+      );
 
   @override
   WaveShaperNode newWaveShaperNode(
     BaseAudioContext context, [
     WaveShaperOptions? options,
-  ]) => c.WaveShaperNode(
-    context,
-    options,
-  );
-
-
+  ]) =>
+      c.WaveShaperNode(
+        context,
+        options,
+      );
 
   @override
   WaveShaperOptions newWaveShaperOptions({
@@ -727,44 +666,38 @@ class TauwebImplementation implements TauInterface
     ChannelInterpretation? channelInterpretation,
     TauArray<TauNumber>? curve,
     OverSampleType? oversample,
-  }) => c.WaveShaperOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    curve: curve,
-    oversample: oversample,
-  );
-
-
+  }) =>
+      c.WaveShaperOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        curve: curve,
+        oversample: oversample,
+      );
 
   @override
   AudioWorkletNode newAudioWorkletNode(
     BaseAudioContext context,
     String name, [
     AudioWorkletNodeOptions? options,
-  ]) => c.AudioWorkletNode(
-    context,
-    name,
-    options,
-  );
-
-
+  ]) =>
+      c.AudioWorkletNode(
+        context,
+        name,
+        options,
+      );
 
   @override
   AsyncWorkletNode newAsyncWorkletNode(
     BaseAudioContext context,
     String name, [
     AudioWorkletNodeOptions? options,
-  ]) => c.AsyncWorkletNode(
+  ]) =>
+      c.AsyncWorkletNode(
         context,
         name,
         options,
-  );
-
-
-
-
-
+      );
 
   @override
   AudioWorkletNodeOptions newAudioWorkletNodeOptions({
@@ -773,55 +706,53 @@ class TauwebImplementation implements TauInterface
     ChannelInterpretation channelInterpretation = 'speakers',
     int numberOfInputs = 1,
     int numberOfOutputs = 1,
-    TauArray<int> outputChannelCount =  const [2],
+    TauArray<int> outputChannelCount = const [2],
     ParameterData? parameterData,
     ProcessorOptions? processorOptions,
-  }) => c.AudioWorkletNodeOptions(
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    numberOfInputs: numberOfInputs,
-    numberOfOutputs: numberOfOutputs,
-    outputChannelCount: outputChannelCount,
-    parameterData: parameterData,
-    processorOptions: processorOptions,
-  );
-
-
+  }) =>
+      c.AudioWorkletNodeOptions(
+        channelCount: channelCount,
+        channelCountMode: channelCountMode,
+        channelInterpretation: channelInterpretation,
+        numberOfInputs: numberOfInputs,
+        numberOfOutputs: numberOfOutputs,
+        outputChannelCount: outputChannelCount,
+        parameterData: parameterData,
+        processorOptions: processorOptions,
+      );
 
   @override
   AudioWorkletProcessor newAudioWorkletProcessor() => c.AudioWorkletProcessor();
 
-
-
-
   @override
   ParameterData newParameterData(Map<String, dynamic> m) => c.ParameterData(m);
 
-
   @override
-  ProcessorOptions newProcessorOptions(Map<String, dynamic> m) => c.ProcessorOptions(m);
-
-
+  ProcessorOptions newProcessorOptions(Map<String, dynamic> m) =>
+      c.ProcessorOptions(m);
 
 // =================================================================================================
 //                          Added because of Tau_web
 // =================================================================================================
-
 
   @override
   MediaStream newMediaStream() => c.MediaStream();
 
   // MediaStreamTrack newMediaStreamTrack() => c.MediaStreamTrack();
 
- // Worklet newWorklet() => c.newWorklet();
+  // Worklet newWorklet() => c.newWorklet();
 
- // WorkletGlobalScope newWorkletGlobalScope() => c.WorkletGlobalScope();
+  // WorkletGlobalScope newWorkletGlobalScope() => c.WorkletGlobalScope();
 
- // MessagePort newMessagePort() => c.MessagePort();
+  // MessagePort newMessagePort() => c.MessagePort();
 
   @override
-   MediaElement newMediaElement({required String src, }) => c.MediaElement(src: src, );
+  MediaElement newMediaElement({
+    required String src,
+  }) =>
+      c.MediaElement(
+        src: src,
+      );
 
 /*
   @override
@@ -861,5 +792,4 @@ class TauwebImplementation implements TauInterface
   );
 
 */
-
 }

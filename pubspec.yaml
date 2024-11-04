@@ -10,9 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  etau: # ^9.15.61
-    path: ../etau # tauwa Dir
+  etau: ^0.0.2
+#    path: ../etau # etau Dir
   web: ^1.0.0
+  logger: ^2.4.0
   #import_js_library: ^1.0.1
   #flutter_js: ^0.8.1 
   #js: ^0.6.0

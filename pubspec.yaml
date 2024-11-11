@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  etau: ^0.0.3
+  etau: ^0.0.13
 #    path: ../etau # etau Dir
   web: ^1.0.0
   logger: ^2.4.0

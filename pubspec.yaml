@@ -11,8 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  etau: ^0.0.13
-#    path: ../etau # etau Dir
+  etau: # ^0.0.13
+    path: ../etau # etau Dir
   web: ^1.0.0
   logger: ^2.4.0
   #import_js_library: ^1.0.1
@@ -63,5 +63,5 @@ flutter:
   # https://flutter.dev/to/font-from-package
 
   assets:
-  - js/tau_web.js
-  - js/async_processor.js
+  #- js/
+  - assets/js/

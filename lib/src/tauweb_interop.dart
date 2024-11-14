@@ -91,17 +91,30 @@ class Interop {
     return r;
   }
 
-  List<Float32List> listFloat32List(JSArray<JSArray<JSNumber>> j) {
+  List<Float32List> listFloat32List(List<JSAny> j) {
     List<Float32List> r = [];
-    // TODO
-    /*
-          List<JSNumber> l = j.toDart;
-          for (int i = 0; i < l.length; ++i)
-          {
-            r.add(l[i].toDartDouble);
-          }
+    for (int i = 0; i < j.length; ++i)
+    {
+      var x = j[i];
+      //var y = (x as JSArray).toDart;
+      var z = x as List<JSNumber>;
+      var zz = z as Float32List;
+      r.add(zz);
+      /*
+      Float32List d = Float32List(0);
+      for (int j = 0; j < z.length; ++j)
+        {
+          var zz = z[j];
+          var zzz = zz.toDartDouble;
+          d.add(zzz);
+        }
+      //var d = listFloat32(y);
+      r.add( d);
 
-           */
+       */
+    }
+
+
     return r;
   }
 

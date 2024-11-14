@@ -2670,9 +2670,9 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 }
 
 class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode {
-  t.OnAudioBufferUnderflowFn _onAudioBufferUnderflow = (int outputNo) {
-    // print('AUDIO_BUFFER_UNDERFLOW for outputNo = $outputNo');
-  };
+  t.OnAudioBufferUnderflowFn _onAudioBufferUnderflow = (int outputNo) {};
+
+  t.OnReceiveDataFn _onReceiveData = (int outputNo, List<Float32List>? data ) {};
 
   /* ctor */ //AsyncWorkletNode.fromDelegate(delegate) : super.fromDelegate (delegate);
   /* ctor */ AsyncWorkletNode(
@@ -2684,11 +2684,23 @@ class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode {
     port.onmessage = (t.Message e) {
       var msg = e['msg'] as JSObject;
       var msgType = (msg.getProperty('messageType'.toJS) as JSString).toDart;
-      var outputNo = (msg.getProperty('outputNo'.toJS) as JSNumber).toDartInt;
-      List<Float32List>?
-          data; //Interop().listFloat32List((msg.getProperty('data'.toJS) as JSArray<JSArray<JSNumber>>));
-      //print("AsyncWorkletNode Rcv: $e");
-      onReceiveMessage(msgType, outputNo, data);
+      switch (msgType) {
+        case 'AUDIO_BUFFER_UNDERFLOW':
+          int? outputNo = (msg.getProperty('outputNo'.toJS) as JSNumber).toDartInt;
+          _onAudioBufferUnderflow(outputNo!);
+          break;
+        case 'RECEIVE_DATA':
+        //List<Float32List>?
+        //data = Interop().listFloat32List((d as JSArray<JSArray<JSNumber>>));
+          var d = msg.getProperty('data'.toJS);
+          List<JSAny> dd = (d as JSArray<JSAny>).toDart;
+          List<Float32List> data = Interop().listFloat32List(dd);
+          int inputNo = (msg.getProperty('inputNo'.toJS) as JSNumber).toDartInt;
+          _onReceiveData(inputNo, data);
+          break;
+
+      }
+
     };
   }
 
@@ -2696,13 +2708,9 @@ class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode {
   void onBufferUnderflow(t.OnAudioBufferUnderflowFn f) =>
       _onAudioBufferUnderflow = f;
 
-  void onReceiveMessage(String msgType, int outputNo, List<Float32List>? data) {
-    switch (msgType) {
-      case 'AUDIO_BUFFER_UNDERFLOW':
-        _onAudioBufferUnderflow(outputNo);
-        break;
-    }
-  }
+  void onReceiveData(t.OnReceiveDataFn f) =>
+      _onReceiveData = f;
+
 
   @override
   void send({int outputNo = 0, required List<Float32List> data}) {

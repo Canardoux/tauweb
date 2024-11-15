@@ -93,8 +93,7 @@ class Interop {
 
   List<Float32List> listFloat32List(List<JSAny> j) {
     List<Float32List> r = [];
-    for (int i = 0; i < j.length; ++i)
-    {
+    for (int i = 0; i < j.length; ++i) {
       var x = j[i];
       //var y = (x as JSArray).toDart;
       var z = x as List<JSNumber>;
@@ -113,7 +112,6 @@ class Interop {
 
        */
     }
-
 
     return r;
   }

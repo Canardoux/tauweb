@@ -19,9 +19,13 @@ VERSION_CODE=${VERSION_CODE//+/}
 
 
 gsed -i  "s/^\( *version: *\).*$/\1$VERSION/"                                           pubspec.yaml
-#gsed -i  "s/^\( *version: *\).*$/\1$VERSION/"                                           example/pubspec.yaml
-gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                     ../etau/example/pubspec.yaml
-gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                     pubspec.yaml
+gsed -i  "s/^\( *version: *\).*$/\1$VERSION/"                                           example/pubspec.yaml
+gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    example/pubspec.yaml
+gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../etau/example/pubspec.yaml
+gsed -i  "s/^\( *## \).*$/\1$VERSION/"                                                  CHANGELOG.md
+
+gsed -i  "s/^TAU_WEB_VERSION:.*/ETAU_VERSION: $VERSION/"                                ../tau_doc/_config.yml
+gsed -i  "s/^\( *version: \).*/\1$VERSION/"                                             ../tau_doc/_data/sidebars/tauweb_sidebar.yml
 
 #gsed -i  "s/^\( *## \).*$/\1$VERSION/"                                                  flutter_sound/CHANGELOG.md
 

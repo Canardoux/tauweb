@@ -27,7 +27,8 @@ import 'package:logger/logger.dart' as log;
 extension type TauwebJS._(JSObject _) implements JSObject {
   external factory TauwebJS();
 
-  //external static int papa();
+  external int papa(JSObject mediaRecorder);
+  external int zozo(JSObject stream);
 }
 
 class TauwebImplementation implements TauInterface {
@@ -731,6 +732,12 @@ class TauwebImplementation implements TauInterface {
   @override
   ProcessorOptions newProcessorOptions(Map<String, dynamic> m) =>
       c.ProcessorOptions(m);
+
+  @override
+  MediaRecorder newMediaRecorder(
+      MediaStream stream, [
+        MediaRecorderOptions? options,
+      ]) => c.MediaRecorder(stream, options);
 
 // =================================================================================================
 //                          Added because of Tau_web

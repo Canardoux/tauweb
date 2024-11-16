@@ -33,12 +33,10 @@ library;
 import 'dart:typed_data';
 import 'package:etau/etau.dart' as t;
 import 'tauweb_audio.dart' as j;
-//import 'webaudio.dart' as j;
+//import 'tauweb_implementation.dart' as i;
 import 'tauweb_interop.dart';
 import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
-
-//import 'dart:html' as h;
 import 'package:web/web.dart' as w;
 
 typedef TauSampleRate = double;
@@ -1929,6 +1927,137 @@ class MediaStreamAudioDestinationNode extends AudioNode
 
   @override
   t.MediaStream get stream => MediaStream.fromDelegate(delegate.stream);
+}
+
+//------------------------------------------------------------------------------------------------------------------
+
+class MediaRecorder implements t.MediaRecorder {
+  t.OnDataAvailableFn _onReceiveData = (Float32List? data) {};
+
+  j.MediaRecorder delegate;
+
+  @override
+  j.MediaRecorder getDelegate() => delegate;
+
+  /* ctor */ MediaRecorder.fromDelegate(this.delegate);
+  /* ctor */ MediaRecorder(t.MediaStream stream,[ t.MediaRecorderOptions? options]) :
+        delegate = options == null
+            ? j.MediaRecorder(
+            (stream as MediaStream).delegate)
+            : j.MediaRecorder(
+            (stream as MediaStream).delegate,
+            (options as MediaRecorderOptions).getDelegate());
+
+
+  @override
+  String get mimeType => delegate.mimeType;
+
+  @override
+  String get state => delegate.state;
+
+  @override
+  MediaStream get stream => MediaStream.fromDelegate(delegate.stream);
+
+  @override
+  int get videoBitsPerSecond => delegate.videoBitsPerSecond;
+
+  @override
+  int get audioBitsPerSecond => delegate.audioBitsPerSecond;
+
+  @override
+  int get audioBitrateMode => delegate.audioBitrateMode;
+
+  @override
+  void pause() => delegate.pause();
+
+  @override
+  void requestData() => delegate.requestData();
+
+  @override
+  void resume() => delegate.resume();
+
+  @override
+  void start([int? timeSlice]) => delegate.start(timeSlice);
+
+  @override
+  void stop() => delegate.stop();
+
+  //@override
+  //void addEventListener(String eventType, t.EventHandler eventHandler) => delegate.addEventListener(eventType, eventHandler);
+/*
+
+  @override
+  t.DataEventHandler get ondataavailable => delegate.ondataavailable.toDart as void Function(Float32List);
+  @override
+  set ondataavailable(t.OnReceiveDataFn eventHandler) {
+    delegate.ondataavailable = (d){
+      eventHandler(d);
+    }.toJS;//eventHandler.toJS;
+  }
+
+ */
+
+  @override
+  void ondataavailable(t.OnDataAvailableFn f) {
+    _onReceiveData = f;
+    delegate.ondataavailable = (JSObject d){ // Here, the parameter should be a Blob
+      print("data $d");
+      _onReceiveData( Interop().listFloat32(d));
+    }.toJS;//eventHandler.toJS;
+  }
+
+
+   // @override
+    //void onReceiveData(t.OnReceiveDataFn f) => _onReceiveData = f;
+
+
+
+    @override
+    t.EventHandler get onerror => delegate.onerror.toDart as void Function();
+
+    @override
+    set onerror(t.EventHandler eventHandler) => delegate.onerror = eventHandler.toJS;
+
+    @override
+    t.EventHandler get onpause => delegate.onpause.toDart as void Function();
+
+    @override
+    set onpause(t.EventHandler eventHandler) => delegate.onpause = eventHandler.toJS;
+
+    @override
+    t.EventHandler get onresume => delegate.onresume.toDart as void Function();
+
+    @override
+    set onresume(t.EventHandler eventHandler) => delegate.onresume = eventHandler.toJS;
+
+    @override
+    t.EventHandler get onstart => delegate.onstart.toDart as void Function();
+
+    @override
+    set onstart(t.EventHandler eventHandler) => delegate.onstart = eventHandler.toJS;
+
+    @override
+    t.EventHandler get onstop => delegate.onstop.toDart as void Function();
+
+    @override
+    set onstop(t.EventHandler eventHandler) => delegate.onstop = eventHandler.toJS;
+
+
+}
+
+// ------------------------------------------------------------------------------------------------------------------
+
+class MediaRecorderOptions implements t.MediaRecorderOptions {
+  j.MediaRecorderOptions delegate;
+
+  j.MediaRecorderOptions getDelegate() => delegate;
+
+  /* ctor */
+  MediaRecorderOptions.fromDelegate(this.delegate);
+
+  /* ctor */
+  MediaRecorderOptions()
+      : delegate = j.MediaRecorderOptions();
 }
 
 // ------------------------------------------------------------------------------------------------------------------

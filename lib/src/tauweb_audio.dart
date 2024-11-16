@@ -827,6 +827,55 @@ extension type MediaStreamAudioDestinationNode._(JSObject _)
   external MediaStream get stream;
 }
 
+
+// ------------------------------------------------------------------------------------------------------------------
+
+extension type MediaRecorder._(JSObject _)
+implements JSObject {
+  external factory MediaRecorder(
+      MediaStream stream, [
+        MediaRecorderOptions options,
+      ]);
+
+  external String get mimeType;
+  external String get state;
+  external MediaStream get stream;
+  external int get videoBitsPerSecond;
+  external int get audioBitsPerSecond;
+  external int get audioBitrateMode;
+  external void pause();
+  external void requestData();
+  external void resume();
+  external void start([int? timeSlice]);
+  external void stop();
+  //external void addEventListener(String eventType, JSExportedDartFunction eventHandler);
+  external JSExportedDartFunction get ondataavailable ;
+  external set ondataavailable(JSExportedDartFunction eventHandler);
+  external JSExportedDartFunction get onerror ;
+  external set onerror(JSExportedDartFunction eventHandler);
+  external JSExportedDartFunction get onpause ;
+  external set onpause(JSExportedDartFunction eventHandler);
+  external JSExportedDartFunction get onresume ;
+  external set onresume(JSExportedDartFunction eventHandler);
+  external JSExportedDartFunction get onstart ;
+  external set onstart(JSExportedDartFunction eventHandler);
+  external JSExportedDartFunction get onstop ;
+  external set onstop(JSExportedDartFunction eventHandler);
+
+}
+
+
+// ------------------------------------------------------------------------------------------------------------------
+
+extension type MediaRecorderOptions._(JSObject _)
+implements JSObject {
+  external factory MediaRecorderOptions();
+}
+
+
+
+
+
 // ------------------------------------------------------------------------------------------------------------------
 
 extension type MediaStreamAudioSourceNode._(JSObject _)

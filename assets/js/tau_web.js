@@ -17,13 +17,31 @@
  */
 
 
-class TauwebJS {
-  constructor() {
-  }
+class TauwebJS
+{
+   recorder;
+   constructor()
+   {
+   }
 
-  static papa() {
-    return 3;
-  }
+   papa(mediaRecorder)
+   {
+      mediaRecorder.ondataavailable = (event) => {
+         let x = event.data;
+         console.log('Rcv ' + event.data);
+      }
+      return 3;
+   }
+
+   zozo(stream)
+   {
+       this.recorder = new MediaRecorder(stream);
+       this.recorder.ondataavailable = (event) => {
+         let x = event.data;
+         console.log('Rcv ' + event.data);
+       }
+       return 4;
+   }
 
 }
 

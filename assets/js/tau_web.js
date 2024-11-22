@@ -43,9 +43,78 @@ class TauwebJS
        return 4;
    }
 
+   bloBEventData(blobEvent)
+   {
+      return blobEvent.data;
+   }
+
+   blobArrayBuffer(blob)
+   {
+      return blob.arrayBuffer(blob);
+   }
+
+   arrayBufferFloat32List(arrayBuffer)
+   {
+       console.log('arg ' + arrayBuffer);
+       return new Int32Array(arrayBuffer[0]);
+       //console.log('z=' + f32);
+       //console.log('Ln2 ' + f32.length);
+       //return f32;
+   }
 }
 
 
 // Need to expose the type to the global scope.
 globalThis.TauwebJS = TauwebJS;
 
+
+class TauRecorder extends MediaRecorder
+{
+
+    constructor(stream, options)
+    {
+        super(stream, options);//{ type: "audio/ogg; codecs=opus" }
+        this.options = { type: "audio/ogg; codecs=opus" };
+        //this.blob = null;
+        this.chunks = [];
+    }
+
+
+    start(timeslice)
+    {
+        this.chunks = [];
+        //this.blob = null;
+        /*
+        this.onstop = (e) => {
+          //console.log("data available after MediaRecorder.stop() called.");
+
+          this.blob = new Blob(this.chunks, { type: "audio/ogg; codecs=opus" });
+          this.url = URL.createObjectURL(this.blob);
+          ///audio.src = audioURL;
+          //console.log("recorder stopped");
+        };
+        */
+
+        this.ondataavailable = (e) => {
+          this.chunks.push(e.data);
+        };
+
+        super.start(timeslice);
+    }
+
+    makeUrl()
+    {
+          const blob = new Blob(this.chunks, { type: "audio/ogg; codecs=opus" });
+          const url = URL.createObjectURL(blob);
+          return url;//URL.createObjectURL(this.blob);
+    }
+
+    makeFile(fileName)
+    {
+            return new File(this.blob, fileName, this.options);
+    }
+}
+
+
+// Need to expose the type to the global scope.
+globalThis.TauRecorder = TauRecorder;

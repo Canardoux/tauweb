@@ -23,12 +23,32 @@ import 'tauweb_class.dart' as c;
 import 'dart:js_interop';
 //import 'package:etau/etau.dart' as i show MediaDevices;
 import 'package:logger/logger.dart' as log;
+import 'tauweb_audio.dart' as d;
 
 extension type TauwebJS._(JSObject _) implements JSObject {
   external factory TauwebJS();
-
   external int papa(JSObject mediaRecorder);
   external int zozo(JSObject stream);
+  external JSObject  bloBEventData(JSObject blobEvent);
+  //external JSObject blobArrayBuffer(JSObject blob);
+  external JSPromise<JSObject> blobArrayBuffer(JSObject blob);
+  external JSObject arrayBufferFloat32List(JSObject arrayBuffer);
+
+}
+
+class Tauweb
+{
+  TauwebJS delegate = TauwebJS();
+  static final Tauweb _singleton = Tauweb._internal();
+  factory Tauweb() => _singleton;
+  Tauweb._internal();
+
+  int papa(JSObject mediaRecorder) => delegate.papa(mediaRecorder);
+  int zozo(JSObject stream) => delegate.zozo(stream);
+  JSObject bloBEventData(JSObject blobEvent) => delegate.bloBEventData(blobEvent);
+  JSPromise<JSObject> blobArrayBuffer(JSObject blob) => delegate.blobArrayBuffer(blob);
+  JSObject arrayBufferFloat32List(JSObject arrayBuffer) => delegate.arrayBufferFloat32List(arrayBuffer);
+
 }
 
 class TauwebImplementation implements TauInterface {
@@ -733,26 +753,49 @@ class TauwebImplementation implements TauInterface {
   ProcessorOptions newProcessorOptions(Map<String, dynamic> m) =>
       c.ProcessorOptions(m);
 
+// =================================================================================================
+//                          Added because of tauweb_mediacapture_streams.dart
+// =================================================================================================
+
+
   @override
   MediaRecorder newMediaRecorder(
       MediaStream stream, [
         MediaRecorderOptions? options,
       ]) => c.MediaRecorder(stream, options);
 
-// =================================================================================================
-//                          Added because of Tau_web
-// =================================================================================================
+
+  @override
+  MediaRecorderOptions newMediaRecorderOptions({
+    String? mimeType,
+    int? audioBitsPerSecond,
+    int? videoBitsPerSecond,
+    int? bitsPerSecond,
+    c.BitrateMode? audioBitrateMode,
+    Duration? videoKeyFrameIntervalDuration,
+    int? videoKeyFrameIntervalCount,
+  }) => c.MediaRecorderOptions (
+      mimeType: mimeType,
+      audioBitsPerSecond: audioBitsPerSecond,
+      videoBitsPerSecond: videoBitsPerSecond,
+      bitsPerSecond: bitsPerSecond,
+      audioBitrateMode: audioBitrateMode,
+      videoKeyFrameIntervalDuration: videoKeyFrameIntervalDuration,
+      videoKeyFrameIntervalCount: videoKeyFrameIntervalCount
+  );
+
+  @override
+  TauRecorder newTauRecorder(
+      MediaStream stream, [
+        MediaRecorderOptions? options,
+      ]) => c.TauRecorder(stream, options);
+
+
+
+
 
   @override
   MediaStream newMediaStream() => c.MediaStream();
-
-  // MediaStreamTrack newMediaStreamTrack() => c.MediaStreamTrack();
-
-  // Worklet newWorklet() => c.newWorklet();
-
-  // WorkletGlobalScope newWorkletGlobalScope() => c.WorkletGlobalScope();
-
-  // MessagePort newMessagePort() => c.MessagePort();
 
   @override
   MediaElement newMediaElement({
@@ -763,41 +806,25 @@ class TauwebImplementation implements TauInterface {
       );
 
 /*
-  @override
-   TauStreamSourceNode newTauStreamSourceNode(BaseAudioContext context, Stream stream) => c.TauStreamSourceNode(context, stream);
-  
-  @override
-   TauStreamDestinationNode newTauStreamDestinationNode(BaseAudioContext context, Stream stream) => c.TauStreamDestinationNode(context, stream);
+  MediaRecorderOptions newMediaRecorderOptions(
+      {
+        String mimeType,
+        int audioBitsPerSecond,
+        int videoBitsPerSecond,
+        int bitsPerSecond,
+        BitrateMode audioBitrateMode,
+        DOMHighResTimeStamp videoKeyFrameIntervalDuration,
+        int videoKeyFrameIntervalCount,
 
-  @override
-  TauStreamNode newTauStreamNode(BaseAudioContext context, String name, [TauStreamNodeOptions? options,]) =>  c.TauStreamNode(context, name, options);
+      }) => c.MediaRecorderOptions(
+     mimeType: mimeType,
+     audioBitsPerSecond: audioBitsPerSecond,
+     videoBitsPerSecond: videoBitsPerSecond,
+     bitsPerSecond: bitsPerSecond,
+     audioBitrateMode: audioBitrateMode,
+     videoKeyFrameIntervalDuration: videoKeyFrameIntervalDuration,
+     videoKeyFrameIntervalCount: videoKeyFrameIntervalCount,
 
-  @override
-  TauStreamNodeOptions newTauStreamNodeOptions({
-    String momo = 'moumou',
-    //int channelCount,
-    //ChannelCountMode channelCountMode,
-    //ChannelInterpretation channelInterpretation,
-    //num pan,
-    int channelCount = 2,
-    ChannelCountMode channelCountMode = 'explicit',
-    ChannelInterpretation channelInterpretation = 'speakers',
-    int numberOfInputs = 1,
-    int numberOfOutputs = 1,
-    List<int> outputChannelCount = const [2],
-    ParameterData? parameterData,
-    ProcessorOptions? processorOptions,
-  }) => c.TauStreamNodeOptions(
-    momo: momo,
-    channelCount: channelCount,
-    channelCountMode: channelCountMode,
-    channelInterpretation: channelInterpretation,
-    numberOfInputs: numberOfInputs,
-    numberOfOutputs: numberOfOutputs,
-    //outputChannelCount: outputChannelCount,
-    //parameterData: parameterData,
-    //processorOptions: processorOptions,
   );
-
 */
 }

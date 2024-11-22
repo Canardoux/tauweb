@@ -33,14 +33,17 @@ library;
 import 'dart:typed_data';
 import 'package:etau/etau.dart' as t;
 import 'tauweb_audio.dart' as j;
-//import 'tauweb_implementation.dart' as i;
+import 'tauweb_implementation.dart' as i;
 import 'tauweb_interop.dart';
 import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
 import 'package:web/web.dart' as w;
 
 typedef TauSampleRate = double;
-typedef TauTime = double;
+typedef TauTime = int;
+
+typedef BitrateMode = String;
+typedef RecordingState = String;
 
 // ------------------------------------------------------------------------------------------------------------------
 
@@ -185,7 +188,7 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
   TauSampleRate get sampleRate => getDelegate().sampleRate;
 
   @override
-  double get currentTime => getDelegate().currentTime;
+  int get currentTime => getDelegate().currentTime.floor();
 
   @override
   AudioListener get listener =>
@@ -351,17 +354,17 @@ class AudioTimestamp implements t.AudioTimestamp {
             contextTime: contextTime, performanceTime: performanceTime);
 
   @override
-  double get contextTime => delegate.contextTime;
+  int get contextTime => delegate.contextTime.floor();
 
   @override
-  set contextTime(num value) => delegate.contextTime = value;
+  set contextTime(int value) => delegate.contextTime = value.toDouble();
 
   @override
-  double get performanceTime => delegate.performanceTime;
+  int get performanceTime => delegate.performanceTime.floor();
 
   @override
-  set performanceTime(t.TauHighResTimeStamp value) =>
-      delegate.performanceTime = value;
+  set performanceTime(int value) =>
+      delegate.performanceTime = value.toDouble();
 }
 
 // ------------------------------------------------------------------------------------------------------------------
@@ -944,7 +947,7 @@ class AnalyserNode extends AudioNode implements t.AnalyserNode {
   set maxDecibels(num value) => maxDecibels = value;
 
   @override
-  double get smoothingTimeConstant => delegate.smoothingTimeConstant;
+  int get smoothingTimeConstant => delegate.smoothingTimeConstant.floor();
 
   @override
   set smoothingTimeConstant(num value) =>
@@ -997,11 +1000,11 @@ class AnalyserOptions extends AudioNodeOptions implements t.AnalyserOptions {
   set minDecibels(num value) => delegate.minDecibels = value;
 
   @override
-  double get smoothingTimeConstant => delegate.smoothingTimeConstant;
+  int get smoothingTimeConstant => delegate.smoothingTimeConstant.floor();
 
   @override
-  set smoothingTimeConstant(num value) =>
-      delegate.smoothingTimeConstant = value;
+  set smoothingTimeConstant(int value) =>
+      delegate.smoothingTimeConstant = value.toDouble();
 }
 
 // ------------------------------------------------------------------------------------------------------------------
@@ -1221,7 +1224,7 @@ class AudioProcessingEvent implements t.AudioProcessingEvent {
             type, (eventInitDict as AudioProcessingEventInit).delegate);
 
   @override
-  double get playbackTime => delegate.playbackTime;
+  int get playbackTime => delegate.playbackTime.floor();
 
   @override
   AudioBuffer get inputBuffer => AudioBuffer.fromDelegate(inputBuffer.delegate);
@@ -1255,7 +1258,7 @@ class AudioProcessingEventInit implements t.AudioProcessingEventInit {
         );
 
   @override
-  double get playbackTime => delegate.playbackTime;
+  int get playbackTime => delegate.playbackTime.floor();
 
   @override
   set playbackTime(num value) => delegate.playbackTime = value;
@@ -1635,13 +1638,13 @@ class DelayOptions extends AudioNodeOptions implements t.DelayOptions {
         );
 
   @override
-  double get maxDelayTime => delegate.maxDelayTime;
+  int get maxDelayTime => delegate.maxDelayTime.floor();
 
   @override
   set maxDelayTime(num value) => delegate.maxDelayTime = value;
 
   @override
-  double get delayTime => delegate.delayTime;
+  int get delayTime => delegate.delayTime.floor();
 
   @override
   set delayTime(num value) => delegate.delayTime = value;
@@ -1927,137 +1930,6 @@ class MediaStreamAudioDestinationNode extends AudioNode
 
   @override
   t.MediaStream get stream => MediaStream.fromDelegate(delegate.stream);
-}
-
-//------------------------------------------------------------------------------------------------------------------
-
-class MediaRecorder implements t.MediaRecorder {
-  t.OnDataAvailableFn _onReceiveData = (Float32List? data) {};
-
-  j.MediaRecorder delegate;
-
-  @override
-  j.MediaRecorder getDelegate() => delegate;
-
-  /* ctor */ MediaRecorder.fromDelegate(this.delegate);
-  /* ctor */ MediaRecorder(t.MediaStream stream,[ t.MediaRecorderOptions? options]) :
-        delegate = options == null
-            ? j.MediaRecorder(
-            (stream as MediaStream).delegate)
-            : j.MediaRecorder(
-            (stream as MediaStream).delegate,
-            (options as MediaRecorderOptions).getDelegate());
-
-
-  @override
-  String get mimeType => delegate.mimeType;
-
-  @override
-  String get state => delegate.state;
-
-  @override
-  MediaStream get stream => MediaStream.fromDelegate(delegate.stream);
-
-  @override
-  int get videoBitsPerSecond => delegate.videoBitsPerSecond;
-
-  @override
-  int get audioBitsPerSecond => delegate.audioBitsPerSecond;
-
-  @override
-  int get audioBitrateMode => delegate.audioBitrateMode;
-
-  @override
-  void pause() => delegate.pause();
-
-  @override
-  void requestData() => delegate.requestData();
-
-  @override
-  void resume() => delegate.resume();
-
-  @override
-  void start([int? timeSlice]) => delegate.start(timeSlice);
-
-  @override
-  void stop() => delegate.stop();
-
-  //@override
-  //void addEventListener(String eventType, t.EventHandler eventHandler) => delegate.addEventListener(eventType, eventHandler);
-/*
-
-  @override
-  t.DataEventHandler get ondataavailable => delegate.ondataavailable.toDart as void Function(Float32List);
-  @override
-  set ondataavailable(t.OnReceiveDataFn eventHandler) {
-    delegate.ondataavailable = (d){
-      eventHandler(d);
-    }.toJS;//eventHandler.toJS;
-  }
-
- */
-
-  @override
-  void ondataavailable(t.OnDataAvailableFn f) {
-    _onReceiveData = f;
-    delegate.ondataavailable = (JSObject d){ // Here, the parameter should be a Blob
-      print("data $d");
-      _onReceiveData( Interop().listFloat32(d));
-    }.toJS;//eventHandler.toJS;
-  }
-
-
-   // @override
-    //void onReceiveData(t.OnReceiveDataFn f) => _onReceiveData = f;
-
-
-
-    @override
-    t.EventHandler get onerror => delegate.onerror.toDart as void Function();
-
-    @override
-    set onerror(t.EventHandler eventHandler) => delegate.onerror = eventHandler.toJS;
-
-    @override
-    t.EventHandler get onpause => delegate.onpause.toDart as void Function();
-
-    @override
-    set onpause(t.EventHandler eventHandler) => delegate.onpause = eventHandler.toJS;
-
-    @override
-    t.EventHandler get onresume => delegate.onresume.toDart as void Function();
-
-    @override
-    set onresume(t.EventHandler eventHandler) => delegate.onresume = eventHandler.toJS;
-
-    @override
-    t.EventHandler get onstart => delegate.onstart.toDart as void Function();
-
-    @override
-    set onstart(t.EventHandler eventHandler) => delegate.onstart = eventHandler.toJS;
-
-    @override
-    t.EventHandler get onstop => delegate.onstop.toDart as void Function();
-
-    @override
-    set onstop(t.EventHandler eventHandler) => delegate.onstop = eventHandler.toJS;
-
-
-}
-
-// ------------------------------------------------------------------------------------------------------------------
-
-class MediaRecorderOptions implements t.MediaRecorderOptions {
-  j.MediaRecorderOptions delegate;
-
-  j.MediaRecorderOptions getDelegate() => delegate;
-
-  /* ctor */
-  MediaRecorderOptions.fromDelegate(this.delegate);
-
-  /* ctor */
-  MediaRecorderOptions()
-      : delegate = j.MediaRecorderOptions();
 }
 
 // ------------------------------------------------------------------------------------------------------------------
@@ -2717,7 +2589,7 @@ class AudioWorkletGlobalScope implements t.AudioWorkletGlobalScope {
   int get currentFrame => delegate.currentFrame;
 
   @override
-  double get currentTime => delegate.currentTime;
+  int get currentTime => delegate.currentTime.floor();
 
   @override
   TauSampleRate get sampleRate => delegate.sampleRate;
@@ -3035,6 +2907,7 @@ class AudioWorkletProcessor implements t.AudioWorkletProcessor {
 
 // ------------------------------------------------------------------------------------------------------------------
 
+
 class MediaElement implements t.MediaElement {
   w.HTMLAudioElement delegate;
   w.HTMLAudioElement getDelegate() => delegate;
@@ -3047,7 +2920,7 @@ class MediaElement implements t.MediaElement {
   }
 
   @override
-  TauTime get currentTime => delegate.currentTime;
+  TauTime get currentTime => delegate.currentTime.floor();
 
   @override
   set currentTime(TauTime currentTime) => delegate.currentTime = currentTime;
@@ -3168,26 +3041,315 @@ class MediaDevices implements t.MediaDevices {
 
 // ------------------------------------------------------------------------------------------------------------------
 
-/*
 
-class TauStreamSourceNode extends AudioWorkletNode implements t.TauStreamSourceNode
-{
-  late j.AudioWorkletNode delegate;
-  j.AudioWorkletNode getDelegate() => delegate;
-  Stream stream;
 
-  /* ctor */ //TauStreamSourceNode.fromDelegate(this.delegate);
-  /* ctor */ TauStreamSourceNode( t.BaseAudioContext context, this.stream) : super(context, 'toto')
-  {
-      delegate = j.AudioWorkletNode( (context as BaseAudioContext).getDelegate() , 'toto');
-  }
+/// The **`MediaRecorder`** interface of the
+/// [MediaStream Recording API](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API)
+/// provides functionality to easily record media. It is created using the
+/// [MediaRecorder.MediaRecorder] constructor.
+///
+/// ---
+///
+/// API documentation sourced from
+/// [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder).
+class MediaRecorder implements t.MediaRecorder {
 
+  j.MediaRecorder delegate;
+
+  /* ctor */ MediaRecorder.fromDelegate(this.delegate);
+  /* ctor */ MediaRecorder(
+      t.MediaStream stream, [
+        t.MediaRecorderOptions? options,
+      ]) : delegate = options == null ? j.MediaRecorder((stream as MediaStream).delegate) : j.MediaRecorder((stream as MediaStream).delegate, (options as MediaRecorderOptions).delegate);
+
+  /// The **`isTypeSupported()`** static method of the [MediaRecorder] interface
+  /// returns a `Boolean` which is `true` if the MIME media type specified is
+  /// one the user agent should be able to successfully record.
+  bool isTypeSupported(String type) => j.MediaRecorder.isTypeSupported(type);
+
+  /// The **`start()`** method of the [MediaRecorder] interface begins recording
+  /// media into one or more [Blob] objects.
+  ///
+  /// You can
+  /// record the entire duration of the media into a single `Blob` (or until you
+  /// call [MediaRecorder.requestData]), or you can specify the
+  /// number of milliseconds to record at a time. Then, each time that amount of
+  /// media has
+  /// been recorded, an event will be delivered to let you act upon the recorded
+  /// media, while
+  /// a new `Blob` is created to record the next slice of the media.
+  ///
+  /// Assuming the `MediaRecorder`'s [MediaRecorder.state]
+  /// is `inactive`, `start()` sets the `state` to
+  /// `recording`, then begins capturing media from the input stream. A
+  /// `Blob` is created and the data is collected in it until the time slice
+  /// period
+  /// elapses or the source media ends. Each time a `Blob` is filled up to that
+  /// point (the timeslice duration or the end-of-media, if no slice duration
+  /// was provided), a
+  /// [MediaRecorder.dataavailable_event] event is sent to the `MediaRecorder`
+  /// with the
+  /// recorded data. If the source is still playing, a new `Blob` is created and
+  /// recording continues into that, and so forth.
+  ///
+  /// When the source stream ends, `state` is set to `inactive` and
+  /// data gathering stops. A final [MediaRecorder.dataavailable_event] event is
+  /// sent to the
+  /// `MediaRecorder`, followed by a [MediaRecorder.stop_event] event.
+  ///
+  /// > **Note:** If the browser is unable to start recording or continue
+  /// > recording, it will raise an [MediaRecorder.error_event] event, followed
+  /// > by a
+  /// > [MediaRecorder.dataavailable_event] event containing the `Blob` it
+  /// > has gathered, followed by the [MediaRecorder.stop_event] event.
+  void start([int? timeslice]) => timeslice == null ? delegate.start() : delegate.start(timeslice);
+
+  /// The **`stop()`** method of the [MediaRecorder] interface is
+  /// used to stop media capture.
+  ///
+  /// When the `stop()` method is invoked, the UA queues a task that runs the
+  /// following steps:
+  ///
+  /// 1. If [MediaRecorder.state] is "inactive", raise a DOM
+  /// `InvalidState` error and terminate these steps. If the
+  /// [MediaRecorder.state] is not "inactive", continue on to the next step.
+  /// 2. Set the [MediaRecorder.state] to "inactive" and stop capturing media.
+  /// 3. Raise a `dataavailable` event containing the Blob of data that has been
+  /// gathered.
+  /// 4. Raise a `stop` event.
+  void stop() => delegate.stop();
+
+  /// The **`pause()`** method of the [MediaRecorder] interface is used
+  /// to pause recording of media streams.
+  ///
+  /// When a `MediaRecorder` object's `pause()`method is called, the
+  /// browser queues a task that runs the below steps:
+  ///
+  /// 1. If [MediaRecorder.state] is "inactive", raise a DOM
+  /// `InvalidState` error and terminate these steps. If not, continue to the
+  /// next step.
+  /// 2. Set [MediaRecorder.state] to "paused".
+  /// 3. Stop gathering data into the current [Blob], but keep it available so
+  /// that recording can be resumed later on.
+  /// 4. Raise a [MediaRecorder.pause_event] event.
+  void pause() => delegate.pause();
+
+  /// The **`resume()`** method of the [MediaRecorder] interface is used to
+  /// resume media recording when it has been previously paused.
+  ///
+  /// If [MediaRecorder.state] is already "recording", calling `resume()` has no
+  /// effect.
+  ///
+  /// When the `resume()` method is invoked, the browser queues a task that runs
+  /// the following steps:
+  ///
+  /// 1. If [MediaRecorder.state] is "inactive", raise a DOM
+  /// `InvalidStateError` exception and terminate these steps. If
+  /// [MediaRecorder.state] is not "inactive", continue to the next step.
+  /// 2. Set [MediaRecorder.state] to "recording".
+  /// 3. Continue gathering data into the current [Blob].
+  /// 4. Raise a `resume` event.
+  void resume() => delegate.resume();
+
+  /// The **`requestData()`**
+  /// method of the [MediaRecorder] interface is used to raise a
+  /// [MediaRecorder.dataavailable_event] event containing a
+  /// [Blob] object of the captured media as it was when the method was
+  /// called. This can then be grabbed and manipulated as you wish.
+  ///
+  /// When the `requestData()` method is invoked, the browser queues a task that
+  /// runs the following steps:
+  ///
+  /// 1. If [MediaRecorder.state] is "inactive", raise a DOM
+  /// `InvalidState` error and terminate these steps. If
+  /// [MediaRecorder.state] is not "inactive", continue to the next step.
+  /// 2. Raise a [MediaRecorder.dataavailable_event] event containing a [Blob]
+  /// of the
+  /// currently captured data (the Blob is available under the event's `data`
+  /// attribute.)
+  /// 3. Create a new Blob and place subsequently captured data into it.
+  void requestData() => delegate.requestData();
+
+  /// The **`stream`** read-only property of the [MediaRecorder] interface
+  /// returns the stream that was passed into the [MediaRecorder.MediaRecorder]
+  /// constructor when the `MediaRecorder` was created.
+  MediaStream get stream => MediaStream.fromDelegate(delegate.stream);
+
+  /// The **`mimeType`** read-only property of the [MediaRecorder] interface
+  /// returns the  media type that was specified when creating the
+  /// [MediaRecorder] object, or, if none was specified, which was chosen by the
+  /// browser.
+  /// This is the file format of the file that would result from writing all of
+  /// the recorded data to disk.
+  ///
+  /// Keep in mind that not all codecs are supported by a given container; if
+  /// you write media using a codec that is not supported by a given media
+  /// container, the resulting file may not work reliably if at all when you try
+  /// to play it back.
+  /// See our
+  /// [media type and format guide](https://developer.mozilla.org/en-US/docs/Web/Media/Formats)
+  /// for information about container and codec support across browsers.
+  ///
+  /// > **Note:** The term "MIME type" is officially considered to be
+  /// > historical; these strings are now officially known as **media types**.
+  /// > MDN Web Docs content uses the terms interchangeably.
+  String get mimeType => delegate.mimeType;
+
+  /// The **`state`** read-only property of the [MediaRecorder] interface
+  /// returns the current state of the current `MediaRecorder` object.
+  RecordingState get state => delegate.state;
+  //t.EventHandler get onstart =>  delegate.onstart?.toDart;
+  set onstart(t.EventHandler? f) => delegate.onstart = f?.toJS;
+  //t.EventHandler get onstop => delegate.onstop;
+  set onstop(t.EventHandler value) => delegate.onstop = value?.toJS;
+  //t.EventHandler get ondataavailable => delegate.ondataavailable;
+  set ondataavailable(t.EventHandler value) => delegate.ondataavailable = value?.toJS;
+  //t.EventHandler get onpause => delegate.onpause;
+  set onpause(t.EventHandler value) => delegate.onpause = value?.toJS;
+  //t.EventHandler get onresume => delegate.onresume;
+  set onresume(t.EventHandler value) => delegate.onresume = value?.toJS;
+  //t.EventHandler get onerror => delegate.onerror;
+  set onerror(t.EventHandler value) => delegate.onerror = value?.toJS;
+
+  /// The **`videoBitsPerSecond`** read-only
+  /// property of the [MediaRecorder] interface returns the video encoding
+  /// bit rate in use.
+  ///
+  /// This may differ from the bit rate specified in the
+  /// constructor, if it was provided.
+  int get videoBitsPerSecond => delegate.videoBitsPerSecond;
+
+  /// The **`audioBitsPerSecond`** read-only
+  /// property of the [MediaRecorder] interface returns the audio encoding bit
+  /// rate in use.
+  ///
+  /// This may differ from the bit rate specified in the constructor (if
+  /// it was provided).
+  int get audioBitsPerSecond => delegate.audioBitsPerSecond;
 }
 
+
+class MediaRecorderOptions implements t.MediaRecorderOptions {
+  late j.MediaRecorderOptions delegate;
+
+  @override
+  j.MediaRecorderOptions getDelegate() => delegate;
+
+  /* ctor */ MediaRecorderOptions({
+    String? mimeType,
+    int? audioBitsPerSecond,
+    int? videoBitsPerSecond,
+    int? bitsPerSecond,
+    BitrateMode? audioBitrateMode,
+    Duration? videoKeyFrameIntervalDuration,
+    int? videoKeyFrameIntervalCount,
+  }) : delegate = j.MediaRecorderOptions(
+     mimeType: mimeType,
+     audioBitsPerSecond: audioBitsPerSecond,
+     videoBitsPerSecond: videoBitsPerSecond,
+     bitsPerSecond: bitsPerSecond,
+     audioBitrateMode: audioBitrateMode,
+     videoKeyFrameIntervalDuration: videoKeyFrameIntervalDuration?.inMilliseconds,
+     videoKeyFrameIntervalCount: videoKeyFrameIntervalCount,
+  );
+
+  @override
+  String get mimeType => delegate.mimeType;
+
+  @override
+  set mimeType(String value) => delegate.mimeType = value;
+
+  @override
+  int get audioBitsPerSecond => delegate.audioBitsPerSecond;
+
+  @override
+  set audioBitsPerSecond(int value) => delegate.audioBitsPerSecond = value;
+
+  @override
+  int get videoBitsPerSecond => delegate.videoBitsPerSecond;
+
+  @override
+  set videoBitsPerSecond(int value) => delegate.videoBitsPerSecond = value;
+
+  @override
+  int get bitsPerSecond => delegate.bitsPerSecond;
+
+  @override
+  set bitsPerSecond(int value) => delegate.bitsPerSecond = value;
+
+  @override
+  BitrateMode get audioBitrateMode => delegate.audioBitrateMode;
+
+  @override
+  set audioBitrateMode(BitrateMode value) => delegate.audioBitrateMode = value;
+
+  @override
+  int get videoKeyFrameIntervalDuration => delegate.videoKeyFrameIntervalDuration.floor();
+
+  @override
+  set videoKeyFrameIntervalDuration(t.DOMHighResTimeStamp value) => delegate.videoKeyFrameIntervalDuration = value;
+
+  @override
+  int get videoKeyFrameIntervalCount => delegate.videoKeyFrameIntervalCount;
+
+  @override
+  set videoKeyFrameIntervalCount(int value) => delegate.videoKeyFrameIntervalCount = value;
+}
+
+/// The **`BlobEvent`** interface of the
+/// [MediaStream Recording API](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API)
+/// represents events associated with a [Blob]. These blobs are typically, but
+/// not necessarily, associated with media content.
+///
+/// ---
+///
+/// API documentation sourced from
+/// [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/BlobEvent).
+class BlobEvent implements t.BlobEvent {
+
+  j.BlobEvent delegate;
+
+  /* ctor */ BlobEvent.fromDelegate(this.delegate);
+  /* ctor */ BlobEvent(
+      String type,
+      BlobEventInit eventInitDict,
+      ) : delegate = j.BlobEvent(type, eventInitDict.delegate);
+
+  /// The **`data`** read-only property of the [BlobEvent] interface represents
+  /// a [Blob] associated with the event.
+  Blob get data => Blob.fromDelegate(data.delegate);
+
+  /// The **`timecode`** read-only property of the [BlobEvent] interface
+  /// indicates the difference between the timestamp of the first chunk of data,
+  /// and the timestamp of the first chunk in the first `BlobEvent` produced by
+  /// this recorder.
+  ///
+  /// Note that the `timecode` in the first produced `BlobEvent` does not need
+  /// to be zero.
+  int get timecode => delegate.timecode.floor();
+}
+
+
+class BlobEventInit implements t.BlobEventInit {
+
+  j.BlobEventInit delegate;
+
+  /* ctor */ BlobEventInit.fromDelegate(this.delegate);
+  /* ctor */ BlobEventInit({
+    required Blob data,
+    t.DOMHighResTimeStamp? timecode,
+  }) : delegate = timecode == null ? j.BlobEventInit(data: data.delegate) : j.BlobEventInit(data: data.delegate, timecode: timecode.toDouble());
+
+  Blob get data => Blob.fromDelegate(delegate.data);
+  set data(t.Blob value) => delegate.data = (value as Blob).delegate;
+  int get timecode => delegate.timecode.floor();
+  set timecode(t.DOMHighResTimeStamp value) => delegate.timecode = value;
+}
 
 
 // ------------------------------------------------------------------------------------------------------------------
 
+/*
 
 
 class TauStreamDestinationNode extends AudioWorkletNode implements t.TauStreamDestinationNode
@@ -3250,34 +3412,122 @@ class TauStreamNodeOptions extends AudioWorkletNodeOptions implements t.TauStrea
 
 
 }
-
 */
 // -----------------------------------------------------------------------------------------------------------------
 
-/*
 
-class MediaTrackConstraints extends t.MediaTrackConstraints
-{
-  String? deviceId;
-  String? groupId;
-  bool? autoGainControl;
-  int? channelCount;
-  bool? echoCancellation;
-  double? latency;
-  bool? noiseSupression;
-  int? sampleRate;
-  int? sampleSize;
-  double? volume;
+/// The **`Blob`** interface represents a blob, which is a file-like object of
+/// immutable, raw data; they can be read as text or binary data, or converted
+/// into a [ReadableStream] so its methods can be used for processing the data.
+///
+/// Blobs can represent data that isn't necessarily in a JavaScript-native
+/// format. The [File] interface is based on `Blob`, inheriting blob
+/// functionality and expanding it to support files on the user's system.
+///
+/// ---
+///
+/// API documentation sourced from
+/// [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Blob).
+class Blob implements t.Blob {
 
+  w.Blob delegate;
 
+  /* ctor */ Blob.fromDelegate(this.delegate);
+  /*
+  /* ctor */ Blob([
+    List<t.BlobPart>? blobParts,
+    BlobPropertyBag? options,
+  ]) : delegate = w.Blob(blobParts, options.delegate);
+*/
+  /// The **`slice()`** method of the [Blob] interface
+  /// creates and returns a new `Blob` object which contains data from a subset
+  /// of
+  /// the blob on which it's called.
+  //@override
+  //[LARPOUX]Blob slice([
+  //  int? start,
+  //  int? end,
+ //   String? contentType,
+ // ]) => Blob.fromDelegate(delegate.slice(start, end, contentType));
 
-  w.MediaTrackConstraints getDelegate()
-  {
-    w.MediaTrackConstraints delegate = w.MediaTrackConstraints();
-    if (deviceId != null) delegate.deviceId = deviceId;
-    if (groupId != null) delegate.groupId = groupId;
-    if (autoGainControl != null) delegate.autoGainControl = autoGainControl;
-  }
+  /// The **`stream()`** method of the [Blob] interface returns a
+  /// [ReadableStream] which upon reading returns the data contained within the
+  /// `Blob`.
+  //@override
+  //[LARPOUX]ReadableStream stream() => delegate.stream;
+
+  /// The **`text()`** method of the
+  /// [Blob] interface returns a `Promise` that resolves with a
+  /// string containing the contents of the blob, interpreted as UTF-8.
+  //[LARPOUX]@override
+  //[LARPOUX]Future<String> text() => delegate.text().toDart;
+
+  /// The **`arrayBuffer()`** method of the [Blob]
+  /// interface returns a `Promise` that resolves with the contents of the blob
+  /// as
+  /// binary data contained in an `ArrayBuffer`.
+  //[LARPOUX]@override
+  //[LARPOUX]Future<JSArrayBuffer> arrayBuffer() => delegate.arrayBuffer().toDart;
+
+  /// The **`size`** read-only property of the [Blob] interface returns
+  /// the size of the [Blob] or [File] in bytes.
+  @override
+  int get size => delegate.size;
+
+  /// The **`type`** read-only property of the [Blob] interface returns the  of
+  /// the file.
+  ///
+  /// > **Note:** Based on the current implementation, browsers won't actually
+  /// > read the bytestream of a file to determine its media type.
+  /// > It is assumed based on the file extension; a PNG image file renamed to
+  /// > .txt would give "_text/plain_" and not "_image/png_". Moreover,
+  /// > `blob.type` is generally reliable only for common file types like
+  /// > images, HTML documents, audio and video.
+  /// > Uncommon file extensions would return an empty string.
+  /// > Client configuration (for instance, the Windows Registry) may result in
+  /// > unexpected values even for common types. **Developers are advised not to
+  /// > rely on this property as a sole validation scheme.**
+  String get type => delegate.type;
 }
 
- */
+
+
+class BlobPropertyBag  implements t.BlobPropertyBag {
+  w.BlobPropertyBag delegate;
+
+  /* ctor */ BlobPropertyBag.fromDelegate(this.delegate);
+  /*
+  /* ctor */ BlobPropertyBag({
+    String? type,
+    t.EndingType? endings,
+  }) : delegate = w.BlobPropertyBag(type: type, endings: endings);
+*/
+
+  @override
+  String get type => delegate.type;
+
+  @override
+  set type(String value) => delegate.type = value;
+
+  @override
+  t.EndingType get endings => delegate.endings;
+
+  @override
+  set endings(t.EndingType value) => delegate.endings = value;
+}
+
+class TauRecorder  extends MediaRecorder implements t.TauRecorder {
+  j.TauRecorder tauRecorderDelegate;
+  /* ctor */ TauRecorder(t.MediaStream stream, [t.MediaRecorderOptions? options]) :
+        tauRecorderDelegate = options == null ?
+        j.TauRecorder((stream as MediaStream).delegate) :
+        j.TauRecorder((stream as MediaStream).delegate, (options as MediaRecorderOptions).delegate),
+        super(stream, options);
+
+  String makeUrl() => tauRecorderDelegate.makeUrl();
+  void  makeFile(fileName) => tauRecorderDelegate.makeFile(fileName);
+  void start([int? timeslice]) => tauRecorderDelegate.start(timeslice);
+
+
+}
+

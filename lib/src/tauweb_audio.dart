@@ -836,7 +836,7 @@ extension type MediaStreamAudioDestinationNode._(JSObject _)
 extension type TauRecorder._(JSObject _)
 implements JSObject {
   external factory TauRecorder(
-      MediaStream stream, [
+      MediaStream stream, String mimeType, [
        JSObject options,
       ]);
   external String makeUrl();

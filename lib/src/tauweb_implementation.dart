@@ -758,12 +758,13 @@ class TauwebImplementation implements TauInterface {
 // =================================================================================================
 
 
+  /*
   @override
   MediaRecorder newMediaRecorder(
       MediaStream stream, [
         MediaRecorderOptions? options,
       ]) => c.MediaRecorder(stream, options);
-
+*/
 
   @override
   MediaRecorderOptions newMediaRecorderOptions({
@@ -785,11 +786,10 @@ class TauwebImplementation implements TauInterface {
   );
 
   @override
-  TauRecorder newTauRecorder(
-      MediaStream stream, [
+  MediaRecorder newMediaRecorder(
+      MediaStream stream, String mimeType, [
         MediaRecorderOptions? options,
-      ]) => c.TauRecorder(stream, options);
-
+      ]) => c.MediaRecorder(stream, mimeType, options);
 
 
 

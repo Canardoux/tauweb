@@ -3054,13 +3054,21 @@ class MediaDevices implements t.MediaDevices {
 /// [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder).
 class MediaRecorder implements t.MediaRecorder {
 
-  j.MediaRecorder delegate;
+  j.TauRecorder  delegate; // Specific Tau
+  String mimeType;
 
-  /* ctor */ MediaRecorder.fromDelegate(this.delegate);
+  /* ctor */ MediaRecorder.fromDelegate(this.delegate, this.mimeType);
   /* ctor */ MediaRecorder(
-      t.MediaStream stream, [
+      t.MediaStream stream, this.mimeType, [
         t.MediaRecorderOptions? options,
-      ]) : delegate = options == null ? j.MediaRecorder((stream as MediaStream).delegate) : j.MediaRecorder((stream as MediaStream).delegate, (options as MediaRecorderOptions).delegate);
+      ]) : delegate = options == null ? j.TauRecorder((stream as MediaStream).delegate, mimeType) : j.TauRecorder((stream as MediaStream).delegate, mimeType, (options as MediaRecorderOptions).delegate);
+
+
+  /// Specific Tau
+  String makeUrl() => delegate.makeUrl();
+
+  /// Specific Tau
+  void  makeFile(fileName) => delegate.makeFile(fileName);
 
   /// The **`isTypeSupported()`** static method of the [MediaRecorder] interface
   /// returns a `Boolean` which is `true` if the MIME media type specified is
@@ -3193,23 +3201,23 @@ class MediaRecorder implements t.MediaRecorder {
   /// > **Note:** The term "MIME type" is officially considered to be
   /// > historical; these strings are now officially known as **media types**.
   /// > MDN Web Docs content uses the terms interchangeably.
-  String get mimeType => delegate.mimeType;
+  String get type => delegate.mimeType;
 
   /// The **`state`** read-only property of the [MediaRecorder] interface
   /// returns the current state of the current `MediaRecorder` object.
   RecordingState get state => delegate.state;
   //t.EventHandler get onstart =>  delegate.onstart?.toDart;
-  set onstart(t.EventHandler? f) => delegate.onstart = f?.toJS;
+  set onstart(t.EventHandler f) => delegate.onstart = f.toJS;
   //t.EventHandler get onstop => delegate.onstop;
-  set onstop(t.EventHandler value) => delegate.onstop = value?.toJS;
+  set onstop(t.EventHandler value) => delegate.onstop = value.toJS;
   //t.EventHandler get ondataavailable => delegate.ondataavailable;
-  set ondataavailable(t.EventHandler value) => delegate.ondataavailable = value?.toJS;
+  set ondataavailable(t.EventHandler value) => delegate.ondataavailable = value.toJS;
   //t.EventHandler get onpause => delegate.onpause;
-  set onpause(t.EventHandler value) => delegate.onpause = value?.toJS;
+  set onpause(t.EventHandler value) => delegate.onpause = value.toJS;
   //t.EventHandler get onresume => delegate.onresume;
-  set onresume(t.EventHandler value) => delegate.onresume = value?.toJS;
+  set onresume(t.EventHandler value) => delegate.onresume = value.toJS;
   //t.EventHandler get onerror => delegate.onerror;
-  set onerror(t.EventHandler value) => delegate.onerror = value?.toJS;
+  set onerror(t.EventHandler value) => delegate.onerror = value.toJS;
 
   /// The **`videoBitsPerSecond`** read-only
   /// property of the [MediaRecorder] interface returns the video encoding
@@ -3516,18 +3524,19 @@ class BlobPropertyBag  implements t.BlobPropertyBag {
   set endings(t.EndingType value) => delegate.endings = value;
 }
 
+/*
 class TauRecorder  extends MediaRecorder implements t.TauRecorder {
   j.TauRecorder tauRecorderDelegate;
-  /* ctor */ TauRecorder(t.MediaStream stream, [t.MediaRecorderOptions? options]) :
+  String type;
+  /* ctor */ TauRecorder(t.MediaStream stream, this.type, [t.MediaRecorderOptions? options]) :
         tauRecorderDelegate = options == null ?
-        j.TauRecorder((stream as MediaStream).delegate) :
-        j.TauRecorder((stream as MediaStream).delegate, (options as MediaRecorderOptions).delegate),
+        j.TauRecorder((stream as MediaStream).delegate, type) :
+        j.TauRecorder((stream as MediaStream).delegate, type, (options as MediaRecorderOptions).delegate),
         super(stream, options);
 
   String makeUrl() => tauRecorderDelegate.makeUrl();
   void  makeFile(fileName) => tauRecorderDelegate.makeFile(fileName);
   void start([int? timeslice]) => tauRecorderDelegate.start(timeslice);
 
-
 }
-
+*/

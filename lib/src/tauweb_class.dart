@@ -3070,6 +3070,9 @@ class MediaRecorder implements t.MediaRecorder {
   /// Specific Tau
   void  makeFile(fileName) => delegate.makeFile(fileName);
 
+  /// Specific Tau
+  Future<ByteBuffer> makeBuffer()  => (delegate.makeBuffer().toDart).then((v){return v.toDart;});
+
   /// The **`isTypeSupported()`** static method of the [MediaRecorder] interface
   /// returns a `Boolean` which is `true` if the MIME media type specified is
   /// one the user agent should be able to successfully record.

@@ -118,6 +118,14 @@ class TauRecorder extends MediaRecorder
                 document.body.removeChild(elem);
                 return path;
     }
+
+    makeBuffer()
+    {
+          const blob = new Blob(this.chunks, { type: this.type });
+          return blob.arrayBuffer();
+          //return blob.bytes();
+          //return Buffer.from(blob)
+    }
 }
 
 

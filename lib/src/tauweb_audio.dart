@@ -841,6 +841,7 @@ implements JSObject {
       ]);
   external String makeUrl();
   external  void makeFile(String fileName);
+  external  JSPromise<JSArrayBuffer> makeBuffer();
 
   external String get mimeType;
   external String get state;

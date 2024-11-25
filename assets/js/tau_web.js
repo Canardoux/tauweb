@@ -109,10 +109,14 @@ class TauRecorder extends MediaRecorder
     makeFile(fileName)
     {
                 const blob = new Blob(this.chunks, { type: this.type });
-                const file = new File([blob], fileName, { type: this.type });
-                const url = URL.createObjectURL(file);
-                console.log(url);
-                return url;
+                const elem = document.createElement('a');
+                elem.href = URL.createObjectURL(blob);
+                elem.download = fileName;
+                document.body.appendChild(elem);
+                elem.click();
+                const path = elem.download;
+                document.body.removeChild(elem);
+                return path;
     }
 }
 

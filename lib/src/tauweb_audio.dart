@@ -830,18 +830,17 @@ extension type MediaStreamAudioDestinationNode._(JSObject _)
   external MediaStream get stream;
 }
 
-
 // ------------------------------------------------------------------------------------------------------------------
 
-extension type TauRecorder._(JSObject _)
-implements JSObject {
+extension type TauRecorder._(JSObject _) implements JSObject {
   external factory TauRecorder(
-      MediaStream stream, String mimeType, [
-       JSObject options,
-      ]);
+    MediaStream stream,
+    String mimeType, [
+    JSObject options,
+  ]);
   external String makeUrl();
-  external  void makeFile(String fileName);
-  external  JSPromise<JSArrayBuffer> makeBuffer();
+  external void makeFile(String fileName);
+  external JSPromise<JSArrayBuffer> makeBuffer();
 
   external String get mimeType;
   external String get state;
@@ -855,31 +854,25 @@ implements JSObject {
   external void start([int? timeSlice]);
   external void stop();
   //external void addEventListener(String eventType, JSExportedDartFunction eventHandler);
-  external JSExportedDartFunction get ondataavailable ;
+  external JSExportedDartFunction get ondataavailable;
   external set ondataavailable(JSExportedDartFunction eventHandler);
-  external JSExportedDartFunction get onerror ;
+  external JSExportedDartFunction get onerror;
   external set onerror(JSExportedDartFunction eventHandler);
-  external JSExportedDartFunction get onpause ;
+  external JSExportedDartFunction get onpause;
   external set onpause(JSExportedDartFunction eventHandler);
-  external JSExportedDartFunction get onresume ;
+  external JSExportedDartFunction get onresume;
   external set onresume(JSExportedDartFunction eventHandler);
-  external JSExportedDartFunction get onstart ;
+  external JSExportedDartFunction get onstart;
   external set onstart(JSExportedDartFunction eventHandler);
-  external JSExportedDartFunction get onstop ;
+  external JSExportedDartFunction get onstop;
   external set onstop(JSExportedDartFunction eventHandler);
-
 }
-
 
 // ------------------------------------------------------------------------------------------------------------------
 
 //extension type MediaRecorderOptions._(JSObject _) implements JSObject {
-  //external factory MediaRecorderOptions(Map<String, String> options);
+//external factory MediaRecorderOptions(Map<String, String> options);
 //}
-
-
-
-
 
 // ------------------------------------------------------------------------------------------------------------------
 
@@ -1224,7 +1217,6 @@ extension type AudioWorkletProcessor._(JSObject _) implements JSObject {
 
 // ------------------------------------------------------------------------------------------------------------------
 
-
 /// The **`MediaRecorder`** interface of the
 /// [MediaStream Recording API](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API)
 /// provides functionality to easily record media. It is created using the
@@ -1236,9 +1228,9 @@ extension type AudioWorkletProcessor._(JSObject _) implements JSObject {
 /// [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder).
 extension type MediaRecorder._(JSObject _) implements EventTarget, JSObject {
   external factory MediaRecorder(
-      MediaStream stream, [
-        MediaRecorderOptions options,
-      ]);
+    MediaStream stream, [
+    MediaRecorderOptions options,
+  ]);
 
   /// The **`isTypeSupported()`** static method of the [MediaRecorder] interface
   /// returns a `Boolean` which is `true` if the MIME media type specified is
@@ -1443,9 +1435,9 @@ extension type MediaRecorderOptions._(JSObject _) implements JSObject {
 /// [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/BlobEvent).
 extension type BlobEvent._(JSObject _) implements Event, JSObject {
   external factory BlobEvent(
-      String type,
-      BlobEventInit eventInitDict,
-      );
+    String type,
+    BlobEventInit eventInitDict,
+  );
 
   /// The **`data`** read-only property of the [BlobEvent] interface represents
   /// a [Blob] associated with the event.
@@ -1471,4 +1463,3 @@ extension type BlobEventInit._(JSObject _) implements JSObject {
   external double get timecode;
   external set timecode(DOMHighResTimeStamp value);
 }
-

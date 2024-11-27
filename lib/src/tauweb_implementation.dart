@@ -29,15 +29,13 @@ extension type TauwebJS._(JSObject _) implements JSObject {
   external factory TauwebJS();
   external int papa(JSObject mediaRecorder);
   external int zozo(JSObject stream);
-  external JSObject  bloBEventData(JSObject blobEvent);
+  external JSObject bloBEventData(JSObject blobEvent);
   //external JSObject blobArrayBuffer(JSObject blob);
   external JSPromise<JSObject> blobArrayBuffer(JSObject blob);
   external JSObject arrayBufferFloat32List(JSObject arrayBuffer);
-
 }
 
-class Tauweb
-{
+class Tauweb {
   TauwebJS delegate = TauwebJS();
   static final Tauweb _singleton = Tauweb._internal();
   factory Tauweb() => _singleton;
@@ -45,10 +43,12 @@ class Tauweb
 
   int papa(JSObject mediaRecorder) => delegate.papa(mediaRecorder);
   int zozo(JSObject stream) => delegate.zozo(stream);
-  JSObject bloBEventData(JSObject blobEvent) => delegate.bloBEventData(blobEvent);
-  JSPromise<JSObject> blobArrayBuffer(JSObject blob) => delegate.blobArrayBuffer(blob);
-  JSObject arrayBufferFloat32List(JSObject arrayBuffer) => delegate.arrayBufferFloat32List(arrayBuffer);
-
+  JSObject bloBEventData(JSObject blobEvent) =>
+      delegate.bloBEventData(blobEvent);
+  JSPromise<JSObject> blobArrayBuffer(JSObject blob) =>
+      delegate.blobArrayBuffer(blob);
+  JSObject arrayBufferFloat32List(JSObject arrayBuffer) =>
+      delegate.arrayBufferFloat32List(arrayBuffer);
 }
 
 class TauwebImplementation implements TauInterface {
@@ -757,7 +757,6 @@ class TauwebImplementation implements TauInterface {
 //                          Added because of tauweb_mediacapture_streams.dart
 // =================================================================================================
 
-
   /*
   @override
   MediaRecorder newMediaRecorder(
@@ -775,24 +774,23 @@ class TauwebImplementation implements TauInterface {
     c.BitrateMode? audioBitrateMode,
     Duration? videoKeyFrameIntervalDuration,
     int? videoKeyFrameIntervalCount,
-  }) => c.MediaRecorderOptions (
-      mimeType: mimeType,
-      audioBitsPerSecond: audioBitsPerSecond,
-      videoBitsPerSecond: videoBitsPerSecond,
-      bitsPerSecond: bitsPerSecond,
-      audioBitrateMode: audioBitrateMode,
-      videoKeyFrameIntervalDuration: videoKeyFrameIntervalDuration,
-      videoKeyFrameIntervalCount: videoKeyFrameIntervalCount
-  );
+  }) =>
+      c.MediaRecorderOptions(
+          mimeType: mimeType,
+          audioBitsPerSecond: audioBitsPerSecond,
+          videoBitsPerSecond: videoBitsPerSecond,
+          bitsPerSecond: bitsPerSecond,
+          audioBitrateMode: audioBitrateMode,
+          videoKeyFrameIntervalDuration: videoKeyFrameIntervalDuration,
+          videoKeyFrameIntervalCount: videoKeyFrameIntervalCount);
 
   @override
   MediaRecorder newMediaRecorder(
-      MediaStream stream, String mimeType, [
-        MediaRecorderOptions? options,
-      ]) => c.MediaRecorder(stream, mimeType, options);
-
-
-
+    MediaStream stream,
+    String mimeType, [
+    MediaRecorderOptions? options,
+  ]) =>
+      c.MediaRecorder(stream, mimeType, options);
 
   @override
   MediaStream newMediaStream() => c.MediaStream();

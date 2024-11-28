@@ -33,7 +33,7 @@ library;
 import 'dart:typed_data';
 import 'package:etau/etau.dart' as t;
 import 'tauweb_audio.dart' as j;
-import 'tauweb_implementation.dart' as i;
+//import 'tauweb_implementation.dart' as i;
 import 'tauweb_interop.dart';
 import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
@@ -3244,7 +3244,7 @@ class MediaRecorder implements t.MediaRecorder {
 class MediaRecorderOptions implements t.MediaRecorderOptions {
   late j.MediaRecorderOptions delegate;
 
-  @override
+  //@override
   j.MediaRecorderOptions getDelegate() => delegate;
 
   /* ctor */ MediaRecorderOptions({
@@ -3332,6 +3332,7 @@ class BlobEvent implements t.BlobEvent {
 
   /// The **`data`** read-only property of the [BlobEvent] interface represents
   /// a [Blob] associated with the event.
+  @override
   Blob get data => Blob.fromDelegate(data.delegate);
 
   /// The **`timecode`** read-only property of the [BlobEvent] interface
@@ -3356,9 +3357,16 @@ class BlobEventInit implements t.BlobEventInit {
             : j.BlobEventInit(
                 data: data.delegate, timecode: timecode.toDouble());
 
+  @override
   Blob get data => Blob.fromDelegate(delegate.data);
+
+  @override
   set data(t.Blob value) => delegate.data = (value as Blob).delegate;
+
+  @override
   int get timecode => delegate.timecode.floor();
+
+  @override
   set timecode(t.DOMHighResTimeStamp value) => delegate.timecode = value;
 }
 
@@ -3500,6 +3508,7 @@ class Blob implements t.Blob {
   /// > Client configuration (for instance, the Windows Registry) may result in
   /// > unexpected values even for common types. **Developers are advised not to
   /// > rely on this property as a sole validation scheme.**
+  @override
   String get type => delegate.type;
 }
 

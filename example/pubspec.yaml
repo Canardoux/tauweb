@@ -15,7 +15,7 @@ description: "An example showing how to use the etau implementation for the Web.
 # This version is used _only_ for the Runner app, which is used if you just do
 # a `flutter run` or a `flutter make-host-app-editable`. It has no impact
 # on any other native host app that you embed your Flutter project into.
-version: 0.0.14-alpha.3
+version: 0.0.14-alpha.4
 
 environment:
   sdk: ^3.5.3
@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  tau_web: ^0.0.14-alpha.3
+  tau_web: ^0.0.14-alpha.4
 #    path: ../ # tau_web Dir
 
   etau: ^0.0.2

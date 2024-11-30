@@ -2358,6 +2358,7 @@ class PeriodicWave implements t.PeriodicWave {
 // ------------------------------------------------------------------------------------------------------------------
 
 abstract class PeriodicWaveConstraints implements t.PeriodicWaveConstraints {
+  @override
   j.PeriodicWaveConstraints getDelegate();
 
   @override

@@ -53,10 +53,10 @@ packages:
     dependency: "direct main"
     description:
       name: etau
-      sha256: "74490ded2250352e76dfcb897b08b3e816a2af4d05a7e73196f700c88bb293cc"
+      sha256: "4b43a615ecceb1de7c5a35f0a159920b4fdb8ce5a33d71d3828a31efedc67572"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.14-alpha.1"
+    version: "0.0.14-alpha.4"
   fake_async:
     dependency: transitive
     description:
@@ -196,10 +196,10 @@ packages:
     dependency: "direct main"
     description:
       name: tau_web
-      sha256: f9c0c9a2f1927fc4a74a30050b35bcc3276a28ba5223b542495b04d0df12f3e3
+      sha256: c612cd3dcd9b7aa3472c0272bf3531fc232cd80e53ed7d7388b77dd541720cd6
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.14-alpha.1"
+    version: "0.0.14-alpha.4"
   term_glyph:
     dependency: transitive
     description:

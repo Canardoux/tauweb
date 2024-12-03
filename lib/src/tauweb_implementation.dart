@@ -237,6 +237,7 @@ class TauwebImplementation implements TauInterface {
   ) =>
       c.AudioProcessingEvent(type, eventInitDict);
 
+  /*
   @override
   AudioProcessingEventInit newAudioProcessingEventInit({
     bool? bubbles,
@@ -254,6 +255,8 @@ class TauwebImplementation implements TauInterface {
         inputBuffer: inputBuffer,
         outputBuffer: outputBuffer,
       );
+
+   */
 
   @override
   BiquadFilterNode newBiquadFilterNode(

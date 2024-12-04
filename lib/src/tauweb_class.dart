@@ -110,8 +110,8 @@ abstract class BaseAudioContext implements t.BaseAudioContext {
 
   @override
   IIRFilterNode createIIRFilter(
-    t.TauArray<t.TauNumber> feedforward,
-    t.TauArray<t.TauNumber> feedback,
+    List<double> feedforward,
+    List<double> feedback,
   ) =>
       IIRFilterNode.fromDelegate(getDelegate().createIIRFilter(
           Interop().jsArrayNumber(feedforward),

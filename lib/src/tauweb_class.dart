@@ -2673,7 +2673,10 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode {
   t.OnAudioBufferUnderflowFn _onAudioBufferUnderflow = (int outputNo) {};
 
-  t.OnReceiveDataFn _onReceiveData = (int outputNo, List<Float32List>? data) {};
+  t.OnReceiveDataFn _onReceiveData = (int outputNo, List<Float32List>? data)
+  {
+    // Dummy
+  };
 
   /* ctor */ //AsyncWorkletNode.fromDelegate(delegate) : super.fromDelegate (delegate);
   /* ctor */ AsyncWorkletNode(
@@ -2691,7 +2694,7 @@ class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode {
               (msg.getProperty('outputNo'.toJS) as JSNumber).toDartInt;
           _onAudioBufferUnderflow(outputNo);
           break;
-        case 'RECEIVE_DATA':
+        case 'RECEIVE_DATA': // Receive data from source to destination
           //List<Float32List>?
           //data = Interop().listFloat32List((d as JSArray<JSArray<JSNumber>>));
           var d = msg.getProperty('data'.toJS);

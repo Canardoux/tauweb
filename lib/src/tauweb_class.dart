@@ -2673,8 +2673,7 @@ class AudioWorkletNode extends AudioNode implements t.AudioWorkletNode {
 class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode {
   t.OnAudioBufferUnderflowFn _onAudioBufferUnderflow = (int outputNo) {};
 
-  t.OnReceiveDataFn _onReceiveData = (int outputNo, List<Float32List>? data)
-  {
+  t.OnReceiveDataFn _onReceiveData = (int outputNo, List<Float32List>? data) {
     // Dummy
   };
 
@@ -2720,6 +2719,13 @@ class AsyncWorkletNode extends AudioWorkletNode implements t.AsyncWorkletNode {
     obj.setProperty('msgType'.toJS, 'SEND_DATA'.toJS);
     obj.setProperty('outputNo'.toJS, outputNo.toJS);
     obj.setProperty('data'.toJS, Interop().jsArrayFloats(data));
+    port.postMessage(obj);
+  }
+
+  @override
+  void stop() {
+    JSObject obj = JSObject();
+    obj.setProperty('msgType'.toJS, 'STOP'.toJS);
     port.postMessage(obj);
   }
 }
@@ -2978,7 +2984,7 @@ class MediaDevices implements t.MediaDevices {
 
   @override
   Future<MediaStream> getUserMedia(
-      {bool audio = true, bool video = true}) async {
+      {bool audio = true, bool video = false}) async {
     var l = await delegate
         .getUserMedia(_mediaConstraints(audio: audio, video: video))
         .toDart;

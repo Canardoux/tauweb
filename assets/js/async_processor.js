@@ -54,12 +54,18 @@ class AsyncProcessor extends AudioWorkletProcessor {
       switch (msgType)
       {
         case 'SEND_DATA': this.send(outputNo, data); break;
+        case 'STOP': this.stop(); break;
       }
 
     };
   }
 
-  bufferUndeflow(outputNo)
+  stop()
+  {
+        chunksArray = [];
+  }
+
+  bufferUnderflow(outputNo)
   {
     this.port.postMessage({'messageType' : 'AUDIO_BUFFER_UNDERFLOW',  'inputNo' : -1, 'outputNo' : outputNo});
   }
@@ -113,7 +119,7 @@ class AsyncProcessor extends AudioWorkletProcessor {
     let numberOfChunks = this.chunksArray[outNo].length; // Just for debugging
     if (numberOfChunks == 0)
     {
-      this.bufferUndeflow(0); // don't do that when debugging!!!
+      this.bufferUnderflow(0); // don't do that when debugging!!!
       return; // No more data
     }
     let nextChunk = this.chunksArray[outNo][0];

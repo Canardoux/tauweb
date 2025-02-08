@@ -1,6 +1,6 @@
 name: tau_web
 description: "A E_τ (Etau) implementation for the Web."
-version: 0.0.14-alpha.4
+version: 0.0.14-alpha.5
 homepage: https://tau.canardoux.xyz
 repository: https://github.com/canardoux/tau_web
 
@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  etau: # ^0.0.14-alpha.4
+  etau: # ^0.0.14-alpha.5
     path: ../etau # etau Dir
     
   web: ^1.0.0

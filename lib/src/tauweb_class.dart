@@ -2358,7 +2358,7 @@ class PeriodicWave implements t.PeriodicWave {
 // ------------------------------------------------------------------------------------------------------------------
 
 abstract class PeriodicWaveConstraints implements t.PeriodicWaveConstraints {
-  @override
+  //@override
   j.PeriodicWaveConstraints getDelegate();
 
   @override
@@ -3248,6 +3248,7 @@ class MediaRecorder implements t.MediaRecorder {
   ///
   /// This may differ from the bit rate specified in the constructor (if
   /// it was provided).
+  @override
   int get audioBitsPerSecond => delegate.audioBitsPerSecond;
 }
 
@@ -3352,6 +3353,7 @@ class BlobEvent implements t.BlobEvent {
   ///
   /// Note that the `timecode` in the first produced `BlobEvent` does not need
   /// to be zero.
+  @override
   int get timecode => delegate.timecode.floor();
 }
 

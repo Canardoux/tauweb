@@ -97,9 +97,9 @@ class TauwebImplementation implements TauInterface {
           sinkId: sinkId,
           renderSizeHint: renderSizeHint);
 
-  @override
-  AudioSinkOptions newAudioSinkOptions({required AudioSinkType type}) =>
-      c.AudioSinkOptions(type: type);
+  //@override
+  //AudioSinkOptions newAudioSinkOptions({required AudioSinkType type}) =>
+  //    c.AudioSinkOptions(type: type);
 
   @override
   AudioTimestamp newAudioTimestamp({

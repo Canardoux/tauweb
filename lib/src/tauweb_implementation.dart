@@ -118,6 +118,7 @@ class TauwebImplementation implements TauInterface {
       c.OfflineAudioContext(
           contextOptionsOrNumberOfChannels, length, sampleRate);
 
+  /*
   @override
   OfflineAudioContextOptions newOfflineAudioContextOptions({
     int? numberOfChannels,
@@ -151,7 +152,7 @@ class TauwebImplementation implements TauInterface {
           cancelable: cancelable,
           composed: composed,
           renderedBuffer: renderedBuffer);
-
+*/
   @override
   AudioBuffer newAudioBuffer(AudioBufferOptions options) =>
       c.AudioBuffer(options);

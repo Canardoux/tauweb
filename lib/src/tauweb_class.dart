@@ -3060,6 +3060,7 @@ class MediaDevices implements t.MediaDevices {
 /// [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder).
 class MediaRecorder implements t.MediaRecorder {
   j.TauRecorder delegate; // Specific Tau
+  @override
   String mimeType;
 
   /* ctor */ MediaRecorder.fromDelegate(this.delegate, this.mimeType);
@@ -3073,12 +3074,15 @@ class MediaRecorder implements t.MediaRecorder {
                 (options as MediaRecorderOptions).delegate);
 
   /// Specific τ
+  @override
   String makeUrl() => delegate.makeUrl();
 
   /// Specific τ
+  @override
   void makeFile(fileName) => delegate.makeFile(fileName);
 
   /// Specific τ
+  @override
   Future<ByteBuffer> makeBuffer() => (delegate.makeBuffer().toDart).then((v) {
         return v.toDart;
       });
@@ -3086,6 +3090,7 @@ class MediaRecorder implements t.MediaRecorder {
   /// The **`isTypeSupported()`** static method of the [MediaRecorder] interface
   /// returns a `Boolean` which is `true` if the MIME media type specified is
   /// one the user agent should be able to successfully record.
+  @override
   bool isTypeSupported(String type) => j.MediaRecorder.isTypeSupported(type);
 
   /// The **`start()`** method of the [MediaRecorder] interface begins recording
@@ -3123,6 +3128,7 @@ class MediaRecorder implements t.MediaRecorder {
   /// > by a
   /// > [MediaRecorder.dataavailable_event] event containing the `Blob` it
   /// > has gathered, followed by the [MediaRecorder.stop_event] event.
+  @override
   void start([int? timeslice]) =>
       timeslice == null ? delegate.start() : delegate.start(timeslice);
 
@@ -3139,6 +3145,7 @@ class MediaRecorder implements t.MediaRecorder {
   /// 3. Raise a `dataavailable` event containing the Blob of data that has been
   /// gathered.
   /// 4. Raise a `stop` event.
+  @override
   void stop() => delegate.stop();
 
   /// The **`pause()`** method of the [MediaRecorder] interface is used
@@ -3154,6 +3161,7 @@ class MediaRecorder implements t.MediaRecorder {
   /// 3. Stop gathering data into the current [Blob], but keep it available so
   /// that recording can be resumed later on.
   /// 4. Raise a [MediaRecorder.pause_event] event.
+  @override
   void pause() => delegate.pause();
 
   /// The **`resume()`** method of the [MediaRecorder] interface is used to
@@ -3171,6 +3179,7 @@ class MediaRecorder implements t.MediaRecorder {
   /// 2. Set [MediaRecorder.state] to "recording".
   /// 3. Continue gathering data into the current [Blob].
   /// 4. Raise a `resume` event.
+  @override
   void resume() => delegate.resume();
 
   /// The **`requestData()`**
@@ -3190,11 +3199,13 @@ class MediaRecorder implements t.MediaRecorder {
   /// currently captured data (the Blob is available under the event's `data`
   /// attribute.)
   /// 3. Create a new Blob and place subsequently captured data into it.
+  @override
   void requestData() => delegate.requestData();
 
   /// The **`stream`** read-only property of the [MediaRecorder] interface
   /// returns the stream that was passed into the [MediaRecorder.MediaRecorder]
   /// constructor when the `MediaRecorder` was created.
+  @override
   MediaStream get stream => MediaStream.fromDelegate(delegate.stream);
 
   /// The **`mimeType`** read-only property of the [MediaRecorder] interface
@@ -3219,19 +3230,26 @@ class MediaRecorder implements t.MediaRecorder {
 
   /// The **`state`** read-only property of the [MediaRecorder] interface
   /// returns the current state of the current `MediaRecorder` object.
+  @override
   RecordingState get state => delegate.state;
   //t.EventHandler get onstart =>  delegate.onstart?.toDart;
+  @override
   set onstart(t.EventHandler f) => delegate.onstart = f.toJS;
   //t.EventHandler get onstop => delegate.onstop;
+  @override
   set onstop(t.EventHandler value) => delegate.onstop = value.toJS;
   //t.EventHandler get ondataavailable => delegate.ondataavailable;
+  @override
   set ondataavailable(t.EventHandler value) =>
       delegate.ondataavailable = value.toJS;
   //t.EventHandler get onpause => delegate.onpause;
+  @override
   set onpause(t.EventHandler value) => delegate.onpause = value.toJS;
   //t.EventHandler get onresume => delegate.onresume;
+  @override
   set onresume(t.EventHandler value) => delegate.onresume = value.toJS;
   //t.EventHandler get onerror => delegate.onerror;
+  @override
   set onerror(t.EventHandler value) => delegate.onerror = value.toJS;
 
   /// The **`videoBitsPerSecond`** read-only
@@ -3240,6 +3258,7 @@ class MediaRecorder implements t.MediaRecorder {
   ///
   /// This may differ from the bit rate specified in the
   /// constructor, if it was provided.
+  @override
   int get videoBitsPerSecond => delegate.videoBitsPerSecond;
 
   /// The **`audioBitsPerSecond`** read-only

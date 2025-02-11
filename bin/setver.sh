@@ -20,20 +20,11 @@ VERSION_CODE=${VERSION_CODE//+/}
 
 gsed -i  "s/^\( *version: *\).*$/\1$VERSION/"                                           pubspec.yaml
 gsed -i  "s/^\( *version: *\).*$/\1$VERSION/"                                           example/pubspec.yaml
-gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    example/pubspec.yaml
-gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../etau/example/pubspec.yaml
-gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../flutter_sound/example/pubspec.yaml
-gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../flutter_sound/pubspec.yaml
-gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../flutter_sound_web/pubspec.yaml
 gsed -i  "s/^\( *## \).*$/\1$VERSION/"                                                  CHANGELOG.md
 
-gsed -i  "s/^TAU_WEB_VERSION:.*/TAU_WEB: $VERSION/"                                     ../tau_doc/_config.yml
-gsed -i  "s/^\( *version: \).*/\1$VERSION/"                                             ../tau_doc/_data/sidebars/tauweb_sidebar.yml
-
-#gsed -i  "s/^\( *## \).*$/\1$VERSION/"                                                  flutter_sound/CHANGELOG.md
-
-#gsed -i  "s/^tau_version:.*/tau_version: $VERSION/"                                     doc/_config.yml
-#gsed -i  "s/^\( *version: \).*/\1$VERSION/"                                             doc/_data/sidebars/mydoc_sidebar.yml
-
+gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    example/pubspec.yaml
 gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../etau/example/pubspec.yaml
-gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../etau/pubspec.yaml
+#gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../etau/pubspec.yaml
+#gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../flutter_sound/example/pubspec.yaml
+#gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../flutter_sound/pubspec.yaml
+#gsed -i  "s/^\( *tau_web: *#* *\^*\).*$/\1$VERSION/"                                    ../flutter_sound_web/pubspec.yaml

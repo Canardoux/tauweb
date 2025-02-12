@@ -42,6 +42,15 @@ cd ..
 
 rm -rf _*.tgz 2>/dev/null
 
+git add .
+git commit -m "Tauweb : Version $VERSION"
+git pull origin
+git push origin
+if [ ! -z "$VERSION" ]; then
+    git tag -f $VERSION
+    git push  -f origin $VERSION
+fi
+
 
 flutter pub publish
 if [ $? -ne 0 ]; then

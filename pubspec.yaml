@@ -1,5 +1,5 @@
 name: tau_web
-description: "A E_τ (Etau) implementation for the Web."
+description: "A Etau implementation for the Web."
 version: 0.15.4
 homepage: https://tau.canardoux.xyz/etau-README.html
 repository: https://github.com/canardoux/tau_web

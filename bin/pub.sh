@@ -10,6 +10,7 @@ VERSION=$1
 VERSION_CODE=${VERSION#./}
 VERSION_CODE=${VERSION_CODE#+/}
 
+echo '**********************  pub tau_web **********************'
 bin/setver.sh $VERSION
 bin/reldev.sh REL
 
@@ -40,6 +41,11 @@ fi
 #fi
 cd ..
 
+
+dart doc .
+
+
+
 rm -rf _*.tgz 2>/dev/null
 echo 'git push'
 git add .
@@ -59,20 +65,6 @@ if [ $? -ne 0 ]; then
 fi
 
 read -p "Press enter to continue"
-
-
-dart doc .
-
-
-
-git add .
-git commit -m "Tauweb : Version $VERSION"
-git pull origin
-git push origin
-if [ ! -z "$VERSION" ]; then
-    git tag -f $VERSION
-    git push  -f origin $VERSION
-fi
 
 
 

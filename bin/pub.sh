@@ -41,7 +41,7 @@ fi
 cd ..
 
 rm -rf _*.tgz 2>/dev/null
-
+echo 'git push'
 git add .
 git commit -m "Tauweb : Version $VERSION"
 git pull origin

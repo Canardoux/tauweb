@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  etau: ^0.15.2-alpha-5+6
+  etau: ^0.0.14
 #    path: ../etau # etau Dir
     
   web: ^1.0.0

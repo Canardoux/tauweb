@@ -11,6 +11,7 @@ VERSION_CODE=${VERSION#./}
 VERSION_CODE=${VERSION_CODE#+/}
 
 echo '**********************  pub tau_web **********************'
+
 bin/setver.sh $VERSION
 bin/reldev.sh REL
 
@@ -69,4 +70,4 @@ read -p "Press enter to continue"
 
 
 
-echo 'E.O.J'
+echo 'E.O.J for pub tau_web'

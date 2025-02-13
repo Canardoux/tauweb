@@ -19,12 +19,11 @@
 import 'dart:async';
 import 'package:etau/etau.dart';
 import 'tauweb_class.dart' as c;
-//import 'package:web/web.dart' as w;
 import 'dart:js_interop';
-//import 'package:etau/etau.dart' as i show MediaDevices;
 import 'package:logger/logger.dart' as log;
-//import 'tauweb_audio.dart' as d;
 
+/// (I don't remember what it is for!)
+/// @nodoc
 extension type TauwebJS._(JSObject _) implements JSObject {
   external factory TauwebJS();
   external int papa(JSObject mediaRecorder);
@@ -35,6 +34,7 @@ extension type TauwebJS._(JSObject _) implements JSObject {
   external JSObject arrayBufferFloat32List(JSObject arrayBuffer);
 }
 
+/*
 class Tauweb {
   TauwebJS delegate = TauwebJS();
   static final Tauweb _singleton = Tauweb._internal();
@@ -50,7 +50,12 @@ class Tauweb {
   JSObject arrayBufferFloat32List(JSObject arrayBuffer) =>
       delegate.arrayBufferFloat32List(arrayBuffer);
 }
+ */
 
+/// This class is the Etau implementation for Flutter Web.
+/// It has no public interface.
+/// The App just import this implementation and use `tau()` to access it.
+/// All the rest of API is done by `etau`
 class TauwebImplementation implements TauInterface {
   static final TauwebImplementation _singleton =
       TauwebImplementation._internal();

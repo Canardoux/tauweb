@@ -15,6 +15,11 @@ echo '**********************  pub tau_web **********************'
 bin/setver.sh $VERSION
 bin/reldev.sh REL
 
+cp -v ../tau_doc/pages/td/README.md .
+gsed -i '1,6d' README.md
+gsed -i "/^\"\%}$/d" README.md
+gsed -i "/^{\% include/d" README.md
+
 flutter analyze lib
 if [ $? -ne 0 ]; then
     echo "Error: analyze ./lib"

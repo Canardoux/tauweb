@@ -22,6 +22,8 @@ import 'tauweb_audio.dart' as j;
 import 'package:web/web.dart' as w;
 import 'dart:js_interop' as p;
 
+/// Internal use by Tauweb.
+/// @nodoc
 class Interop {
   JSPromise<JSObject>? totofut;
   static final Interop _singleton = Interop._internal();

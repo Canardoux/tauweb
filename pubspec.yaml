@@ -1,5 +1,5 @@
 name: tau_web
-description: "A Etau implementation for the Web."
+description: "A Etau implementation for the Web. This is just an implementation. All the API is in the `Etau` plugin. Member of the `Tau` family. Europe Stands With Ukraine. Pray for Ukraine."
 version: 0.17.6
 homepage: https://tau.canardoux.xyz/etau-README.html
 repository: https://github.com/canardoux/tau_web

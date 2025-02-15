@@ -1,7 +1,7 @@
 name: tau_web
 description: "A Etau implementation for the Web. This is just an implementation. All the API is in the `Etau` plugin. Member of the `Tau` family. Europe Stands With Ukraine. Pray for Ukraine."
 version: 0.17.6
-homepage: https://tau.canardoux.xyz/etau-README.html
+homepage: https://tau-ver.canardoux.xyz/etau-README.html
 repository: https://github.com/canardoux/tau_web
 
 environment:
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  etau: ^0.17.6
-#    path: ../etau # etau Dir
+  etau: # ^0.17.6
+    path: ../etau # etau Dir
     
   web: ^1.0.0
   logger: ^2.4.0

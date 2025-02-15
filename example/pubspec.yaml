@@ -27,8 +27,8 @@ dependencies:
 ##  tau_wars: ^0.0.14-alpha.4
 ##    path: ../ # tau_wars Dir
 
-  etau: ^0.17.6
-#    path: ../../etau # etau Dir
+  etau: # ^0.17.6
+    path: ../../etau # etau Dir
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

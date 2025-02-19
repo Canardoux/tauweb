@@ -10,15 +10,17 @@ VERSION=$1
 VERSION_CODE=${VERSION#./}
 VERSION_CODE=${VERSION_CODE#+/}
 
-echo '**********************  pub tau_web **********************'
+echo '**********************  pub tauweb **********************'
 
 bin/setver.sh $VERSION
 bin/reldev.sh REL
 
-cp -v ../tau_doc/pages/td/README.md .
+#cp -v ../tau_doc/pages/td/README.md .
+#gsed -i '1,6d' README.md
+#gsed -i "/^\"\%}$/d" README.md
+#gsed -i "/^{\% include/d" README.md
+cp -v ../tauweb-doc/index.md README.md
 gsed -i '1,6d' README.md
-gsed -i "/^\"\%}$/d" README.md
-gsed -i "/^{\% include/d" README.md
 
 flutter analyze lib
 if [ $? -ne 0 ]; then
@@ -75,4 +77,4 @@ fi
 
 
 
-echo 'E.O.J for pub tau_web'
+echo 'E.O.J for pub tauweb'

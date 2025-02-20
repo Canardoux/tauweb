@@ -1,9 +1,3 @@
-        source!.buffer = audioBuffer;
-        pannerNode = audioCtx.createStereoPanner();
-        pannerNode!.pan.value = pannerValue;
-        source!.connect(pannerNode!).connect(dest!);
-
-```
 
 if your App needs to support at the same time Fliutter Web And Flutter on mobiles:
 ```dart

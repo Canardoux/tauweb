@@ -1,16 +1,14 @@
+## Etau stands for Ukraine!
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+![PeaceForUkraine](https://etau.canardoux.xyz/images/2-year-old-irish-girl-ukrainian.jpg)
+Peace for Ukraine
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+![PrayForUkraine](https://etau.canardoux.xyz/images/banner.png)
+Pray for Ukraine
 
-# Tauwar
+# Tauweb
 
-`Tauwar` is an [Etau](https://pub.dev/packages/etau) implementation for Flutter on Flutter Web.
+`Tauweb` is an [Etau](https://pub.dev/packages/etau) implementation for Flutter on Flutter Web.
 
 [Etau](https://pub.dev/packages/etau) is the interface and this is what see the App.
 So, there are not many things to say about `Tauweb` because this is just an implementation.

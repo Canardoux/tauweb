@@ -1,9 +1,3 @@
-```dart
-import 'package:etau/etau.dart';
-import 'package:tau_web/tau_web.dart';
-
-  @override
-  void initState() 
   {
         super.initState();
         tau().init().then 

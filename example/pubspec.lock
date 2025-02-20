@@ -53,10 +53,10 @@ packages:
     dependency: "direct main"
     description:
       name: etau
-      sha256: a5d252aae9b6e0194f282bf3b6d066a9a8ce1483bf4fcf59a19a4c3418cf6b39
+      sha256: "7a42fa23e8297f2361bd73d4254e27bc62ad5b3a0fafa7f115ff692f4c7e6c90"
       url: "https://pub.dev"
     source: hosted
-    version: "0.17.14"
+    version: "0.17.15"
   fake_async:
     dependency: transitive
     description:

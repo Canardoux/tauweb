@@ -35,7 +35,7 @@
  */
 
 
-// The number of ouputs is either 0 or one. We do not handdle the case where number of outputs > 1
+// The number of outputs is either 0 or one. We do not handle the case where number of outputs > 1
 
 class AsyncProcessor extends AudioWorkletProcessor {
 
